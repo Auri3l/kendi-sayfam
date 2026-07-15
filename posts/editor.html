@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ata Yiğit Telli - Otomatik Blog Editörü & CMS</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Quill WYSIWYG Editor Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #1d1f24;
+            --bg-secondary: #25282f;
+            --bg-tertiary: #2e323b;
+            --text-primary: #f3f4f6;
+            --text-secondary: #b9bec9;
+            --text-muted: #6b7280;
+            --accent-color: #e5c07b;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --border-radius-lg: 12px;
+            --border-radius-md: 8px;
+            --border-radius-sm: 4px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            color: var(--accent-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Stats Widgets */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .stat-box {
+            background-color: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: var(--border-radius-md);
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Post List in Sidebar */
+        .post-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .post-item {
+            background-color: var(--bg-tertiary);
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .post-item:hover, .post-item.active {
+            border-color: var(--accent-color);
+            background-color: rgba(229, 192, 123, 0.05);
+        }
+
+        .post-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .post-item-title {
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 190px;
+        }
+
+        .badge {
+            font-size: 0.65rem;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        .badge-draft {
+            background-color: rgba(230, 126, 34, 0.15);
+            color: #e67e22;
+            border: 1px solid rgba(230, 126, 34, 0.3);
+        }
+
+        .badge-published {
+            background-color: rgba(46, 204, 113, 0.15);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+
+        .post-item-date {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* Editor / Main Area Styles */
+        .main-editor {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            min-width: 0;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        input[type="text"], input[type="number"], select {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius-md);
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+        }
+
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        /* Quill Editor Styling Override */
+        .ql-toolbar.ql-snow {
+            background-color: var(--bg-tertiary);
+            border-color: var(--border-color) !important;
+            border-top-left-radius: var(--border-radius-md);
+            border-top-right-radius: var(--border-radius-md);
+        }
+
+        .ql-container.ql-snow {
+            background-color: var(--bg-tertiary);
+            border-color: var(--border-color) !important;
+            border-bottom-left-radius: var(--border-radius-md);
+            border-bottom-right-radius: var(--border-radius-md);
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .ql-editor {
+            min-height: 350px;
+            white-space: pre-wrap !important;
+            word-wrap: break-word !important;
+            word-break: break-word !important;
+            overflow-x: hidden !important;
+        }
+
+        .ql-editor * {
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .ql-snow .ql-stroke {
+            stroke: var(--text-secondary) !important;
+        }
+
+        .ql-snow .ql-fill {
+            fill: var(--text-secondary) !important;
+        }
+
+        .ql-snow .ql-picker {
+            color: var(--text-secondary) !important;
+        }
+
+        .ql-snow .ql-picker-options {
+            background-color: var(--bg-tertiary) !important;
+            border-color: var(--border-color) !important;
+            color: var(--text-primary) !important;
+        }
+
+        /* Action Buttons */
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius-md);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        .btn-success {
+            background-color: #2ecc71;
+            color: #1d1f24;
+        }
+
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--bg-tertiary);
+            border-color: var(--text-secondary);
+        }
+
+        .btn-danger {
+            background-color: rgba(220, 53, 69, 0.1);
+            border: 1px solid rgba(220, 53, 69, 0.4);
+            color: #ff6b6b;
+        }
+
+        .btn-danger:hover {
+            background-color: rgba(220, 53, 69, 0.25);
+        }
+
+        /* Output Area */
+        .output-box {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        pre {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: var(--border-radius-md);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.8rem;
+            overflow-x: auto;
+            max-height: 250px;
+            color: #a9b1c6;
+            white-space: pre-wrap !important;
+            word-wrap: break-word !important;
+            word-break: break-all !important;
+        }
+
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .category-bar-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+
+        .category-bar-container {
+            width: 100%;
+            height: 6px;
+            background-color: var(--bg-tertiary);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 0.25rem;
+        }
+
+        .category-bar-fill {
+            height: 100%;
+            background-color: var(--accent-color);
+        }
+
+        .header-title {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .header-title h1 span {
+            color: var(--accent-color);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #2e323b;
+            color: var(--text-primary);
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius-md);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transform: translateY(150%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 9999;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+        }
+
+        /* Preview Area Styles matching makale.html */
+        .preview-wrapper {
+            background-color: var(--bg-primary);
+            padding: 2.5rem;
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--border-color);
+            margin-top: 1rem;
+        }
+        
+        .preview-article {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .preview-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 0.75rem;
+            align-items: center;
+        }
+
+        .preview-category-badge {
+            font-weight: 700;
+            background-color: rgba(229, 192, 123, 0.1);
+            color: var(--accent-color);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .preview-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            line-height: 1.25;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .preview-body-content {
+            font-size: 1.1rem;
+            line-height: 1.85;
+            color: var(--text-secondary);
+            text-align: justify;
+        }
+
+        .preview-body-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .preview-cover-box {
+            width: 100%;
+            height: 250px;
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .preview-cover-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-title">
+        <h1>Ata Yiğit Telli <span>• Blog Yönetim Paneli (CMS)</span></h1>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Statik Dosya Otomasyonu (File System Access API)</p>
+    </div>
+
+    <div class="dashboard-container">
+        
+        <!-- Left Sidebar (Stats & Lists) -->
+        <div class="sidebar">
+            
+            <!-- Folder Connection (CMS Hub) -->
+            <div class="card" style="border: 1px solid rgba(229, 192, 123, 0.25);">
+                <div class="card-title">Klasör Bağlantısı</div>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <button class="btn btn-primary" id="btnConnectFolder" onclick="connectWorkspaceFolder()" style="width: 100%; justify-content: center; font-size: 0.85rem;">
+                        📁 Proje Klasörünü Bağla
+                    </button>
+                    <div id="folderConnectionStatus" style="font-size: 0.75rem; text-align: center; color: #ff6b6b; font-weight: 500;">
+                        Bağlantı Yok (Manuel Mod)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="card">
+                <div class="card-title">Genel İstatistikler</div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-value" id="statTotalPosts">0</div>
+                        <div class="stat-label">Toplam Yazı</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="statTotalWords">0</div>
+                        <div class="stat-label">Toplam Kelime</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories Card -->
+            <div class="card">
+                <div class="card-title">Kategori Dağılımı</div>
+                <div class="category-list" id="categoryDistribution">
+                    <!-- Dynamic Progress Bars -->
+                </div>
+            </div>
+
+            <!-- Posts List -->
+            <div class="card">
+                <div class="card-title">
+                    Makalelerim (Taslaklar Dahil)
+                    <button class="btn btn-secondary" onclick="createNewPost()" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">+ Yeni</button>
+                </div>
+                <div class="post-list" id="postListContainer">
+                    <!-- Dynamic Post Items -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Main Workspace (Editor & Config Generator) -->
+        <div class="main-editor">
+            
+            <div class="card">
+                <div class="card-title" id="editorModeTitle">Yeni Gönderi Oluştur</div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="postTitle">Makale Başlığı *</label>
+                        <input type="text" id="postTitle" placeholder="Örn: Gökdelen Cephelerinde İmalat Detayları">
+                    </div>
+                    <div class="form-group">
+                        <label for="postCategory">Kategori *</label>
+                        <input type="text" id="postCategory" placeholder="Örn: Mühendislik & Şantiye">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="postDate">Yayın Tarihi</label>
+                        <input type="text" id="postDate" placeholder="Örn: 16 Temmuz 2026">
+                    </div>
+                    <div class="form-group">
+                        <label for="postImage">Kapak Resmi URL / Yolu</label>
+                        <input type="text" id="postImage" placeholder="Örn: https://images.unsplash.com/... veya images/cover.jpg">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="postFileName">Üretilecek HTML Dosya Adı *</label>
+                        <input type="text" id="postFileName" placeholder="Örn: post_3.html veya şantiye-notlari.html">
+                    </div>
+                    <div class="form-group">
+                        <label for="postId">Makale ID (Benzersiz) *</label>
+                        <input type="text" id="postId" placeholder="Örn: post_3">
+                    </div>
+                </div>
+
+                <!-- Draft Mode Status -->
+                <div class="form-group" style="flex-direction: row; align-items: center; gap: 0.5rem; margin-top: 0.5rem; margin-bottom: 1rem;">
+                    <input type="checkbox" id="postDraft" style="width: 18px; height: 18px; accent-color: var(--accent-color); cursor: pointer;">
+                    <label for="postDraft" style="cursor: pointer; user-select: none; font-weight: 600; color: #e67e22;">Taslak olarak sakla (Sitede yayınlama)</label>
+                </div>
+
+                <!-- Editor Tab Buttons -->
+                <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+                    <button class="btn btn-secondary" id="btnVisualTab" onclick="switchEditorTab('visual')" style="padding: 0.4rem 1rem; font-size: 0.8rem; border-radius: var(--border-radius-sm);">Görsel Editör (WYSIWYG)</button>
+                    <button class="btn btn-secondary" id="btnCodeTab" onclick="switchEditorTab('code')" style="padding: 0.4rem 1rem; font-size: 0.8rem; border-radius: var(--border-radius-sm);">HTML Kod Editörü</button>
+                </div>
+
+                <!-- Visual Editor Container -->
+                <div class="form-group" id="visualEditorWrapper" style="margin-top: 1rem;">
+                    <label>Metin Editörü (Quill)</label>
+                    <div id="blogEditor"></div>
+                </div>
+
+                <!-- Code Editor Container -->
+                <div class="form-group" id="codeEditorWrapper" style="margin-top: 1rem; display: none;">
+                    <label>HTML Kod Editörü (Programcık ve Scriptlerinizi Buraya Yazın)</label>
+                    <textarea id="rawCodeEditor" placeholder="&lt;div class='rich-post-content'&gt;... programcık kodları ...&lt;/div&gt;" style="width: 100%; height: 380px; background-color: var(--bg-tertiary); border: 1px solid var(--border-color); color: #a9b1c6; font-family: 'Courier New', Courier, monospace; font-size: 0.85rem; padding: 1rem; border-radius: var(--border-radius-md); resize: vertical; outline: none; line-height: 1.5;"></textarea>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="btn-group">
+                    <!-- Connected Mode Save -->
+                    <button class="btn btn-success" id="btnSaveToDisk" onclick="saveDirectlyToDisk()" style="display: none;">
+                        💾 Klasöre Kaydet (HTML & Manifest Güncelle)
+                    </button>
+                    
+                    <!-- Fallbacks -->
+                    <button class="btn btn-primary" id="btnDownloadHtml" onclick="downloadHTMLFile()">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                        HTML İndir
+                    </button>
+                    <button class="btn btn-secondary" onclick="saveToLocalCache()">
+                        Yerel Hafızaya Yedekle
+                    </button>
+                    <button class="btn btn-danger" id="deleteBtn" onclick="deletePost()" style="display: none;">
+                        Yazıyı Sil
+                    </button>
+                </div>
+            </div>
+
+            <!-- Live Preview Card -->
+            <div class="card" style="border-color: rgba(229, 192, 123, 0.25);">
+                <div class="card-title">Canlı Makale Önizlemesi (makale.html Görünümü)</div>
+                <div style="margin-top: 1rem; border: 1px solid var(--border-color); border-radius: var(--border-radius-md); overflow: hidden;">
+                    <iframe id="previewIframe" style="width: 100%; height: 550px; border: none; background: #1d1f24; display: block;"></iframe>
+                </div>
+            </div>
+
+            <!-- Configuration Output Card (Fallback View) -->
+            <div class="card" id="manifestCodeCard">
+                <div class="card-title">index.js Manifest Kodu (Manuel Mod Kopyalama Alanı)</div>
+                <p style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.5rem;">
+                    Klasör bağlantısı kurmadıysanız, yazıyı indirdikten sonra aşağıdaki kodu kopyalayıp <code>posts/manifest.js</code> dosyasına yapıştırın:
+                </p>
+                <div class="output-box">
+                    <pre><code id="manifestOutput">// Formu doldurdukça burası otomatik güncellenir...</code></pre>
+                    <button class="btn btn-secondary" onclick="copyManifestCode()" style="margin-top: 0.5rem; width: 100%; justify-content: center;">
+                        Manifest Kodunu Kopyala
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Toast message container -->
+    <div class="toast" id="editorToast">Hafızaya kaydedildi.</div>
+
+    <!-- Quill WYSIWYG Editor Script -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
+    <!-- Fallback default posts data (if directory connection is not established) -->
+    <script src="manifest.js" onerror="console.warn('Yerel manifest.js bulunamadı, dahili veriler yükleniyor.')"></script>
+
+    <script>
+        // Fallback (eğer manifest.js yüklenemezse kullanılacak ilk veriler)
+        const DEFAULT_POSTS_DATA = window.DEFAULT_BLOG_POSTS || [
+            {
+                id: "post_1",
+                title: "Gökdelen Cephelerinde Tasarım ve İmalat Koordinasyonu",
+                category: "Mühendislik & Şantiye",
+                date: "15 Temmuz 2026",
+                fileName: "post_1.html",
+                content: "New York gibi yoğun yapılaşmanın olduğu metropollerde unitized panel cephe projeleri yürütmek, son derece hassas tasarım ve imalat koordinasyonu gerektirir. Şantiye montajından önce imalat toleranslarının sıfıra yakın olması amacıyla rüzgar testleri ve statik hesap detayları simüle edilmelidir.",
+                contentUrl: "posts/post_1.html",
+                imageUrl: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=800&q=80",
+                draft: false
+            },
+            {
+                id: "post_2",
+                title: "İnşaat Projelerinde Sözleşme Yönetiminin Kilit Rolü",
+                category: "Sözleşme Yönetimi",
+                date: "02 Temmuz 2026",
+                fileName: "post_2.html",
+                content: "Mühendislik yetkinliği bir projenin teknik doğruluğunu sağlarken, sözleşme yönetimi de ticari ve yasal sürdürülebilirliğini korur. İş kapsamındaki en ufak değişikliklerin yazılı belgelenmesi, hak ediş ve metraj analizlerinin sözleşme maddelerine tam uyumlu yürütülmesi gerekir.",
+                contentUrl: "posts/post_2.html",
+                imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
+                draft: false
+            }
+        ];
+
+        let posts = [];
+        let activePostId = null;
+        let quill = null;
+        let projectDirHandle = null; // Klasör yetki tutucusu
+        let activeTab = null; // Aktif editör sekmesi ('visual' veya 'code')
+
+        // Sayfa Yüklendiğinde
+        window.addEventListener('DOMContentLoaded', async () => {
+            // Editörü Başlat
+            quill = new Quill('#blogEditor', {
+                theme: 'snow',
+                placeholder: 'Gönderi gövdesini tasarlayın, resimler ve linkler yerleştirin...',
+                modules: {
+                    toolbar: [
+                        [{ 'header': [1, 2, 3, false] }],
+                        ['bold', 'italic', 'underline', 'strike'],
+                        ['blockquote', 'code-block'],
+                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                        ['link', 'image'],
+                        ['clean']
+                    ]
+                }
+            });
+
+            // LocalStorage kontrolü (klasör bağlanmadıysa taslaklar için)
+            const cachedPosts = localStorage.getItem('localEditorPosts');
+            if (cachedPosts) {
+                posts = JSON.parse(cachedPosts);
+            } else {
+                posts = DEFAULT_POSTS_DATA;
+                localStorage.setItem('localEditorPosts', JSON.stringify(posts));
+            }
+
+            // Arayüz Elemanlarını Dinle
+            ['postTitle', 'postCategory', 'postDate', 'postImage', 'postFileName', 'postId', 'postDraft'].forEach(id => {
+                document.getElementById(id).addEventListener('input', () => {
+                    updateManifestOutput();
+                    updateLivePreview();
+                });
+                document.getElementById(id).addEventListener('change', () => {
+                    updateManifestOutput();
+                    updateLivePreview();
+                });
+            });
+            quill.on('text-change', () => {
+                updateManifestOutput();
+                updateLivePreview();
+            });
+
+            document.getElementById('rawCodeEditor').addEventListener('input', () => {
+                updateManifestOutput();
+                updateLivePreview();
+            });
+
+            // Varsayılan sekmeyi yükle
+            switchEditorTab('visual');
+
+            // İlk render işlemleri
+            renderSidebarList();
+            updateStats();
+            
+            // İlk postu yükle
+            if (posts.length > 0) {
+                loadPost(posts[0].id);
+            }
+
+            // Destek kontrolü
+            if (typeof window.showDirectoryPicker === 'undefined') {
+                document.getElementById('btnConnectFolder').style.display = 'none';
+                document.getElementById('folderConnectionStatus').textContent = 'Klasör erişim API tarayıcınızda desteklenmiyor. (Manuel mod aktiftir)';
+            }
+        });
+
+        // 📁 File System Access API: Klasörü bağlama
+        async function connectWorkspaceFolder() {
+            try {
+                // Klasör seçtir
+                projectDirHandle = await window.showDirectoryPicker({
+                    mode: 'readwrite'
+                });
+
+                // Klasör yapısını doğrulamak için posts/ ve index.js dosyalarını kontrol etmeye çalışalım
+                let hasPostsFolder = false;
+                for await (const entry of projectDirHandle.values()) {
+                    if (entry.kind === 'directory' && entry.name === 'posts') {
+                        hasPostsFolder = true;
+                    }
+                }
+
+                // Eğer "posts" klasörü içindeyken açtıysa veya kök klasördeyse toleranslı olalım
+                const folderName = projectDirHandle.name;
+                document.getElementById('folderConnectionStatus').textContent = `Bağlı: ${folderName}`;
+                document.getElementById('folderConnectionStatus').style.color = '#2ecc71';
+                document.getElementById('btnConnectFolder').textContent = '📁 Klasörü Yeniden Bağla';
+                
+                // Otomatik butonları aktif et, manüelleri gizle
+                document.getElementById('btnSaveToDisk').style.display = 'inline-flex';
+                document.getElementById('manifestCodeCard').style.display = 'none';
+
+                // manifest.js dosyasını okuyup verileri senkronize et
+                await loadManifestFromDisk();
+                showToast('Proje klasörüne başarıyla bağlanıldı. Veriler diske yazılmaya hazır!');
+            } catch (err) {
+                console.error("Klasör bağlantı hatası:", err);
+                showToast('Klasör bağlantısı reddedildi veya başarısız oldu.');
+            }
+        }
+
+        // Klasördeki posts/manifest.js dosyasını oku ve verileri yükle
+        async function loadManifestFromDisk() {
+            if (!projectDirHandle) return;
+            try {
+                let manifestFileHandle;
+                // posts klasörünün içinde miyiz yoksa kökte miyiz?
+                try {
+                    const postsDir = await projectDirHandle.getDirectoryHandle('posts');
+                    manifestFileHandle = await postsDir.getFileHandle('manifest.js');
+                } catch (e) {
+                    // posts klasörünün içindeyiz demektir
+                    manifestFileHandle = await projectDirHandle.getFileHandle('manifest.js');
+                }
+
+                const file = await manifestFileHandle.getFile();
+                const text = await file.text();
+
+                // JS array içeriğini temizleyip array'e çevir
+                let cleanJS = text.replace('window.DEFAULT_BLOG_POSTS =', '').replace('const DEFAULT_BLOG_POSTS =', '').trim();
+                if (cleanJS.endsWith(';')) {
+                    cleanJS = cleanJS.slice(0, -1);
+                }
+
+                // JS değerlendirme
+                const diskPosts = new Function(`return ${cleanJS}`)();
+                if (Array.isArray(diskPosts)) {
+                    posts = diskPosts;
+                    localStorage.setItem('localEditorPosts', JSON.stringify(posts));
+                    renderSidebarList();
+                    updateStats();
+                    if (posts.length > 0) {
+                        loadPost(posts[0].id);
+                    }
+                }
+            } catch (err) {
+                console.warn('Disk üzerinde manifest.js okunamadı, varsayılan liste kullanılıyor:', err);
+            }
+        }
+
+        // 💾 Disk Otomasyonu: HTML ve manifest.js yazma
+        async function saveDirectlyToDisk() {
+            if (!projectDirHandle) {
+                showToast('Önce proje klasörünü bağlamalısınız!');
+                return;
+            }
+
+            const id = document.getElementById('postId').value.trim();
+            if (!id) {
+                showToast('Hata: Benzersiz bir ID girmelisiniz!');
+                return;
+            }
+
+            const title = document.getElementById('postTitle').value.trim() || 'Başlıksız Makale';
+            const category = document.getElementById('postCategory').value.trim() || 'Genel';
+            const date = document.getElementById('postDate').value.trim();
+            const imageUrl = document.getElementById('postImage').value.trim();
+            const fileName = document.getElementById('postFileName').value.trim() || `${id}.html`;
+            const isDraft = document.getElementById('postDraft').checked;
+            
+            // Editör tipine göre içeriği al
+            const isCodeMode = (activeTab === 'code');
+            const contentHTML = isCodeMode ? document.getElementById('rawCodeEditor').value : quill.getSemanticHTML();
+
+            // Özet metni üret
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = contentHTML;
+            const plainText = tempDiv.textContent || tempDiv.innerText || "";
+            let plainExcerpt = plainText.trim().replace(/\n/g, ' ');
+            plainExcerpt = plainExcerpt.length > 180 ? plainExcerpt.substring(0, 177) + '...' : plainExcerpt;
+
+            // 1. posts/ folder handle bul
+            let postsDirHandle;
+            try {
+                postsDirHandle = await projectDirHandle.getDirectoryHandle('posts', { create: true });
+            } catch (e) {
+                // posts klasörünün içindeyiz demektir
+                postsDirHandle = projectDirHandle;
+            }
+
+            // 2. Makale HTML dosyasını yaz
+            try {
+                // Kod modundaysak wrapper'ı ekleme (dosyada zaten vardır), görsel moddaysak ekle
+                const articleHTMLContent = isCodeMode ? contentHTML : `<div class="rich-post-content">
+${contentHTML}
+</div>`;
+                const articleFileHandle = await postsDirHandle.getFileHandle(fileName, { create: true });
+                const writable = await articleFileHandle.createWritable();
+                await writable.write(articleHTMLContent);
+                await writable.close();
+            } catch (err) {
+                console.error("HTML yazma hatası:", err);
+                showToast(`Hata: ${fileName} dosyası diske yazılamadı.`);
+                return;
+            }
+
+            // 3. Posts listesini güncelle ve manifest.js'i yaz
+            const postIndex = posts.findIndex(p => p.id === id || p.id === activePostId);
+            const postObj = {
+                id,
+                title,
+                category,
+                date,
+                content: plainExcerpt,
+                contentUrl: `posts/${fileName}`,
+                imageUrl,
+                draft: isDraft
+            };
+
+            if (postIndex !== -1) {
+                posts[postIndex] = postObj;
+            } else {
+                posts.unshift(postObj);
+                activePostId = id;
+                document.getElementById('editorModeTitle').textContent = 'Gönderiyi Düzenle';
+                document.getElementById('deleteBtn').style.display = 'inline-flex';
+            }
+
+            try {
+                const manifestFileHandle = await postsDirHandle.getFileHandle('manifest.js', { create: true });
+                const writable = await manifestFileHandle.createWritable();
+                const manifestText = `window.DEFAULT_BLOG_POSTS = ${JSON.stringify(posts, null, 4)};`;
+                await writable.write(manifestText);
+                await writable.close();
+            } catch (err) {
+                console.error("Manifest yazma hatası:", err);
+                showToast("Hata: manifest.js dosyası diske yazılamadı.");
+                return;
+            }
+
+            // Güncellemeler ve arayüz tazeleme
+            localStorage.setItem('localEditorPosts', JSON.stringify(posts));
+            renderSidebarList();
+            updateStats();
+            updateManifestOutput();
+            showToast('HTML makale dosyası oluşturuldu ve posts/manifest.js otomatik güncellendi! 🚀');
+        }
+
+        // İstatistikleri Güncelle
+        function updateStats() {
+            document.getElementById('statTotalPosts').textContent = posts.length;
+            
+            let totalWords = 0;
+            const categoryCounts = {};
+
+            posts.forEach(post => {
+                // Kelime sayısını hesapla (eğer content HTML ise tags temizle)
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = post.content;
+                const text = tempDiv.textContent || tempDiv.innerText || "";
+                totalWords += text.trim().split(/\s+/).filter(w => w.length > 0).length;
+
+                // Kategori sayılarını topla
+                const cat = post.category || 'Belirtilmemiş';
+                categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+            });
+
+            document.getElementById('statTotalWords').textContent = totalWords;
+
+            // Kategori Listesini Render Et
+            const catDistDiv = document.getElementById('categoryDistribution');
+            catDistDiv.innerHTML = '';
+            
+            const totalCats = Object.values(categoryCounts).reduce((a, b) => a + b, 0);
+
+            for (const [cat, count] of Object.entries(categoryCounts)) {
+                const percent = totalCats > 0 ? (count / totalCats) * 100 : 0;
+                catDistDiv.innerHTML += `
+                    <div style="margin-bottom: 0.75rem;">
+                        <div class="category-bar-row">
+                            <span style="color: var(--text-secondary);">${cat}</span>
+                            <span style="color: var(--accent-color); font-weight: 600;">${count} adet (${Math.round(percent)}%)</span>
+                        </div>
+                        <div class="category-bar-container">
+                            <div class="category-bar-fill" style="width: ${percent}%;"></div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Yan Menü Listesini Render Et
+        function renderSidebarList() {
+            const listContainer = document.getElementById('postListContainer');
+            listContainer.innerHTML = '';
+
+            posts.forEach(post => {
+                const isActive = post.id === activePostId ? 'active' : '';
+                const draftBadge = post.draft ? '<span class="badge badge-draft">Taslak</span>' : '<span class="badge badge-published">Yayında</span>';
+                
+                listContainer.innerHTML += `
+                    <div class="post-item ${isActive}" onclick="loadPost('${post.id}')">
+                        <div class="post-item-header">
+                            <div class="post-item-title">${post.title}</div>
+                            ${draftBadge}
+                        </div>
+                        <div class="post-item-date">${post.date}</div>
+                    </div>
+                `;
+            });
+        }
+
+        // Seçilen Postu Editöre Yükle
+        function loadPost(id) {
+            const post = posts.find(p => p.id === id);
+            if (!post) return;
+
+            activePostId = id;
+            document.getElementById('editorModeTitle').textContent = 'Gönderiyi Düzenle';
+            document.getElementById('deleteBtn').style.display = 'inline-flex';
+
+            document.getElementById('postTitle').value = post.title;
+            document.getElementById('postCategory').value = post.category;
+            document.getElementById('postDate').value = post.date;
+            document.getElementById('postImage').value = post.imageUrl || '';
+            
+            // contentUrl'den filename çıkart (posts/post_1.html -> post_1.html)
+            const cleanedFileName = post.contentUrl ? post.contentUrl.replace('posts/', '') : `${post.id}.html`;
+            document.getElementById('postFileName').value = cleanedFileName;
+            document.getElementById('postId').value = post.id;
+            document.getElementById('postDraft').checked = post.draft || false;
+
+            // Editör içeriğini doldur.
+            // Sunucuda ise ve dosya varsa HTML'i çekmeye çalış, yoksa content (özet) yükle
+            quill.setContents([]);
+            
+            if (projectDirHandle) {
+                // Klasör bağlıysa doğrudan diskteki HTML dosyasını oku
+                readHtmlFromDisk(cleanedFileName);
+            } else {
+                // Bağlantı yoksa yedek metni bas
+                quill.clipboard.dangerouslyPasteHTML(post.content);
+                updateLivePreview();
+            }
+
+            // Aktif elemanı görsel olarak işaretle
+            renderSidebarList();
+            updateManifestOutput();
+        }
+
+        // Diskten dosya okuma
+        async function readHtmlFromDisk(fileName) {
+            try {
+                let postsDirHandle;
+                try {
+                    postsDirHandle = await projectDirHandle.getDirectoryHandle('posts');
+                } catch(e) {
+                    postsDirHandle = projectDirHandle;
+                }
+                const fileHandle = await postsDirHandle.getFileHandle(fileName);
+                const file = await fileHandle.getFile();
+                const text = await file.text();
+
+                // Eğer kodda script, input, button veya form varsa otomatik Kod Moduna geç
+                const hasInteractiveCode = /<script|<input|<button|<form/i.test(text);
+                if (hasInteractiveCode) {
+                    switchEditorTab('code');
+                    document.getElementById('rawCodeEditor').value = text;
+                } else {
+                    switchEditorTab('visual');
+                    quill.setContents([]);
+                    quill.clipboard.dangerouslyPasteHTML(text);
+                }
+                updateLivePreview();
+            } catch (err) {
+                console.warn('Seçilen dosya diskten okunamadı, yedek özet yükleniyor:', err);
+                const post = posts.find(p => p.id === activePostId);
+                if (post) {
+                    switchEditorTab('visual');
+                    quill.clipboard.dangerouslyPasteHTML(post.content);
+                    updateLivePreview();
+                }
+            }
+        }
+
+        // Yeni Boş Post Modu
+        function createNewPost() {
+            activePostId = null;
+            document.getElementById('editorModeTitle').textContent = 'Yeni Gönderi Oluştur';
+            document.getElementById('deleteBtn').style.display = 'none';
+
+            // Bugünü varsayılan tarih yap
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const today = new Date().toLocaleDateString('tr-TR', options);
+
+            const nextId = `post_${Date.now()}`;
+            document.getElementById('postId').value = nextId;
+            document.getElementById('postTitle').value = '';
+            document.getElementById('postCategory').value = 'Mühendislik';
+            document.getElementById('postDate').value = today;
+            document.getElementById('postImage').value = '';
+            document.getElementById('postFileName').value = `${nextId}.html`;
+            document.getElementById('postDraft').checked = false;
+
+            quill.setContents([]);
+
+            renderSidebarList();
+            updateManifestOutput();
+            updateLivePreview();
+        }
+
+        // Değişiklikleri Yerel Hafızaya (LocalStorage) Yaz (Klasör bağlanmadıysa taslak amaçlı)
+        function saveToLocalCache() {
+            const id = document.getElementById('postId').value.trim();
+            if (!id) {
+                showToast('Hata: Benzersiz bir ID girmelisiniz!');
+                return;
+            }
+
+            const title = document.getElementById('postTitle').value.trim() || 'Başlıksız Makale';
+            const category = document.getElementById('postCategory').value.trim() || 'Genel';
+            const date = document.getElementById('postDate').value.trim();
+            const imageUrl = document.getElementById('postImage').value.trim();
+            const fileName = document.getElementById('postFileName').value.trim() || `${id}.html`;
+            const isDraft = document.getElementById('postDraft').checked;
+            const content = (activeTab === 'code') ? document.getElementById('rawCodeEditor').value : quill.getSemanticHTML();
+
+            // Özet metni üret
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = content;
+            const plainText = tempDiv.textContent || tempDiv.innerText || "";
+            let plainExcerpt = plainText.trim().replace(/\n/g, ' ');
+            plainExcerpt = plainExcerpt.length > 180 ? plainExcerpt.substring(0, 177) + '...' : plainExcerpt;
+
+            const postIndex = posts.findIndex(p => p.id === id || p.id === activePostId);
+
+            const postObj = {
+                id,
+                title,
+                category,
+                date,
+                content: plainExcerpt,
+                contentUrl: `posts/${fileName}`,
+                imageUrl,
+                draft: isDraft
+            };
+
+            if (postIndex !== -1) {
+                posts[postIndex] = postObj;
+                showToast('Yazı güncellendi ve yerel hafızaya kaydedildi.');
+            } else {
+                posts.unshift(postObj);
+                activePostId = id;
+                document.getElementById('editorModeTitle').textContent = 'Gönderiyi Düzenle';
+                document.getElementById('deleteBtn').style.display = 'inline-flex';
+                showToast('Yeni yazı başarıyla yerel hafızaya eklendi.');
+            }
+
+            localStorage.setItem('localEditorPosts', JSON.stringify(posts));
+            renderSidebarList();
+            updateStats();
+            updateManifestOutput();
+        }
+
+        // Post Sil
+        async function deletePost() {
+            if (!activePostId) return;
+            if (!confirm('Bu yazıyı listeden silmek istediğinizden emin misiniz?')) return;
+
+            posts = posts.filter(p => p.id !== activePostId);
+            
+            // Eğer klasör bağlıysa diske de hemen yaz
+            if (projectDirHandle) {
+                try {
+                    let postsDirHandle;
+                    try {
+                        postsDirHandle = await projectDirHandle.getDirectoryHandle('posts');
+                    } catch(e) {
+                        postsDirHandle = projectDirHandle;
+                    }
+                    const manifestFileHandle = await postsDirHandle.getFileHandle('manifest.js', { create: true });
+                    const writable = await manifestFileHandle.createWritable();
+                    const manifestText = `window.DEFAULT_BLOG_POSTS = ${JSON.stringify(posts, null, 4)};`;
+                    await writable.write(manifestText);
+                    await writable.close();
+                } catch(e) {
+                    console.error("Diskte silme manifest yazma hatası:", e);
+                }
+            }
+
+            localStorage.setItem('localEditorPosts', JSON.stringify(posts));
+            showToast('Yazı listeden silindi.');
+            
+            if (posts.length > 0) {
+                loadPost(posts[0].id);
+            } else {
+                createNewPost();
+            }
+        }
+
+        // Manifest kodunu güncelle (Geri dönüş uyumluluk görünümü)
+        function updateManifestOutput() {
+            const id = document.getElementById('postId').value.trim() || 'post_id';
+            const title = document.getElementById('postTitle').value.trim() || 'Yazı Başlığı';
+            const category = document.getElementById('postCategory').value.trim() || 'Kategori';
+            const date = document.getElementById('postDate').value.trim() || 'Tarih';
+            const imageUrl = document.getElementById('postImage').value.trim() || 'Görsel Yolu';
+            const fileName = document.getElementById('postFileName').value.trim() || 'dosya.html';
+            const isDraft = document.getElementById('postDraft').checked;
+            
+            // Editördeki HTML'i düz metne çevirip kısa bir özet alıyoruz
+            let plainExcerpt = "";
+            const isCodeMode = (activeTab === 'code');
+            const rawContent = isCodeMode ? document.getElementById('rawCodeEditor').value : (quill ? quill.getSemanticHTML() : '');
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = rawContent;
+            const plainText = tempDiv.textContent || tempDiv.innerText || "";
+            plainExcerpt = plainText.trim().replace(/\n/g, ' ');
+            plainExcerpt = plainExcerpt.length > 180 ? plainExcerpt.substring(0, 177) + "..." : plainExcerpt;
+            plainExcerpt = plainExcerpt.replace(/"/g, '\\"');
+
+            // Manifest JS Obje Formatı (Çok daha kısa ve temiz)
+            const codeString = `    {
+        id: "${id}",
+        title: "${title}",
+        category: "${category}",
+        date: "${date}",
+        content: "${plainExcerpt}",
+        contentUrl: "posts/${fileName}",
+        imageUrl: "${imageUrl}",
+        draft: ${isDraft}
+    }`;
+
+            document.getElementById('manifestOutput').textContent = codeString;
+        }
+
+        // Dosya İndirme (HTML)
+        function downloadHTMLFile() {
+            const fileName = document.getElementById('postFileName').value.trim() || 'makale.html';
+            const isCodeMode = (activeTab === 'code');
+            const content = isCodeMode ? document.getElementById('rawCodeEditor').value : quill.getSemanticHTML();
+            
+            const htmlWrapper = isCodeMode ? content : `<div class="rich-post-content">
+${content}
+</div>`;
+
+            const blob = new Blob([htmlWrapper], { type: 'text/html;charset=utf-8;' });
+            const link = document.createElement("a");
+            
+            if (link.download !== undefined) {
+                const url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", fileName);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast(`${fileName} başarıyla indirildi. posts/ klasörüne kopyalayabilirsiniz.`);
+            }
+        }
+
+        // Manifest Kopyala
+        function copyManifestCode() {
+            const text = document.getElementById('manifestOutput').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Kopyalandı! posts/manifest.js dizisine ekleyebilirsiniz.');
+            });
+        }
+
+        // Toast Gösterimi
+        function showToast(message) {
+            const toast = document.getElementById('editorToast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Canlı Makale Önizlemesi
+        function updateLivePreview() {
+            const title = document.getElementById('postTitle').value.trim() || 'Makale Başlığı';
+            const category = document.getElementById('postCategory').value.trim() || 'Kategori';
+            const date = document.getElementById('postDate').value.trim() || 'Tarih';
+            const imageUrl = document.getElementById('postImage').value.trim();
+            const contentHTML = quill ? quill.getSemanticHTML() : '';
+
+            const iframe = document.getElementById('previewIframe');
+            if (!iframe) return;
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+            // Kapak resmi HTML'i
+            const coverHTML = imageUrl ? `
+                <div style="width: 100%; height: 250px; border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; border: 1px solid rgba(255,255,255,0.08);">
+                    <img src="${imageUrl}" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+            ` : '';
+
+            // CSS Değişkenleri ve Temiz Makale Tasarımı (makale.html ile tam uyumlu)
+            const iframeHTML = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <style>
+                        :root {
+                            --bg-primary: #1d1f24;
+                            --text-primary: #f3f4f6;
+                            --text-secondary: #b9bec9;
+                            --text-muted: #6b7280;
+                            --accent-color: #e5c07b;
+                            --border-color: rgba(255, 255, 255, 0.08);
+                            --bg-tertiary: #2e323b;
+                            --bg-secondary: #25282f;
+                        }
+                        body {
+                            background-color: var(--bg-primary);
+                            color: var(--text-primary);
+                            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                            line-height: 1.85;
+                            padding: 2rem;
+                            margin: 0;
+                        }
+                        article {
+                            max-width: 800px;
+                            margin: 0 auto;
+                        }
+                        .meta {
+                            font-size: 0.8rem;
+                            color: var(--text-muted);
+                            display: flex;
+                            gap: 1.5rem;
+                            margin-bottom: 0.75rem;
+                            align-items: center;
+                        }
+                        .category-badge {
+                            font-weight: 700;
+                            background-color: rgba(229, 192, 123, 0.1);
+                            color: var(--accent-color);
+                            padding: 0.2rem 0.6rem;
+                            border-radius: 4px;
+                            text-transform: uppercase;
+                        }
+                        h1 {
+                            font-size: 2.2rem;
+                            font-weight: 800;
+                            line-height: 1.25;
+                            color: var(--text-primary);
+                            margin-top: 0;
+                            margin-bottom: 1.5rem;
+                            letter-spacing: -0.02em;
+                        }
+                        .rich-post-content {
+                            font-size: 1.1rem;
+                            color: var(--text-secondary);
+                            text-align: justify;
+                        }
+                        .rich-post-content p {
+                            margin-top: 0;
+                            margin-bottom: 1.5rem;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <article>
+                        ${coverHTML}
+                        <div class="meta">
+                            <span>${date}</span>
+                            <span class="category-badge">${category}</span>
+                        </div>
+                        <h1>${title}</h1>
+                        <div class="rich-post-content">
+                            ${contentHTML}
+                        </div>
+                    </article>
+                </body>
+                </html>
+            `;
+
+            iframeDoc.open();
+            iframeDoc.write(iframeHTML);
+            iframeDoc.close();
+        }
+
+        // Editör Sekme Geçişi
+        function switchEditorTab(mode) {
+            if (mode === activeTab) return;
+            activeTab = mode;
+            
+            const visualWrapper = document.getElementById('visualEditorWrapper');
+            const codeWrapper = document.getElementById('codeEditorWrapper');
+            const btnVisual = document.getElementById('btnVisualTab');
+            const btnCode = document.getElementById('btnCodeTab');
+            const rawEditor = document.getElementById('rawCodeEditor');
+
+            if (mode === 'code') {
+                // Quill'den Textarea'ya aktar
+                rawEditor.value = quill ? quill.getSemanticHTML() : '';
+                
+                visualWrapper.style.display = 'none';
+                codeWrapper.style.display = 'flex';
+                
+                btnVisual.classList.remove('active');
+                btnVisual.style.backgroundColor = 'transparent';
+                btnVisual.style.borderColor = 'var(--border-color)';
+                btnVisual.style.color = 'var(--text-primary)';
+                
+                btnCode.classList.add('active');
+                btnCode.style.backgroundColor = 'var(--accent-color)';
+                btnCode.style.borderColor = 'var(--accent-color)';
+                btnCode.style.color = 'var(--bg-primary)';
+            } else {
+                // Textarea'dan Quill'e aktar
+                const html = rawEditor.value;
+                quill.setContents([]);
+                quill.clipboard.dangerouslyPasteHTML(html);
+                
+                visualWrapper.style.display = 'flex';
+                codeWrapper.style.display = 'none';
+                
+                btnCode.classList.remove('active');
+                btnCode.style.backgroundColor = 'transparent';
+                btnCode.style.borderColor = 'var(--border-color)';
+                btnCode.style.color = 'var(--text-primary)';
+                
+                btnVisual.classList.add('active');
+                btnVisual.style.backgroundColor = 'var(--accent-color)';
+                btnVisual.style.borderColor = 'var(--accent-color)';
+                btnVisual.style.color = 'var(--bg-primary)';
+            }
+            updateManifestOutput();
+            updateLivePreview();
+        }
+    </script>
+</body>
+</html>

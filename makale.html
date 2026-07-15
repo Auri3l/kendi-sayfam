@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ata Yiğit Telli - Blog Makalesi. İnşaat mühendisliği, şantiye yönetimi, sözleşme takibi ve proje yönetimi üzerine yazılar.">
+    <title>Blog Makalesi | Ata Yiğit Telli</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    
+    <!-- Style Sheet -->
+    <link rel="stylesheet" href="index.css">
+    
+    <style>
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 2rem 8rem;
+        }
+        .article-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 2.5rem;
+            transition: var(--transition-fast);
+        }
+        .article-back-link:hover {
+            color: var(--accent-hover);
+            transform: translateX(-4px);
+        }
+        .article-header {
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+        }
+        .article-meta {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            font-size: 0.85rem;
+        }
+        .article-date {
+            color: var(--text-muted);
+        }
+        .article-category {
+            font-weight: 700;
+            background-color: rgba(var(--accent-rgb), 0.1);
+            color: var(--accent-color);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+        .article-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+        .article-content {
+            font-size: 1.15rem;
+            line-height: 1.85;
+            color: var(--text-secondary);
+            text-align: justify;
+        }
+        .article-content p {
+            margin-bottom: 2rem;
+        }
+        .article-not-found {
+            text-align: center;
+            padding: 8rem 0;
+        }
+        .article-not-found h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <!-- Custom Cursor Effect -->
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-dot"></div>
+
+    <!-- Navigation Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <a href="index.html" class="logo-monogram" aria-label="Ana Sayfa">
+                <span>AYT</span>
+            </a>
+            
+            <nav class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="index.html#hakkimda" class="nav-link">Hakkımda (CV)</a></li>
+                    <li><a href="index.html#projeler" class="nav-link">Projeler</a></li>
+                    <li><a href="blog.html" class="nav-link active">Blog</a></li>
+                    <li><a href="iletisim.html" class="nav-link">İletişim</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <!-- Theme Switcher Button -->
+                <button id="themeToggle" class="theme-toggle-btn" aria-label="Temayı Değiştir" title="Endüstriyel Açık / Endüstriyel Koyu Temalar Arasında Geçiş Yap">
+                    <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20">
+                        <circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                
+                <!-- Mobile Navigation Toggle -->
+                <button id="mobileNavToggle" class="mobile-nav-toggle" aria-label="Menüyü Aç/Kapat">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="subpage-wrapper">
+        <div class="container">
+            <div class="article-container" id="articleContainer">
+                <div class="article-loading" style="text-align: center; padding: 4rem 0;">Yazı yükleniyor...</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <p class="copyright">© 2026 Ata Yiğit Telli. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- Custom Toast Notification -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Script Files -->
+    <script src="posts/manifest.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>

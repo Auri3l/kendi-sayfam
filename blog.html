@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ata Yiğit Telli - Kişisel Blog. İnşaat mühendisliği, şantiye yönetimi, ana müteahhit-taşeron ilişkileri, sözleşme yönetimi ve kişisel ilgi alanları.">
+    <title>Blog &amp; İlgi Alanları | Ata Yiğit Telli</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    
+    <!-- Style Sheet -->
+    <link rel="stylesheet" href="index.css">
+</head>
+<body class="dark-theme">
+    <!-- Custom Cursor Effect -->
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-dot"></div>
+
+    <!-- Navigation Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <a href="index.html" class="logo-monogram" aria-label="Ana Sayfa">
+                <span>AYT</span>
+            </a>
+            
+            <nav class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="index.html#hakkimda" class="nav-link">Hakkımda (CV)</a></li>
+                    <li><a href="index.html#projeler" class="nav-link">Projeler</a></li>
+                    <li><a href="blog.html" class="nav-link active">Blog</a></li>
+                    <li><a href="iletisim.html" class="nav-link">İletişim</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <!-- Theme Switcher Button -->
+                <button id="themeToggle" class="theme-toggle-btn" aria-label="Temayı Değiştir" title="Endüstriyel Açık / Endüstriyel Koyu Temalar Arasında Geçiş Yap">
+                    <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20">
+                        <circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                
+                <!-- Mobile Navigation Toggle -->
+                <button id="mobileNavToggle" class="mobile-nav-toggle" aria-label="Menüyü Aç/Kapat">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="subpage-wrapper">
+        <section class="section section-padding" style="padding-top: 4rem;">
+            <div class="container">
+                <!-- Outer Layout wrapper: two column grid -->
+                <div class="blog-layout-grid">
+                    
+                    <!-- Left Column: Blog Area -->
+                    <div class="blog-main-content">
+                        <div class="section-header-row" style="margin-bottom: 3rem;">
+                            <div class="section-header" style="margin-bottom: 0;">
+                                <span class="section-tag">Yazılar &amp; Notlar</span>
+                                <h3 class="section-title">Kişisel Blog</h3>
+                                <div class="section-divider"></div>
+                            </div>
+                        </div>
+
+                        <!-- Blog cards container -->
+                        <div class="blog-list" id="blogGrid">
+                            <div class="blog-loading">Gönderiler yükleniyor...</div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Sidebar (İlgi Alanları & Yaşam Tarzı) -->
+                    <aside class="blog-sidebar">
+                        <div class="sidebar-header">
+                            <span class="section-tag">Kişisel Yaşam</span>
+                            <h4 class="sidebar-title">İlgi Alanları &amp; Yaşam Tarzı</h4>
+                            <div class="section-divider" style="width: 40px; margin-top: 0.5rem; margin-bottom: 2rem;"></div>
+                        </div>
+
+                        <div class="sidebar-widgets-stack">
+                            <!-- Interest: Architecture & Engineering Inspections -->
+                            <div class="interest-card architecture-card">
+                                <div class="card-icon-wrapper">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <h5>Mimari &amp; Mühendislik Keşifleri</h5>
+                                <p class="interest-title" style="font-size: 1.1rem; margin-bottom: 0.5rem;">Yapıları Mühendis Gözüyle İncelemek</p>
+                                <p class="interest-desc" style="font-size: 0.85rem;">
+                                    Farklı şehirleri ve projeleri gezerken mimari tasarımları sadece estetik açıdan değil; taşıyıcı sistem çözümleri, malzeme entegrasyonu, cephe detayları ve mühendislik sınırları açısından incelemeyi ve fotoğraflamayı seviyorum.
+                                </p>
+                            </div>
+
+                            <!-- Interest: BIM & Digitalization -->
+                            <div class="interest-card bim-card">
+                                <div class="card-icon-wrapper">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <polyline points="3.27 6.96 12 12.01 20.73 6.96" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <line x1="12" y1="22.08" x2="12" y2="12" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <h5>BIM &amp; Dijital Yapı Teknolojileri</h5>
+                                <p class="interest-title" style="font-size: 1.1rem; margin-bottom: 0.5rem;">Süreçlerin Dijital Entegrasyonu</p>
+                                <p class="interest-desc" style="font-size: 0.85rem;">
+                                    3D koordinasyon süreçleri, şantiye yönetiminde bulut veri entegrasyonu ve BIM (Yapı Bilgi Modellemesi) iş akışlarını şantiye ve teknik ofis pratiklerine uyarlamak üzerine araştırmalar yapıyorum.
+                                </p>
+                            </div>
+
+                            <!-- Interest: Modern Construction Technologies -->
+                            <div class="interest-card tech-card">
+                                <div class="card-icon-wrapper">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <h5>Modern İnşaat Metotları</h5>
+                                <p class="interest-title" style="font-size: 1.1rem; margin-bottom: 0.5rem;">İnovatif Yapı Sistemleri</p>
+                                <p class="interest-desc" style="font-size: 0.85rem;">
+                                    Modüler inşaat sistemleri, prefabrikasyon teknikleri ve şantiyede karbon ayak izini azaltan çevre dostu yeşil yapı malzemelerinin kullanımı gibi sürdürülebilir mühendislik metotlarını yakından takip ediyorum.
+                                </p>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <p class="copyright">© 2026 Ata Yiğit Telli. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- Custom Toast Notification -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Script Files -->
+    <script src="posts/manifest.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
