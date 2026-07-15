@@ -2294,3 +2294,280 @@ a.meta-value:hover {
     color: var(--accent-color) !important;
 }
 
+/* ==========================================================================
+   INTERACTIVE FACADE SIMULATOR LAB STYLES
+   ========================================================================== */
+
+.sim-lab-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.sim-grid-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2rem;
+    align-items: stretch;
+    margin-top: 2rem;
+}
+
+@media (max-width: 992px) {
+    .sim-grid-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sim-canvas-container {
+    position: relative;
+    background: radial-gradient(circle at center, var(--bg-tertiary), var(--bg-primary));
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--card-shadow);
+}
+
+.sim-canvas-container canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+}
+
+.sim-panel-overlay {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: rgba(var(--accent-rgb), 0.05);
+    border: 1px solid rgba(var(--accent-rgb), 0.15);
+    backdrop-filter: blur(10px);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius-sm);
+    pointer-events: none;
+}
+
+.sim-panel-title {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--accent-color);
+    letter-spacing: 1.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sim-panel-title::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent-color);
+    animation: simPulse 2s infinite;
+}
+
+@keyframes simPulse {
+    0% { opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { opacity: 0.3; }
+}
+
+/* Control Deck */
+.sim-control-deck {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    justify-content: space-between;
+}
+
+.sim-glass-card {
+    background-color: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
+    box-shadow: var(--card-shadow);
+}
+
+.sim-controls-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.sim-control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sim-control-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sim-control-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.sim-control-value {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    font-family: monospace;
+}
+
+.sim-range-input {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--bg-tertiary);
+    outline: none;
+    transition: background 0.3s;
+}
+
+.sim-range-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    cursor: pointer;
+    border: 2px solid var(--bg-secondary);
+    box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5);
+    transition: transform 0.1s ease;
+}
+
+.sim-range-input::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.sim-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: var(--border-radius-sm);
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.sim-select:focus {
+    border-color: var(--accent-color);
+}
+
+/* Dashboard Telemetry */
+.sim-dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+@media (max-width: 480px) {
+    .sim-dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sim-stat-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.sim-stat-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sim-stat-value {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    font-family: monospace;
+}
+
+.sim-stat-unit {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* Safety Status Indicator */
+.sim-status-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius-md);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    transition: var(--transition-fast);
+    border: 1px solid transparent;
+}
+
+.sim-status-badge.status-safe {
+    background: rgba(46, 204, 113, 0.08);
+    border-color: rgba(46, 204, 113, 0.25);
+    color: #2ecc71;
+}
+
+.sim-status-badge.status-warning {
+    background: rgba(241, 196, 15, 0.08);
+    border-color: rgba(241, 196, 15, 0.25);
+    color: #f1c40f;
+}
+
+.sim-status-badge.status-danger {
+    background: rgba(231, 76, 60, 0.08);
+    border-color: rgba(231, 76, 60, 0.25);
+    color: #e74c3c;
+    animation: simAlertBlink 1s infinite alternate;
+}
+
+@keyframes simAlertBlink {
+    0% {
+        box-shadow: 0 0 5px rgba(231, 76, 60, 0.1);
+        border-color: rgba(231, 76, 60, 0.25);
+    }
+    100% {
+        box-shadow: 0 0 15px rgba(231, 76, 60, 0.4);
+        border-color: rgba(231, 76, 60, 0.6);
+        background: rgba(231, 76, 60, 0.15);
+    }
+}
+
+.sim-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: currentColor;
+    box-shadow: 0 0 8px currentColor;
+}
+
+
