@@ -6,7 +6,7 @@ window.DEFAULT_BLOG_POSTS = [
         date: "15 Temmuz 2026",
         content: "Kaba inşaat süreçlerinde betonarme imalat kalitesini belirleyen en kritik aşamalar kalıp kurulumu, demir donatı işçiliği ve beton döküm denetimidir. Tolerans dışı sapmaları engelleme yöntemleri.",
         contentUrl: "posts/post_1.html",
-        imageUrl: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=800&q=80",
+        imageUrl: "images/kaba_insaat.png",
         draft: false
     },
     {
@@ -16,7 +16,7 @@ window.DEFAULT_BLOG_POSTS = [
         date: "02 Temmuz 2026",
         content: "Islak hacimlerde seramik kaplama öncesi doğru su yalıtımı uygulaması, yapı ömrünü doğrudan etkiler. Yüzey hazırlığı, astar seçimi, köşe pah bantları ve katlar arası kuruma süreleri.",
         contentUrl: "posts/post_2.html",
-        imageUrl: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+        imageUrl: "images/seramik_yalitim.png",
         draft: false
     },
     {
@@ -26,7 +26,7 @@ window.DEFAULT_BLOG_POSTS = [
         date: "25 Haziran 2026",
         content: "Modern giydirme cephe projelerinde doğru cam seçimi, binanın enerji verimliliği ve akustik konforunu belirler. U-değeri, solar faktör (SHGC) ve temperleme kriterleri.",
         contentUrl: "posts/post_3.html",
-        imageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+        imageUrl: "images/cephe_cami.png",
         draft: false
     }
 ];

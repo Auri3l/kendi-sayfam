@@ -323,6 +323,18 @@ body {
     justify-content: center;
     position: relative;
     overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 0.5s ease, background-color 0.5s ease;
+}
+
+.dark-theme .hero-section {
+    background-image: linear-gradient(rgba(29, 31, 36, 0.88), rgba(29, 31, 36, 0.94)), url('images/hero_bg.png');
+}
+
+.light-theme .hero-section {
+    background-image: linear-gradient(rgba(250, 246, 240, 0.88), rgba(250, 246, 240, 0.94)), url('images/hero_bg.png');
 }
 
 .hero-bg-grid {
