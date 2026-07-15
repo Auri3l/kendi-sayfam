@@ -1,63 +1,9 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Ata Yiğit Telli - İnşaat Mühendisi. Büyük ölçekli projelerde, ana müteahhitlere hizmet veren taşeron firmalarda şantiye şefliği, proje yönetimi ve sözleşme uzmanlığı.">
-    <title>Ata Yiğit Telli | İnşaat Mühendisi &amp; Proje Yöneticisi</title>
-    
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
-    
-    <!-- Style Sheet -->
-    <link rel="stylesheet" href="index.css">
-</head>
-<body class="dark-theme">
-    <!-- Custom Cursor Effect -->
-    <div class="custom-cursor"></div>
-    <div class="custom-cursor-dot"></div>
+---
+import Layout from '../layouts/Layout.astro';
+import { PROFILE_DATA } from '../data/profileData';
+---
 
-    <!-- Navigation Header -->
-    <header class="main-header">
-        <div class="header-container">
-            <a href="index.html" class="logo-monogram" aria-label="Ana Sayfa">
-                <span>AYT</span>
-            </a>
-            
-            <nav class="nav-menu" id="navMenu">
-                <ul>
-                    <li><a href="index.html#hakkimda" class="nav-link">Hakkımda (CV)</a></li>
-                    <li><a href="index.html#projeler" class="nav-link">Projeler</a></li>
-                    <li><a href="blog.html" class="nav-link">Blog</a></li>
-                    <li><a href="iletisim.html" class="nav-link">İletişim</a></li>
-                </ul>
-            </nav>
-
-            <div class="header-actions">
-                <!-- Theme Switcher Button -->
-                <button id="themeToggle" class="theme-toggle-btn" aria-label="Temayı Değiştir" title="Endüstriyel Açık / Endüstriyel Koyu Temalar Arasında Geçiş Yap">
-                    <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20">
-                        <circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/>
-                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                    <svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-                
-                <!-- Mobile Navigation Toggle -->
-                <button id="mobileNavToggle" class="mobile-nav-toggle" aria-label="Menüyü Aç/Kapat">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Container -->
+<Layout activePage="home">
     <main>
         <!-- Hero Section -->
         <section id="hero" class="hero-section">
@@ -73,7 +19,7 @@
                     
                     <!-- Quick Contact Buttons -->
                     <div class="hero-cta-group">
-                        <a href="iletisim.html" class="btn btn-primary">İletişime Geç</a>
+                        <a href={`${import.meta.env.BASE_URL}iletisim`} class="btn btn-primary">İletişime Geç</a>
                         <a href="https://www.linkedin.com/in/ay-t" target="_blank" rel="noopener" class="btn btn-secondary btn-icon" id="linkedinLink">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
                                 <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
@@ -123,7 +69,7 @@
                             Okan Üniversitesi'nde İngilizce İnşaat Mühendisliği lisans ve İstanbul Gedik Üniversitesi'nde İş Sağlığı ve Güvenliği alanında yüksek lisans derecelerim bulunmaktadır. Şantiye operasyonları, proje koordinasyonu ve taşeron sözleşme yönetimi alanında geniş bir tecrübeye sahibim.
                         </p>
                         <p>
-                            Metal Yapı, AA&TD ve Trendworld bünyesinde üstlendiğim görevlerde; ana müteahhitlerin kalite, kapsam ve takvim hedefleriyle tam uyumlu şantiye yönetimi, taşeron ekiplerin sevk ve idaresi ile teknik şartnamelere ve sözleşmelere uygunluk süreçlerini başarıyla yürüttüm.
+                            Üstlendiğim saha sorumluluğu ve proje şefliği rollerinde; ana müteahhitlerin kalite, kapsam ve takvim hedefleriyle tam uyumlu şantiye yönetimi, taşeron ekiplerin sevk ve idaresi ile teknik şartnamelere ve sözleşmelere uygunluk süreçlerini başarıyla yürüttüm.
                         </p>
                     </div>
 
@@ -168,7 +114,49 @@
 
                     <!-- Dynamic Timeline Container -->
                     <div class="timeline-container" id="timelineContainer">
-                        <div class="timeline-loading">Deneyimler yükleniyor...</div>
+                        {PROFILE_DATA.experiences.map((exp, idx) => {
+                            const categoriesStr = exp.categories.join(' ');
+                            return (
+                                <div class="timeline-item reveal" data-categories={categoriesStr} style={`animation-delay: ${idx * 0.1}s`}>
+                                    <div class="timeline-node"></div>
+                                    <div class="timeline-meta">
+                                        <span class="timeline-date">{exp.period}</span>
+                                        <span class="timeline-location">{exp.location}</span>
+                                    </div>
+                                    <div class="timeline-card">
+                                        <h4 class="timeline-role-title">{exp.role}</h4>
+                                        <h5 class="timeline-company">{exp.company}</h5>
+                                        <p class="timeline-desc">{exp.description}</p>
+                                        
+                                        {exp.details && (
+                                            <ul class="timeline-details">
+                                                {exp.details.map(det => <li>{det}</li>)}
+                                            </ul>
+                                        )}
+
+                                        {exp.subRoles && (
+                                            <div class="timeline-sub-roles">
+                                                <span class="sub-role-title">Kariyer Basamakları</span>
+                                                <div class="sub-roles-grid">
+                                                    {exp.subRoles.map(sub => (
+                                                        <div class="sub-role-card">
+                                                            <span class="sub-role-name">{sub.title}</span>
+                                                            <span class="sub-role-date">{sub.date}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {exp.tags && (
+                                            <div class="timeline-tags">
+                                                {exp.tags.map(tag => <span class="tag">{tag}</span>)}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
 
@@ -178,23 +166,45 @@
                         <div class="skills-panel">
                             <h4 class="sub-section-title">Uzmanlık Alanları</h4>
                             <div class="skills-list" id="skillsList">
-                                <!-- Rendered dynamically -->
+                                {PROFILE_DATA.skills.map(sk => (
+                                    <div class="skill-item">
+                                        <div class="skill-info">
+                                            <span class="skill-name">{sk.name}</span>
+                                            <span class="skill-percentage">{sk.level}%</span>
+                                        </div>
+                                        <div class="skill-bar-bg">
+                                            <div class="skill-bar-fill" data-level={sk.level}></div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                         <div class="languages-panel">
                             <h4 class="sub-section-title">Dil Yetkinlikleri</h4>
                             <div class="languages-list" id="languagesList">
-                                <!-- Rendered dynamically -->
+                                {PROFILE_DATA.languages.map(lang => (
+                                    <div class="language-card" style={`--lang-percent: ${lang.percent}%`}>
+                                        <span class="language-name">{lang.name}</span>
+                                        <span class="language-level">{lang.level}</span>
+                                        <div class="language-bar"></div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Eğitim Geçmişi (Tarih Sıralı Soldan Sağa) -->
+                <!-- Eğitim Geçmişi -->
                 <div class="cv-sub-section">
                     <h4 class="sub-section-title education-title-center">Eğitim Geçmişi</h4>
                     <div class="education-grid" id="educationGrid">
-                        <!-- Rendered dynamically (Lise -> Lisans -> Yüksek Lisans) -->
+                        {PROFILE_DATA.education.map(edu => (
+                            <div class="education-card">
+                                <span class="education-date">{edu.date}</span>
+                                <h5 class="education-degree">{edu.degree}</h5>
+                                <span class="education-school">{edu.school}</span>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
@@ -219,23 +229,41 @@
 
                 <!-- Projects Grid -->
                 <div class="projects-grid" id="projectsGrid">
-                    <div class="projects-loading">Projeler yükleniyor...</div>
+                    {PROFILE_DATA.projects.map((proj, idx) => {
+                        const tagsStr = proj.tags.join(' ');
+                        const isUS = proj.category === 'us';
+                        return (
+                            <div class="project-card reveal" data-category={proj.category} data-tags={tagsStr} style={`animation-delay: ${idx * 0.1}s`}>
+                                <div>
+                                    <div class="project-header">
+                                        <div class="project-icon">
+                                            {isUS ? (
+                                                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            ) : (
+                                                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <rect x="3" y="3" width="18" height="18" rx="2" stroke-linecap="round"/>
+                                                    <path d="M9 3v18M21 9H3M21 15H3" stroke-linecap="round"/>
+                                                </svg>
+                                            )}
+                                        </div>
+                                        <span class="project-loc-tag">{proj.location}</span>
+                                    </div>
+                                    <h4 class="project-title">{proj.title}</h4>
+                                    <p class="project-desc">{proj.description}</p>
+                                </div>
+                                <div class="project-footer">
+                                    <span class="project-tech">{proj.facadeType}</span>
+                                    <div class="timeline-tags">
+                                        {proj.tags.map(t => <span class="tag">{t}</span>)}
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </section>
     </main>
-
-    <!-- Footer -->
-    <footer class="main-footer">
-        <div class="container footer-container">
-            <p class="copyright">© 2026 Ata Yiğit Telli. Tüm hakları saklıdır.</p>
-        </div>
-    </footer>
-
-    <!-- Custom Toast Notification -->
-    <div class="toast-container" id="toastContainer"></div>
-
-    <!-- Script File -->
-    <script src="index.js"></script>
-</body>
-</html>
+</Layout>

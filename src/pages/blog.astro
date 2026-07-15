@@ -1,0 +1,114 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+// Get blog posts collection and filter out drafts
+const posts = await getCollection('blog', ({ data }) => {
+    return !data.draft;
+});
+
+// Sort posts (descending: newer posts first, e.g., post_1, post_2, post_3 based on id)
+posts.sort((a, b) => b.data.id.localeCompare(a.data.id));
+---
+
+<Layout title="Mühendislik & Yapı Blogu | Ata Yiğit Telli" activePage="blog" description="Kaba inşaat denetimi, su yalıtımı ve giydirme cephe sistemleri üzerine mühendislik analizleri, hesaplama araçları ve şantiye tecrübeleri.">
+    <main>
+        <section class="section section-padding" style="margin-top: 5rem;">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Yazılar &amp; Analizler</span>
+                    <h3 class="section-title">Mühendislik &amp; Yapı Blogu</h3>
+                    <div class="section-divider"></div>
+                </div>
+
+                <div class="blog-layout-grid">
+                    <!-- Left: Blog posts list -->
+                    <div class="blog-posts-column">
+                        <div class="blog-list-container" id="blogGrid">
+                            {posts.map((post, idx) => (
+                                <article class="blog-card reveal" style={`animation-delay: ${idx * 0.15}s;`}>
+                                    {post.data.imageUrl && (
+                                        <div class="blog-card-image-wrapper">
+                                            <img src={`${import.meta.env.BASE_URL}${post.data.imageUrl}`} alt={post.data.title} class="blog-card-img" />
+                                            <span class="blog-card-tag">{post.data.category}</span>
+                                        </div>
+                                    )}
+                                    <div class="blog-card-content">
+                                        <div class="blog-card-meta">
+                                            <span class="blog-card-date">{post.data.date}</span>
+                                        </div>
+                                        <h4 class="blog-card-title">{post.data.title}</h4>
+                                        <p class="blog-card-excerpt">{post.data.excerpt}</p>
+                                        <a href={`${import.meta.env.BASE_URL}makale/${post.id}`} class="blog-card-link" id={`readMore_${post.data.id}`}>
+                                            Yazıyı Oku
+                                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                <polyline points="12 5 19 12 12 19"></polyline>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    </div>
+
+                    <!-- Right: Blog sidebar -->
+                    <aside class="blog-sidebar">
+                        <div class="sidebar-header">
+                            <span class="section-tag">Kişisel Yaşam</span>
+                            <h4 class="sidebar-title">İlgi Alanları &amp; Yaşam Tarzı</h4>
+                            <div class="section-divider" style="width: 40px; margin-top: 0.5rem; margin-bottom: 2rem;"></div>
+                        </div>
+
+                        <div class="sidebar-widgets-stack">
+                            <!-- Interest: Architecture & Engineering Inspections -->
+                            <div class="interest-card architecture-card">
+                                <div class="card-icon-wrapper">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M23 7l-7 5 7 5V7z" />
+                                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                                    </svg>
+                                </div>
+                                <h5>Mimari &amp; Mühendislik Keşifleri</h5>
+                                <p class="interest-title" style="font-size: 1.1rem; margin-bottom: 0.5rem;">Saha Gözlemleri &amp; Fotoğrafçılık</p>
+                                <p class="interest-desc" style="font-size: 0.85rem;">
+                                    Seyahatlerimde yapıların yalnızca estetik dış görünüşlerini değil; taşıyıcı sistem tasarımlarını, derz detaylarını, cephe ankraj bütünlüklerini ve malzeme birleşim çözümlerini bir mühendis gözüyle incelemeyi ve fotoğraflamayı seviyorum.
+                                </p>
+                            </div>
+
+                            <!-- Interest: BIM & Digitalization -->
+                            <div class="interest-card bim-card">
+                                <div class="card-icon-wrapper">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                                        <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                                        <line x1="12" y1="22.08" x2="12" y2="12" />
+                                    </svg>
+                                </div>
+                                <h5>BIM &amp; Dijital Entegrasyon</h5>
+                                <p class="interest-title" style="font-size: 1.1rem; margin-bottom: 0.5rem;">3D Koordinasyon &amp; Teknoloji</p>
+                                <p class="interest-desc" style="font-size: 0.85rem;">
+                                    Şantiye yönetiminde 3D model koordinasyonu, bulut tabanlı veri yönetimi ve dijital yapı bilgi modellemesi (BIM) iş akışlarının saha imalatlarında çakışma analizlerini minimize edecek şekilde uygulanmasına profesyonel ilgi duyuyorum.
+                                </p>
+                            </div>
+
+                            <!-- Interest: Modern Construction Technologies -->
+                            <div class="interest-card tech-card">
+                                <div class="card-icon-wrapper">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <h5>Modern İnşaat Metotları</h5>
+                                <p class="interest-title" style="font-size: 1.1rem; margin-bottom: 0.5rem;">İnovatif Yapı Sistemleri</p>
+                                <p class="interest-desc" style="font-size: 0.85rem;">
+                                    Modüler inşaat sistemleri, prefabrikasyon teknikleri ve şantiyede karbon ayak izini azaltan çevre dostu yeşil yapı malzemelerinin kullanımı gibi sürdürülebilir mühendislik metotlarını yakından takip ediyorum.
+                                </p>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </main>
+</Layout>

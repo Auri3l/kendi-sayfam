@@ -1,0 +1,108 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="İletişim | Ata Yiğit Telli" activePage="iletisim" description="Ata Yiğit Telli ile iletişime geçin. Proje iş teklifleri, sözleşme danışmanlığı veya teknik işbirlikleri.">
+    <main>
+        <section class="section section-padding" style="margin-top: 5rem; min-height: 85vh;">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Bağlantı Kur</span>
+                    <h3 class="section-title">İletişime Geçin</h3>
+                    <div class="section-divider"></div>
+                </div>
+
+                <div class="contact-grid">
+                    <!-- Left: Contact Details -->
+                    <div class="contact-info-panel">
+                        <p class="contact-lead-text">
+                            Projeleriniz, danışmanlık talepleriniz veya teknik işbirlikleri için benimle doğrudan iletişime geçebilir ya da iletişim formunu doldurarak mesaj bırakabilirsiniz.
+                        </p>
+
+                        <div class="contact-details-list">
+                            <!-- Direct LinkedIn Card Link -->
+                            <a href="https://www.linkedin.com/in/ay-t" target="_blank" rel="noopener" class="contact-card-link" id="contactLinkedin">
+                                <div class="contact-card-icon">
+                                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                                    </svg>
+                                </div>
+                                <div class="contact-card-text">
+                                    <span class="label">LinkedIn</span>
+                                    <span class="value">linkedin.com/in/ay-t</span>
+                                </div>
+                                <div class="contact-card-arrow">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <polyline points="9 18 15 12 9 6"></polyline>
+                                    </svg>
+                                </div>
+                            </a>
+
+                            <!-- E-posta Card -->
+                            <a href="mailto:ytelli@gmail.com" class="contact-card-link" id="contactMail">
+                                <div class="contact-card-icon">
+                                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                        <polyline points="22,6 12,13 2,6" />
+                                    </svg>
+                                </div>
+                                <div class="contact-card-text">
+                                    <span class="label">E-posta</span>
+                                    <span class="value">ytelli@gmail.com</span>
+                                </div>
+                            </a>
+
+                            <!-- Telefon Card -->
+                            <a href="tel:+905321567693" class="contact-card-link" id="contactPhone">
+                                <div class="contact-card-icon">
+                                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                                    </svg>
+                                </div>
+                                <div class="contact-card-text">
+                                    <span class="label">Telefon</span>
+                                    <span class="value">0532 156 76 93</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right: Contact Form -->
+                    <div class="contact-form-panel">
+                        <form id="contactForm" class="custom-form" novalidate>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="formName">Adınız Soyadınız *</label>
+                                    <input type="text" id="formName" name="name" required placeholder="Adınız Soyadınız" />
+                                    <span class="error-msg">Bu alan zorunludur.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="formEmail">E-posta Adresiniz *</label>
+                                    <input type="email" id="formEmail" name="email" required placeholder="eposta@adresiniz.com" />
+                                    <span class="error-msg">Geçerli bir e-posta adresi girin.</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group" style="margin-top: 1.5rem;">
+                                <label for="formSubject">Konu *</label>
+                                <input type="text" id="formSubject" name="subject" required placeholder="Mesajınızın Konusu" />
+                                <span class="error-msg">Bu alan zorunludur.</span>
+                            </div>
+
+                            <div class="form-group" style="margin-top: 1.5rem;">
+                                <label for="formMessage">Mesajınız *</label>
+                                <textarea id="formMessage" name="message" required rows="6" placeholder="Mesajınız..."></textarea>
+                                <span class="error-msg">Bu alan zorunludur.</span>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-submit" id="submitBtn" style="margin-top: 2rem; width: 100%;">
+                                <span>Gönder</span>
+                                <div class="send-spinner hidden"></div>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</Layout>

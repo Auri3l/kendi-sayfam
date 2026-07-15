@@ -1,3 +1,12 @@
+---
+id: "post_3"
+title: "Giydirme Cephelerde Cam Seçimi ve Performans Analizi"
+category: "Mühendislik & Cephe"
+date: "25 Haziran 2026"
+imageUrl: "images/cephe_cami.png"
+draft: false
+excerpt: "Modern giydirme cephe projelerinde doğru cam seçimi, binanın enerji verimliliği ve akustik konforunu belirler. U-değeri, solar faktör (SHGC) ve temperleme kriterleri."
+---
 <div class="rich-post-content">
     <p>Modern yüksek yapılı giydirme cephe projelerinde cam, yalnızca estetik bir kabuk değil; binanın rüzgar yükü dayanımını, ısı yalıtım (U-Değeri) performansını, akustik konforunu ve güneş kontrol verimliliğini (SHGC/G-Değeri) belirleyen en önemli mühendislik elemanıdır.</p>
     

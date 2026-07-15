@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ata Yiğit Telli - Otomatik Blog Editörü & CMS</title>
+    <title>Ata Yiğit Telli - Otomatik Blog Editörü & CMS (Astro / Markdown)</title>
     
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -410,7 +410,7 @@
             transform: translateY(0);
         }
 
-        /* Preview Area Styles matching makale.html */
+        /* Preview Area Styles */
         .preview-wrapper {
             background-color: var(--bg-primary);
             padding: 2.5rem;
@@ -480,8 +480,8 @@
 <body>
 
     <div class="header-title">
-        <h1>Ata Yiğit Telli <span>• Blog Yönetim Paneli (CMS)</span></h1>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">Statik Dosya Otomasyonu (File System Access API)</p>
+        <h1>Ata Yiğit Telli <span>• Blog Yönetim Paneli (Astro CMS)</span></h1>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Statik Markdown Otomasyonu (File System Access API)</p>
     </div>
 
     <div class="dashboard-container">
@@ -528,7 +528,7 @@
             <!-- Posts List -->
             <div class="card">
                 <div class="card-title">
-                    Makalelerim (Taslaklar Dahil)
+                    Makalelerim (.md Dosyaları)
                     <button class="btn btn-secondary" onclick="createNewPost()" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">+ Yeni</button>
                 </div>
                 <div class="post-list" id="postListContainer">
@@ -561,15 +561,15 @@
                         <input type="text" id="postDate" placeholder="Örn: 16 Temmuz 2026">
                     </div>
                     <div class="form-group">
-                        <label for="postImage">Kapak Resmi URL / Yolu</label>
-                        <input type="text" id="postImage" placeholder="Örn: https://images.unsplash.com/... veya images/cover.jpg">
+                        <label for="postImage">Kapak Resmi Yolu (public/ altından itibaren)</label>
+                        <input type="text" id="postImage" placeholder="Örn: images/kaba_insaat.png">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="postFileName">Üretilecek HTML Dosya Adı *</label>
-                        <input type="text" id="postFileName" placeholder="Örn: post_3.html veya şantiye-notlari.html">
+                        <label for="postFileName">Üretilecek Markdown Dosya Adı *</label>
+                        <input type="text" id="postFileName" placeholder="Örn: post_3.md veya şantiye-notlari.md">
                     </div>
                     <div class="form-group">
                         <label for="postId">Makale ID (Benzersiz) *</label>
@@ -605,13 +605,13 @@
                 <div class="btn-group">
                     <!-- Connected Mode Save -->
                     <button class="btn btn-success" id="btnSaveToDisk" onclick="saveDirectlyToDisk()" style="display: none;">
-                        💾 Klasöre Kaydet (HTML & Manifest Güncelle)
+                        💾 Klasöre Kaydet (.md Olarak Yaz)
                     </button>
                     
                     <!-- Fallbacks -->
                     <button class="btn btn-primary" id="btnDownloadHtml" onclick="downloadHTMLFile()">
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-                        HTML İndir
+                        Markdown İndir (.md)
                     </button>
                     <button class="btn btn-secondary" onclick="saveToLocalCache()">
                         Yerel Hafızaya Yedekle
@@ -632,14 +632,14 @@
 
             <!-- Configuration Output Card (Fallback View) -->
             <div class="card" id="manifestCodeCard">
-                <div class="card-title">index.js Manifest Kodu (Manuel Mod Kopyalama Alanı)</div>
+                <div class="card-title">Markdown Frontmatter Kodu (Manuel Mod Kopyalama Alanı)</div>
                 <p style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.5rem;">
-                    Klasör bağlantısı kurmadıysanız, yazıyı indirdikten sonra aşağıdaki kodu kopyalayıp <code>posts/manifest.js</code> dosyasına yapıştırın:
+                    Klasör bağlantısı kurmadıysanız, yazıyı indirdikten sonra aşağıdaki kodu kopyalayıp yazınızın en üstüne (frontmatter olarak) ekleyin:
                 </p>
                 <div class="output-box">
                     <pre><code id="manifestOutput">// Formu doldurdukça burası otomatik güncellenir...</code></pre>
                     <button class="btn btn-secondary" onclick="copyManifestCode()" style="margin-top: 0.5rem; width: 100%; justify-content: center;">
-                        Manifest Kodunu Kopyala
+                        Frontmatter Kodunu Kopyala
                     </button>
                 </div>
             </div>
@@ -654,32 +654,27 @@
     <!-- Quill WYSIWYG Editor Script -->
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
-    <!-- Fallback default posts data (if directory connection is not established) -->
-    <script src="manifest.js" onerror="console.warn('Yerel manifest.js bulunamadı, dahili veriler yükleniyor.')"></script>
-
     <script>
-        // Fallback (eğer manifest.js yüklenemezse kullanılacak ilk veriler)
-        const DEFAULT_POSTS_DATA = window.DEFAULT_BLOG_POSTS || [
+        // Varsayılan hafıza verileri
+        const DEFAULT_POSTS_DATA = [
             {
                 id: "post_1",
-                title: "Gökdelen Cephelerinde Tasarım ve İmalat Koordinasyonu",
+                title: "Kaba İnşaatta Kalıp, Beton ve Donatı Denetimi",
                 category: "Mühendislik & Şantiye",
                 date: "15 Temmuz 2026",
-                fileName: "post_1.html",
-                content: "New York gibi yoğun yapılaşmanın olduğu metropollerde unitized panel cephe projeleri yürütmek, son derece hassas tasarım ve imalat koordinasyonu gerektirir. Şantiye montajından önce imalat toleranslarının sıfıra yakın olması amacıyla rüzgar testleri ve statik hesap detayları simüle edilmelidir.",
-                contentUrl: "posts/post_1.html",
-                imageUrl: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=800&q=80",
+                fileName: "post_1.md",
+                content: "Kaba inşaat süreçlerinde betonarme imalat kalitesini belirleyen en kritik aşamalar kalıp kurulumu, demir donatı işçiliği ve beton döküm denetimidir. Tolerans dışı sapmaları engelleme yöntemleri.",
+                imageUrl: "images/kaba_insaat.png",
                 draft: false
             },
             {
                 id: "post_2",
-                title: "İnşaat Projelerinde Sözleşme Yönetiminin Kilit Rolü",
-                category: "Sözleşme Yönetimi",
+                title: "Islak Hacimlerde Seramik Altı Su Yalıtımı ve İzolasyon Detayları",
+                category: "Saha & Uygulama",
                 date: "02 Temmuz 2026",
-                fileName: "post_2.html",
-                content: "Mühendislik yetkinliği bir projenin teknik doğruluğunu sağlarken, sözleşme yönetimi de ticari ve yasal sürdürülebilirliğini korur. İş kapsamındaki en ufak değişikliklerin yazılı belgelenmesi, hak ediş ve metraj analizlerinin sözleşme maddelerine tam uyumlu yürütülmesi gerekir.",
-                contentUrl: "posts/post_2.html",
-                imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
+                fileName: "post_2.md",
+                content: "Islak hacimlerde seramik kaplama öncesi doğru su yalıtımı uygulaması, yapı ömrünü doğrudan etkiler. Yüzey hazırlığı, astar seçimi, köşe pah bantları ve katlar arası kuruma süreleri.",
+                imageUrl: "images/seramik_yalitim.png",
                 draft: false
             }
         ];
@@ -760,22 +755,28 @@
         // 📁 File System Access API: Klasörü bağlama
         async function connectWorkspaceFolder() {
             try {
-                // Klasör seçtir
                 projectDirHandle = await window.showDirectoryPicker({
                     mode: 'readwrite'
                 });
 
-                // Klasör yapısını doğrulamak için posts/ ve index.js dosyalarını kontrol etmeye çalışalım
-                let hasPostsFolder = false;
-                for await (const entry of projectDirHandle.values()) {
-                    if (entry.kind === 'directory' && entry.name === 'posts') {
-                        hasPostsFolder = true;
+                // Validasyon: src/content/blog klasörünün varlığını sorgulayalım
+                let srcDir, contentDir, blogDir;
+                try {
+                    srcDir = await projectDirHandle.getDirectoryHandle('src');
+                    contentDir = await srcDir.getDirectoryHandle('content');
+                    blogDir = await contentDir.getDirectoryHandle('blog');
+                } catch (e) {
+                    if (projectDirHandle.name === 'blog') {
+                        blogDir = projectDirHandle;
+                    } else {
+                        document.getElementById('folderConnectionStatus').textContent = 'Hata: src/content/blog/ klasörü bulunamadı!';
+                        document.getElementById('folderConnectionStatus').style.color = '#ff6b6b';
+                        showToast('Hata: Seçtiğiniz klasör içinde src/content/blog bulunamadı.');
+                        return;
                     }
                 }
 
-                // Eğer "posts" klasörü içindeyken açtıysa veya kök klasördeyse toleranslı olalım
-                const folderName = projectDirHandle.name;
-                document.getElementById('folderConnectionStatus').textContent = `Bağlı: ${folderName}`;
+                document.getElementById('folderConnectionStatus').textContent = `Bağlı: ${projectDirHandle.name}`;
                 document.getElementById('folderConnectionStatus').style.color = '#2ecc71';
                 document.getElementById('btnConnectFolder').textContent = '📁 Klasörü Yeniden Bağla';
                 
@@ -783,55 +784,84 @@
                 document.getElementById('btnSaveToDisk').style.display = 'inline-flex';
                 document.getElementById('manifestCodeCard').style.display = 'none';
 
-                // manifest.js dosyasını okuyup verileri senkronize et
-                await loadManifestFromDisk();
-                showToast('Proje klasörüne başarıyla bağlanıldı. Veriler diske yazılmaya hazır!');
+                // Klasördeki Markdown dosyalarını tara ve yükle
+                await loadPostsFromMarkdownFiles(blogDir);
+                showToast('Proje klasöründeki Markdown dosyaları başarıyla okundu!');
             } catch (err) {
                 console.error("Klasör bağlantı hatası:", err);
                 showToast('Klasör bağlantısı reddedildi veya başarısız oldu.');
             }
         }
 
-        // Klasördeki posts/manifest.js dosyasını oku ve verileri yükle
-        async function loadManifestFromDisk() {
-            if (!projectDirHandle) return;
+        // Klasördeki .md dosyalarını oku
+        async function loadPostsFromMarkdownFiles(blogDir) {
             try {
-                let manifestFileHandle;
-                // posts klasörünün içinde miyiz yoksa kökte miyiz?
-                try {
-                    const postsDir = await projectDirHandle.getDirectoryHandle('posts');
-                    manifestFileHandle = await postsDir.getFileHandle('manifest.js');
-                } catch (e) {
-                    // posts klasörünün içindeyiz demektir
-                    manifestFileHandle = await projectDirHandle.getFileHandle('manifest.js');
+                const loadedPosts = [];
+                for await (const entry of blogDir.values()) {
+                    if (entry.kind === 'file' && entry.name.endsWith('.md')) {
+                        const file = await entry.getFile();
+                        const text = await file.text();
+                        
+                        const parsed = parseMarkdownFile(text);
+                        if (parsed) {
+                            loadedPosts.push({
+                                id: parsed.frontmatter.id || entry.name.replace('.md', ''),
+                                title: parsed.frontmatter.title || 'Başlıksız',
+                                category: parsed.frontmatter.category || 'Genel',
+                                date: parsed.frontmatter.date || '',
+                                content: parsed.frontmatter.excerpt || '',
+                                fileName: entry.name,
+                                imageUrl: parsed.frontmatter.imageUrl || '',
+                                draft: parsed.frontmatter.draft === true,
+                                rawBody: parsed.body
+                            });
+                        }
+                    }
                 }
-
-                const file = await manifestFileHandle.getFile();
-                const text = await file.text();
-
-                // JS array içeriğini temizleyip array'e çevir
-                let cleanJS = text.replace('window.DEFAULT_BLOG_POSTS =', '').replace('const DEFAULT_BLOG_POSTS =', '').trim();
-                if (cleanJS.endsWith(';')) {
-                    cleanJS = cleanJS.slice(0, -1);
-                }
-
-                // JS değerlendirme
-                const diskPosts = new Function(`return ${cleanJS}`)();
-                if (Array.isArray(diskPosts)) {
-                    posts = diskPosts;
+                
+                if (loadedPosts.length > 0) {
+                    posts = loadedPosts;
+                    // Sırala (ID'ye göre azalan)
+                    posts.sort((a, b) => b.id.localeCompare(a.id));
                     localStorage.setItem('localEditorPosts', JSON.stringify(posts));
                     renderSidebarList();
                     updateStats();
-                    if (posts.length > 0) {
-                        loadPost(posts[0].id);
-                    }
+                    loadPost(posts[0].id);
                 }
             } catch (err) {
-                console.warn('Disk üzerinde manifest.js okunamadı, varsayılan liste kullanılıyor:', err);
+                console.error("Markdown dosyaları taranırken hata oluştu:", err);
             }
         }
 
-        // 💾 Disk Otomasyonu: HTML ve manifest.js yazma
+        // Markdown Frontmatter Parser
+        function parseMarkdownFile(text) {
+            const regex = /^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/;
+            const match = text.match(regex);
+            if (!match) return null;
+            
+            const yamlText = match[1];
+            const body = match[2];
+            
+            const frontmatter = {};
+            yamlText.split('\n').forEach(line => {
+                const index = line.indexOf(':');
+                if (index !== -1) {
+                    const key = line.substring(0, index).trim();
+                    let value = line.substring(index + 1).trim();
+                    
+                    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+                        value = value.substring(1, value.length - 1);
+                    }
+                    if (value === 'true') value = true;
+                    if (value === 'false') value = false;
+                    frontmatter[key] = value;
+                }
+            });
+            
+            return { frontmatter, body };
+        }
+
+        // 💾 Disk Otomasyonu: .md Olarak Kaydet
         async function saveDirectlyToDisk() {
             if (!projectDirHandle) {
                 showToast('Önce proje klasörünü bağlamalısınız!');
@@ -848,10 +878,9 @@
             const category = document.getElementById('postCategory').value.trim() || 'Genel';
             const date = document.getElementById('postDate').value.trim();
             const imageUrl = document.getElementById('postImage').value.trim();
-            const fileName = document.getElementById('postFileName').value.trim() || `${id}.html`;
+            const fileName = document.getElementById('postFileName').value.trim() || `${id}.md`;
             const isDraft = document.getElementById('postDraft').checked;
             
-            // Editör tipine göre içeriği al
             const isCodeMode = (activeTab === 'code');
             const contentHTML = isCodeMode ? document.getElementById('rawCodeEditor').value : quill.getSemanticHTML();
 
@@ -862,71 +891,60 @@
             let plainExcerpt = plainText.trim().replace(/\n/g, ' ');
             plainExcerpt = plainExcerpt.length > 180 ? plainExcerpt.substring(0, 177) + '...' : plainExcerpt;
 
-            // 1. posts/ folder handle bul
-            let postsDirHandle;
-            try {
-                postsDirHandle = await projectDirHandle.getDirectoryHandle('posts', { create: true });
-            } catch (e) {
-                // posts klasörünün içindeyiz demektir
-                postsDirHandle = projectDirHandle;
-            }
+            // .md İçeriğini Yapılandır
+            const mdContent = `---
+id: "${id}"
+title: "${title}"
+category: "${category}"
+date: "${date}"
+imageUrl: "${imageUrl}"
+draft: ${isDraft}
+excerpt: "${plainExcerpt.replace(/"/g, '\\"')}"
+---
+${contentHTML}`;
 
-            // 2. Makale HTML dosyasını yaz
             try {
-                // Kod modundaysak wrapper'ı ekleme (dosyada zaten vardır), görsel moddaysak ekle
-                const articleHTMLContent = isCodeMode ? contentHTML : `<div class="rich-post-content">
-${contentHTML}
-</div>`;
-                const articleFileHandle = await postsDirHandle.getFileHandle(fileName, { create: true });
-                const writable = await articleFileHandle.createWritable();
-                await writable.write(articleHTMLContent);
+                const srcDir = await projectDirHandle.getDirectoryHandle('src');
+                const contentDir = await srcDir.getDirectoryHandle('content');
+                const blogDir = await contentDir.getDirectoryHandle('blog');
+                
+                const fileHandle = await blogDir.getFileHandle(fileName, { create: true });
+                const writable = await fileHandle.createWritable();
+                await writable.write(mdContent);
                 await writable.close();
+
+                // Posts listesini bellekte güncelle
+                const postIndex = posts.findIndex(p => p.id === id || p.id === activePostId);
+                const postObj = {
+                    id,
+                    title,
+                    category,
+                    date,
+                    content: plainExcerpt,
+                    fileName,
+                    imageUrl,
+                    draft: isDraft,
+                    rawBody: contentHTML
+                };
+
+                if (postIndex !== -1) {
+                    posts[postIndex] = postObj;
+                } else {
+                    posts.unshift(postObj);
+                    activePostId = id;
+                    document.getElementById('editorModeTitle').textContent = 'Gönderiyi Düzenle';
+                    document.getElementById('deleteBtn').style.display = 'inline-flex';
+                }
+
+                localStorage.setItem('localEditorPosts', JSON.stringify(posts));
+                renderSidebarList();
+                updateStats();
+                updateManifestOutput();
+                showToast('Makale Markdown dosyası src/content/blog/ klasörüne başarıyla yazıldı! 🚀');
             } catch (err) {
-                console.error("HTML yazma hatası:", err);
-                showToast(`Hata: ${fileName} dosyası diske yazılamadı.`);
-                return;
+                console.error("Yazma hatası:", err);
+                showToast('Hata: Dosya diske yazılamadı.');
             }
-
-            // 3. Posts listesini güncelle ve manifest.js'i yaz
-            const postIndex = posts.findIndex(p => p.id === id || p.id === activePostId);
-            const postObj = {
-                id,
-                title,
-                category,
-                date,
-                content: plainExcerpt,
-                contentUrl: `posts/${fileName}`,
-                imageUrl,
-                draft: isDraft
-            };
-
-            if (postIndex !== -1) {
-                posts[postIndex] = postObj;
-            } else {
-                posts.unshift(postObj);
-                activePostId = id;
-                document.getElementById('editorModeTitle').textContent = 'Gönderiyi Düzenle';
-                document.getElementById('deleteBtn').style.display = 'inline-flex';
-            }
-
-            try {
-                const manifestFileHandle = await postsDirHandle.getFileHandle('manifest.js', { create: true });
-                const writable = await manifestFileHandle.createWritable();
-                const manifestText = `window.DEFAULT_BLOG_POSTS = ${JSON.stringify(posts, null, 4)};`;
-                await writable.write(manifestText);
-                await writable.close();
-            } catch (err) {
-                console.error("Manifest yazma hatası:", err);
-                showToast("Hata: manifest.js dosyası diske yazılamadı.");
-                return;
-            }
-
-            // Güncellemeler ve arayüz tazeleme
-            localStorage.setItem('localEditorPosts', JSON.stringify(posts));
-            renderSidebarList();
-            updateStats();
-            updateManifestOutput();
-            showToast('HTML makale dosyası oluşturuldu ve posts/manifest.js otomatik güncellendi! 🚀');
         }
 
         // İstatistikleri Güncelle
@@ -937,13 +955,11 @@ ${contentHTML}
             const categoryCounts = {};
 
             posts.forEach(post => {
-                // Kelime sayısını hesapla (eğer content HTML ise tags temizle)
                 const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = post.content;
+                tempDiv.innerHTML = post.rawBody || post.content;
                 const text = tempDiv.textContent || tempDiv.innerText || "";
                 totalWords += text.trim().split(/\s+/).filter(w => w.length > 0).length;
 
-                // Kategori sayılarını topla
                 const cat = post.category || 'Belirtilmemiş';
                 categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
             });
@@ -1007,26 +1023,22 @@ ${contentHTML}
             document.getElementById('postDate').value = post.date;
             document.getElementById('postImage').value = post.imageUrl || '';
             
-            // contentUrl'den filename çıkart (posts/post_1.html -> post_1.html)
-            const cleanedFileName = post.contentUrl ? post.contentUrl.replace('posts/', '') : `${post.id}.html`;
+            const cleanedFileName = post.fileName || `${post.id}.md`;
             document.getElementById('postFileName').value = cleanedFileName;
             document.getElementById('postId').value = post.id;
             document.getElementById('postDraft').checked = post.draft || false;
 
-            // Editör içeriğini doldur.
-            // Sunucuda ise ve dosya varsa HTML'i çekmeye çalış, yoksa content (özet) yükle
             quill.setContents([]);
             
             if (projectDirHandle) {
-                // Klasör bağlıysa doğrudan diskteki HTML dosyasını oku
+                // Klasör bağlıysa doğrudan okumaya yönlendir
                 readHtmlFromDisk(cleanedFileName);
             } else {
-                // Bağlantı yoksa yedek metni bas
-                quill.clipboard.dangerouslyPasteHTML(post.content);
+                // Bağlantı yoksa özet/içerik yükle
+                quill.clipboard.dangerouslyPasteHTML(post.rawBody || post.content);
                 updateLivePreview();
             }
 
-            // Aktif elemanı görsel olarak işaretle
             renderSidebarList();
             updateManifestOutput();
         }
@@ -1034,35 +1046,29 @@ ${contentHTML}
         // Diskten dosya okuma
         async function readHtmlFromDisk(fileName) {
             try {
-                let postsDirHandle;
-                try {
-                    postsDirHandle = await projectDirHandle.getDirectoryHandle('posts');
-                } catch(e) {
-                    postsDirHandle = projectDirHandle;
-                }
-                const fileHandle = await postsDirHandle.getFileHandle(fileName);
+                const srcDir = await projectDirHandle.getDirectoryHandle('src');
+                const contentDir = await srcDir.getDirectoryHandle('content');
+                const blogDir = await contentDir.getDirectoryHandle('blog');
+                const fileHandle = await blogDir.getFileHandle(fileName);
                 const file = await fileHandle.getFile();
                 const text = await file.text();
 
-                // Eğer kodda script, input, button veya form varsa otomatik Kod Moduna geç
-                const hasInteractiveCode = /<script|<input|<button|<form/i.test(text);
-                if (hasInteractiveCode) {
-                    switchEditorTab('code');
-                    document.getElementById('rawCodeEditor').value = text;
-                } else {
-                    switchEditorTab('visual');
-                    quill.setContents([]);
-                    quill.clipboard.dangerouslyPasteHTML(text);
-                }
-                updateLivePreview();
-            } catch (err) {
-                console.warn('Seçilen dosya diskten okunamadı, yedek özet yükleniyor:', err);
-                const post = posts.find(p => p.id === activePostId);
-                if (post) {
-                    switchEditorTab('visual');
-                    quill.clipboard.dangerouslyPasteHTML(post.content);
+                const parsed = parseMarkdownFile(text);
+                if (parsed) {
+                    const body = parsed.body.trim();
+                    const hasInteractiveCode = /<script|<input|<button|<form/i.test(body);
+                    if (hasInteractiveCode) {
+                        switchEditorTab('code');
+                        document.getElementById('rawCodeEditor').value = body;
+                    } else {
+                        switchEditorTab('visual');
+                        quill.setContents([]);
+                        quill.clipboard.dangerouslyPasteHTML(body);
+                    }
                     updateLivePreview();
                 }
+            } catch (err) {
+                console.warn('Seçilen dosya diskten okunamadı:', err);
             }
         }
 
@@ -1072,7 +1078,6 @@ ${contentHTML}
             document.getElementById('editorModeTitle').textContent = 'Yeni Gönderi Oluştur';
             document.getElementById('deleteBtn').style.display = 'none';
 
-            // Bugünü varsayılan tarih yap
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             const today = new Date().toLocaleDateString('tr-TR', options);
 
@@ -1082,7 +1087,7 @@ ${contentHTML}
             document.getElementById('postCategory').value = 'Mühendislik';
             document.getElementById('postDate').value = today;
             document.getElementById('postImage').value = '';
-            document.getElementById('postFileName').value = `${nextId}.html`;
+            document.getElementById('postFileName').value = `${nextId}.md`;
             document.getElementById('postDraft').checked = false;
 
             quill.setContents([]);
@@ -1092,7 +1097,7 @@ ${contentHTML}
             updateLivePreview();
         }
 
-        // Değişiklikleri Yerel Hafızaya (LocalStorage) Yaz (Klasör bağlanmadıysa taslak amaçlı)
+        // Değişiklikleri Yerel Hafızaya (LocalStorage) Yaz
         function saveToLocalCache() {
             const id = document.getElementById('postId').value.trim();
             if (!id) {
@@ -1104,11 +1109,10 @@ ${contentHTML}
             const category = document.getElementById('postCategory').value.trim() || 'Genel';
             const date = document.getElementById('postDate').value.trim();
             const imageUrl = document.getElementById('postImage').value.trim();
-            const fileName = document.getElementById('postFileName').value.trim() || `${id}.html`;
+            const fileName = document.getElementById('postFileName').value.trim() || `${id}.md`;
             const isDraft = document.getElementById('postDraft').checked;
             const content = (activeTab === 'code') ? document.getElementById('rawCodeEditor').value : quill.getSemanticHTML();
 
-            // Özet metni üret
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = content;
             const plainText = tempDiv.textContent || tempDiv.innerText || "";
@@ -1123,9 +1127,10 @@ ${contentHTML}
                 category,
                 date,
                 content: plainExcerpt,
-                contentUrl: `posts/${fileName}`,
+                fileName,
                 imageUrl,
-                draft: isDraft
+                draft: isDraft,
+                rawBody: content
             };
 
             if (postIndex !== -1) {
@@ -1148,31 +1153,30 @@ ${contentHTML}
         // Post Sil
         async function deletePost() {
             if (!activePostId) return;
-            if (!confirm('Bu yazıyı listeden silmek istediğinizden emin misiniz?')) return;
+            if (!confirm('Bu yazıyı silmek istediğinizden emin misiniz? (Bağlı klasördeki .md dosyası silinmeyecektir, listeden çıkarılacaktır)')) return;
 
             posts = posts.filter(p => p.id !== activePostId);
             
-            // Eğer klasör bağlıysa diske de hemen yaz
+            // Eğer klasör bağlıysa diske silme imkanı (File System API file.remove() destekliyse)
             if (projectDirHandle) {
                 try {
-                    let postsDirHandle;
-                    try {
-                        postsDirHandle = await projectDirHandle.getDirectoryHandle('posts');
-                    } catch(e) {
-                        postsDirHandle = projectDirHandle;
+                    const srcDir = await projectDirHandle.getDirectoryHandle('src');
+                    const contentDir = await srcDir.getDirectoryHandle('content');
+                    const blogDir = await contentDir.getDirectoryHandle('blog');
+                    const fileName = document.getElementById('postFileName').value.trim();
+                    
+                    if (fileName) {
+                        await blogDir.removeEntry(fileName);
+                        showToast('Dosya diskten silindi.');
                     }
-                    const manifestFileHandle = await postsDirHandle.getFileHandle('manifest.js', { create: true });
-                    const writable = await manifestFileHandle.createWritable();
-                    const manifestText = `window.DEFAULT_BLOG_POSTS = ${JSON.stringify(posts, null, 4)};`;
-                    await writable.write(manifestText);
-                    await writable.close();
                 } catch(e) {
-                    console.error("Diskte silme manifest yazma hatası:", e);
+                    console.warn("Diskten dosya silinemedi veya yetki yok:", e);
                 }
             }
 
             localStorage.setItem('localEditorPosts', JSON.stringify(posts));
-            showToast('Yazı listeden silindi.');
+            renderSidebarList();
+            updateStats();
             
             if (posts.length > 0) {
                 loadPost(posts[0].id);
@@ -1181,17 +1185,15 @@ ${contentHTML}
             }
         }
 
-        // Manifest kodunu güncelle (Geri dönüş uyumluluk görünümü)
+        // Manifest/Frontmatter kodunu güncelle
         function updateManifestOutput() {
             const id = document.getElementById('postId').value.trim() || 'post_id';
             const title = document.getElementById('postTitle').value.trim() || 'Yazı Başlığı';
             const category = document.getElementById('postCategory').value.trim() || 'Kategori';
             const date = document.getElementById('postDate').value.trim() || 'Tarih';
             const imageUrl = document.getElementById('postImage').value.trim() || 'Görsel Yolu';
-            const fileName = document.getElementById('postFileName').value.trim() || 'dosya.html';
             const isDraft = document.getElementById('postDraft').checked;
             
-            // Editördeki HTML'i düz metne çevirip kısa bir özet alıyoruz
             let plainExcerpt = "";
             const isCodeMode = (activeTab === 'code');
             const rawContent = isCodeMode ? document.getElementById('rawCodeEditor').value : (quill ? quill.getSemanticHTML() : '');
@@ -1202,32 +1204,50 @@ ${contentHTML}
             plainExcerpt = plainExcerpt.length > 180 ? plainExcerpt.substring(0, 177) + "..." : plainExcerpt;
             plainExcerpt = plainExcerpt.replace(/"/g, '\\"');
 
-            // Manifest JS Obje Formatı (Çok daha kısa ve temiz)
-            const codeString = `    {
-        id: "${id}",
-        title: "${title}",
-        category: "${category}",
-        date: "${date}",
-        content: "${plainExcerpt}",
-        contentUrl: "posts/${fileName}",
-        imageUrl: "${imageUrl}",
-        draft: ${isDraft}
-    }`;
+            const yamlString = `---
+id: "${id}"
+title: "${title}"
+category: "${category}"
+date: "${date}"
+imageUrl: "${imageUrl}"
+draft: ${isDraft}
+excerpt: "${plainExcerpt}"
+---`;
 
-            document.getElementById('manifestOutput').textContent = codeString;
+            document.getElementById('manifestOutput').textContent = yamlString;
         }
 
-        // Dosya İndirme (HTML)
+        // Dosya İndirme (Markdown)
         function downloadHTMLFile() {
-            const fileName = document.getElementById('postFileName').value.trim() || 'makale.html';
+            const id = document.getElementById('postId').value.trim() || 'post_id';
+            const title = document.getElementById('postTitle').value.trim() || 'Başlıksız Makale';
+            const category = document.getElementById('postCategory').value.trim() || 'Genel';
+            const date = document.getElementById('postDate').value.trim();
+            const imageUrl = document.getElementById('postImage').value.trim();
+            const fileName = document.getElementById('postFileName').value.trim() || `${id}.md`;
+            const isDraft = document.getElementById('postDraft').checked;
+            
             const isCodeMode = (activeTab === 'code');
             const content = isCodeMode ? document.getElementById('rawCodeEditor').value : quill.getSemanticHTML();
             
-            const htmlWrapper = isCodeMode ? content : `<div class="rich-post-content">
-${content}
-</div>`;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = content;
+            const plainText = tempDiv.textContent || tempDiv.innerText || "";
+            let plainExcerpt = plainText.trim().replace(/\n/g, ' ');
+            plainExcerpt = plainExcerpt.length > 180 ? plainExcerpt.substring(0, 177) + '...' : plainExcerpt;
 
-            const blob = new Blob([htmlWrapper], { type: 'text/html;charset=utf-8;' });
+            const mdContent = `---
+id: "${id}"
+title: "${title}"
+category: "${category}"
+date: "${date}"
+imageUrl: "${imageUrl}"
+draft: ${isDraft}
+excerpt: "${plainExcerpt.replace(/"/g, '\\"')}"
+---
+${content}`;
+
+            const blob = new Blob([mdContent], { type: 'text/markdown;charset=utf-8;' });
             const link = document.createElement("a");
             
             if (link.download !== undefined) {
@@ -1238,15 +1258,15 @@ ${content}
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                showToast(`${fileName} başarıyla indirildi. posts/ klasörüne kopyalayabilirsiniz.`);
+                showToast(`${fileName} indirildi. src/content/blog/ klasörüne ekleyebilirsiniz.`);
             }
         }
 
-        // Manifest Kopyala
+        // Kopyala
         function copyManifestCode() {
             const text = document.getElementById('manifestOutput').textContent;
             navigator.clipboard.writeText(text).then(() => {
-                showToast('Kopyalandı! posts/manifest.js dizisine ekleyebilirsiniz.');
+                showToast('Frontmatter kopyalandı!');
             });
         }
 
@@ -1266,20 +1286,22 @@ ${content}
             const category = document.getElementById('postCategory').value.trim() || 'Kategori';
             const date = document.getElementById('postDate').value.trim() || 'Tarih';
             const imageUrl = document.getElementById('postImage').value.trim();
-            const contentHTML = quill ? quill.getSemanticHTML() : '';
+            
+            const isCodeMode = (activeTab === 'code');
+            const contentHTML = isCodeMode ? document.getElementById('rawCodeEditor').value : (quill ? quill.getSemanticHTML() : '');
 
             const iframe = document.getElementById('previewIframe');
             if (!iframe) return;
             const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 
-            // Kapak resmi HTML'i
-            const coverHTML = imageUrl ? `
+            // Kapak resmi HTML'i (Astro ile uyumlu yerel yol desteği)
+            const resolvedImgUrl = imageUrl ? (imageUrl.startsWith('http') ? imageUrl : '/' + imageUrl) : '';
+            const coverHTML = resolvedImgUrl ? `
                 <div style="width: 100%; height: 250px; border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; border: 1px solid rgba(255,255,255,0.08);">
-                    <img src="${imageUrl}" style="width: 100%; height: 100%; object-fit: cover;">
+                    <img src="${resolvedImgUrl}" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
             ` : '';
 
-            // CSS Değişkenleri ve Temiz Makale Tasarımı (makale.html ile tam uyumlu)
             const iframeHTML = `
                 <!DOCTYPE html>
                 <html>
@@ -1377,9 +1399,7 @@ ${content}
             const rawEditor = document.getElementById('rawCodeEditor');
 
             if (mode === 'code') {
-                // Quill'den Textarea'ya aktar
                 rawEditor.value = quill ? quill.getSemanticHTML() : '';
-                
                 visualWrapper.style.display = 'none';
                 codeWrapper.style.display = 'flex';
                 
@@ -1393,7 +1413,6 @@ ${content}
                 btnCode.style.borderColor = 'var(--accent-color)';
                 btnCode.style.color = 'var(--bg-primary)';
             } else {
-                // Textarea'dan Quill'e aktar
                 const html = rawEditor.value;
                 quill.setContents([]);
                 quill.clipboard.dangerouslyPasteHTML(html);

@@ -1,3 +1,12 @@
+---
+id: "post_1"
+title: "Kaba İnşaatta Kalıp, Beton ve Donatı Denetimi"
+category: "Mühendislik & Şantiye"
+date: "15 Temmuz 2026"
+imageUrl: "images/kaba_insaat.png"
+draft: false
+excerpt: "Kaba inşaat süreçlerinde betonarme imalat kalitesini belirleyen en kritik aşamalar kalıp kurulumu, demir donatı işçiliği ve beton döküm denetimidir. Tolerans dışı sapmaları engelleme yöntemleri."
+---
 <div class="rich-post-content">
     <p>Üst yapı projelerinde kaba inşaat kalitesi, yapının taşıyıcı sistem ömrünü ve ince inşaat aşamasındaki maliyet toleranslarını doğrudan belirler. Betonarme imalatlarda sıfıra yakın hata payı elde etmek; kalıp kurulumu, donatı yerleşimi ve döküm öncesi/sonrası denetimlerin eksiksiz yürütülmesine bağlıdır.</p>
     

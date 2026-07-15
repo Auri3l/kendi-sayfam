@@ -1,3 +1,12 @@
+---
+id: "post_2"
+title: "Islak Hacimlerde Seramik Altı Su Yalıtımı ve İzolasyon Detayları"
+category: "Saha & Uygulama"
+date: "02 Temmuz 2026"
+imageUrl: "images/seramik_yalitim.png"
+draft: false
+excerpt: "Islak hacimlerde seramik kaplama öncesi doğru su yalıtımı uygulaması, yapı ömrünü doğrudan etkiler. Yüzey hazırlığı, astar seçimi, köşe pah bantları ve katlar arası kuruma süreleri."
+---
 <div class="rich-post-content">
     <p>Islak hacim imalatlarında (banyo, wc, balkon ve teraslar) seramik kaplama yapılmadan önce uygulanacak su yalıtım katmanı, yapı konforunu ve ömrünü koruyan en kritik katmandır. Seramik yapıştırıcıları su geçirimsiz olmadığı için, su yalıtım membranı döşenmeden yapılan uygulamalarda alt katlara su sızması kaçınılmazdır.</p>
     
