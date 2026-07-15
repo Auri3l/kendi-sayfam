@@ -198,16 +198,6 @@ const PROFILE_DATA = {
 const DEFAULT_BLOG_POSTS = window.DEFAULT_BLOG_POSTS || [];
 
 // ==========================================================================
-// MÜZİK PLAYER PLAYLIST VERİSİ
-// ==========================================================================
-const PLAYLIST = [
-    { title: "Enjoy the Silence", artist: "Depeche Mode" },
-    { title: "Closer", artist: "Nine Inch Nails" },
-    { title: "Lovesong", artist: "The Cure" },
-    { title: "Love Will Tear Us Apart", artist: "Joy Division" }
-];
-
-// ==========================================================================
 // UYGULAMA MANTIĞI & ETKİLEŞİM
 // ==========================================================================
 
@@ -220,8 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderProjects('all');
     renderSkillsAndLanguages();
     initBlogSystem();
-    initMusicPlayer();
-    initCarWidget();
     initContactForm();
     initScrollSpy();
     initArticleView();
@@ -765,131 +753,7 @@ function setupAnimationOnScroll() {
     }, 500);
 }
 
-// --- POST-PUNK / INDUSTRIAL MÜZİK PLAYER WIDGET ---
-function initMusicPlayer() {
-    const playBtn = document.getElementById('playBtn');
-    if (!playBtn) return; // Widget bu sayfada mevcut değil
 
-    const prevTrackBtn = document.getElementById('prevTrackBtn');
-    const nextTrackBtn = document.getElementById('nextTrackBtn');
-    const trackTitle = document.getElementById('trackTitle');
-    const trackArtist = document.getElementById('trackArtist');
-    const cassettePlayer = document.getElementById('cassettePlayer');
-    const visualizer = document.getElementById('musicVisualizer');
-
-    let currentTrackIdx = 0;
-    let isPlaying = false;
-    let visualizerTimer = null;
-
-    function updateTrack() {
-        const track = PLAYLIST[currentTrackIdx];
-        trackTitle.textContent = track.title;
-        trackArtist.textContent = track.artist;
-    }
-
-    function togglePlay() {
-        isPlaying = !isPlaying;
-        if (isPlaying) {
-            playBtn.querySelector('.play-svg').classList.add('hidden');
-            playBtn.querySelector('.pause-svg').classList.remove('hidden');
-            cassettePlayer.classList.add('playing');
-            visualizer.classList.add('playing');
-            showToast('Oynatılıyor', `Çalınan parça: ${PLAYLIST[currentTrackIdx].title}`);
-            simulateVisualizerMovement();
-        } else {
-            playBtn.querySelector('.play-svg').classList.remove('hidden');
-            playBtn.querySelector('.pause-svg').classList.add('hidden');
-            cassettePlayer.classList.remove('playing');
-            visualizer.classList.remove('playing');
-            clearInterval(visualizerTimer);
-            resetVisualizerBars();
-        }
-    }
-
-    function simulateVisualizerMovement() {
-        clearInterval(visualizerTimer);
-        const bars = visualizer.querySelectorAll('.v-bar');
-        
-        visualizerTimer = setInterval(() => {
-            if (!isPlaying) return;
-            bars.forEach(bar => {
-                const randomHeight = Math.floor(Math.random() * 21) + 3;
-                bar.style.height = `${randomHeight}px`;
-            });
-        }, 150);
-    }
-
-    function resetVisualizerBars() {
-        const bars = visualizer.querySelectorAll('.v-bar');
-        bars.forEach(bar => {
-            bar.style.height = '3px';
-        });
-    }
-
-    playBtn.addEventListener('click', togglePlay);
-
-    prevTrackBtn.addEventListener('click', () => {
-        currentTrackIdx = (currentTrackIdx - 1 + PLAYLIST.length) % PLAYLIST.length;
-        updateTrack();
-        if (isPlaying) {
-            showToast('Parça Değiştirildi', `${PLAYLIST[currentTrackIdx].title} çalınıyor...`);
-        }
-    });
-
-    nextTrackBtn.addEventListener('click', () => {
-        currentTrackIdx = (currentTrackIdx + 1) % PLAYLIST.length;
-        updateTrack();
-        if (isPlaying) {
-            showToast('Parça Değiştirildi', `${PLAYLIST[currentTrackIdx].title} çalınıyor...`);
-        }
-    });
-}
-
-// --- RENAULT CLIO 4 DİNAMİK WIDGET (DASHBOARD & SPEEDOMETER SIM) ---
-function initCarWidget() {
-    const mobilityCard = document.querySelector('.mobility-card');
-    if (!mobilityCard) return; // Widget bu sayfada mevcut değil
-
-    const speedVal = document.getElementById('speedVal');
-    const speedNeedle = document.getElementById('speedNeedle');
-    
-    let isDriving = false;
-    let speedInterval = null;
-    let currentSpeed = 0;
-
-    mobilityCard.addEventListener('click', () => {
-        isDriving = !isDriving;
-        
-        if (isDriving) {
-            mobilityCard.classList.add('driving');
-            showToast('Sürüş Modu Aktif', 'Renault Clio 4 motoru çalıştırıldı, yola çıkılıyor!');
-            
-            clearInterval(speedInterval);
-            speedInterval = setInterval(() => {
-                if (currentSpeed < 90) {
-                    currentSpeed += Math.floor(Math.random() * 6) + 3;
-                    if (currentSpeed > 90) currentSpeed = 90;
-                    speedVal.textContent = currentSpeed;
-                    
-                    const angle = (currentSpeed / 120) * 180; 
-                    speedNeedle.style.transform = `rotate(${angle}deg)`;
-                } else {
-                    const vibration = Math.floor(Math.random() * 5) - 2; 
-                    speedVal.textContent = 90 + vibration;
-                    speedNeedle.style.transform = `rotate(${(90 + vibration / 1.5) / 120 * 180}deg)`;
-                }
-            }, 100);
-        } else {
-            mobilityCard.classList.remove('driving');
-            showToast('Sürüş Modu Sonlandı', 'Araç park edildi, motor kapatıldı.');
-            
-            clearInterval(speedInterval);
-            currentSpeed = 0;
-            speedVal.textContent = 0;
-            speedNeedle.style.transform = 'rotate(0deg)';
-        }
-    });
-}
 
 // --- İLETİŞİM FORMU DOĞRULAMA VE TOAST BİLDİRİMİ ---
 function initContactForm() {
