@@ -12,6 +12,8 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 ---
 
 <Layout title={`${entry.data.title} | Ata Yiğit Telli`} activePage="blog" description={entry.data.excerpt}>
@@ -20,7 +22,7 @@ const { Content } = await render(entry);
             <div class="container" style="max-width: 800px;">
                 <!-- Article Header -->
                 <div class="article-detail-header" style="margin-bottom: 2.5rem; text-align: center;">
-                    <a href={`${import.meta.env.BASE_URL}blog`} class="back-to-blog" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent-color); font-size: 0.9rem; text-decoration: none; margin-bottom: 1.5rem; font-weight: 600; transition: var(--transition-fast);" id="backBtn">
+                    <a href={`${base}blog`} class="back-to-blog" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent-color); font-size: 0.9rem; text-decoration: none; margin-bottom: 1.5rem; font-weight: 600; transition: var(--transition-fast);" id="backBtn">
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
                             <line x1="19" y1="12" x2="5" y2="12"></line>
                             <polyline points="12 19 5 12 12 5"></polyline>
@@ -41,7 +43,7 @@ const { Content } = await render(entry);
 
                 {entry.data.imageUrl && (
                     <div class="article-detail-hero" style="border: 1px solid var(--border-color); border-radius: var(--border-radius-md); overflow: hidden; margin-bottom: 2.5rem; height: 350px; background-color: var(--bg-secondary);">
-                        <img src={`${import.meta.env.BASE_URL}${entry.data.imageUrl}`} alt={entry.data.title} style="width: 100%; height: 100%; object-fit: cover;" />
+                        <img src={`${base}${entry.data.imageUrl}`} alt={entry.data.title} style="width: 100%; height: 100%; object-fit: cover;" />
                     </div>
                 )}
 

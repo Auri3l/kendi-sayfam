@@ -12,6 +12,8 @@ const {
 	description = "Ata Yiğit Telli - İnşaat Mühendisi. Büyük ölçekli projelerde saha şefliği, proje yönetimi ve sözleşme uzmanlığı.",
 	activePage = "home" 
 } = Astro.props;
+
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 ---
 
 <!DOCTYPE html>
@@ -35,16 +37,16 @@ const {
     <!-- Navigation Header -->
     <header class="main-header">
         <div class="header-container">
-            <a href={import.meta.env.BASE_URL} class="logo-monogram" aria-label="Ana Sayfa">
+            <a href={base} class="logo-monogram" aria-label="Ana Sayfa">
                 <span>AYT</span>
             </a>
             
             <nav class="nav-menu" id="navMenu">
                 <ul>
-                    <li><a href={`${import.meta.env.BASE_URL}#hakkimda`} class={`nav-link ${activePage === 'home' ? 'active' : ''}`}>Hakkımda (CV)</a></li>
-                    <li><a href={`${import.meta.env.BASE_URL}#projeler`} class={`nav-link ${activePage === 'home' ? 'active' : ''}`}>Projeler</a></li>
-                    <li><a href={`${import.meta.env.BASE_URL}blog`} class={`nav-link ${activePage === 'blog' ? 'active' : ''}`}>Blog</a></li>
-                    <li><a href={`${import.meta.env.BASE_URL}iletisim`} class={`nav-link ${activePage === 'iletisim' ? 'active' : ''}`}>İletişim</a></li>
+                    <li><a href={`${base}#hakkimda`} class={`nav-link ${activePage === 'home' ? 'active' : ''}`}>Hakkımda (CV)</a></li>
+                    <li><a href={`${base}#projeler`} class={`nav-link ${activePage === 'home' ? 'active' : ''}`}>Projeler</a></li>
+                    <li><a href={`${base}blog`} class={`nav-link ${activePage === 'blog' ? 'active' : ''}`}>Blog</a></li>
+                    <li><a href={`${base}iletisim`} class={`nav-link ${activePage === 'iletisim' ? 'active' : ''}`}>İletişim</a></li>
                 </ul>
             </nav>
 

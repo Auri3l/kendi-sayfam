@@ -9,6 +9,8 @@ const posts = await getCollection('blog', ({ data }) => {
 
 // Sort posts (descending: newer posts first, e.g., post_1, post_2, post_3 based on id)
 posts.sort((a, b) => b.data.id.localeCompare(a.data.id));
+
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 ---
 
 <Layout title="Mühendislik & Yapı Blogu | Ata Yiğit Telli" activePage="blog" description="Kaba inşaat denetimi, su yalıtımı ve giydirme cephe sistemleri üzerine mühendislik analizleri, hesaplama araçları ve şantiye tecrübeleri.">
@@ -29,7 +31,7 @@ posts.sort((a, b) => b.data.id.localeCompare(a.data.id));
                                 <article class="blog-card reveal" style={`animation-delay: ${idx * 0.15}s;`}>
                                     {post.data.imageUrl && (
                                         <div class="blog-card-image-wrapper">
-                                            <img src={`${import.meta.env.BASE_URL}${post.data.imageUrl}`} alt={post.data.title} class="blog-card-img" />
+                                            <img src={`${base}${post.data.imageUrl}`} alt={post.data.title} class="blog-card-img" />
                                             <span class="blog-card-tag">{post.data.category}</span>
                                         </div>
                                     )}
@@ -39,7 +41,7 @@ posts.sort((a, b) => b.data.id.localeCompare(a.data.id));
                                         </div>
                                         <h4 class="blog-card-title">{post.data.title}</h4>
                                         <p class="blog-card-excerpt">{post.data.excerpt}</p>
-                                        <a href={`${import.meta.env.BASE_URL}makale/${post.id}`} class="blog-card-link" id={`readMore_${post.data.id}`}>
+                                        <a href={`${base}makale/${post.id}`} class="blog-card-link" id={`readMore_${post.data.id}`}>
                                             Yazıyı Oku
                                             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
                                                 <line x1="5" y1="12" x2="19" y2="12"></line>
