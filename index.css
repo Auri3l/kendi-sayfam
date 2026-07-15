@@ -683,6 +683,16 @@ a.meta-value:hover {
     transition: var(--transition-smooth);
 }
 
+.stat-card.full-width {
+    grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+    .stat-card.full-width {
+        grid-column: span 1;
+    }
+}
+
 .light-theme .stat-card {
     background-color: var(--bg-secondary);
 }
