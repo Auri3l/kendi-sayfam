@@ -7,8 +7,46 @@ const posts = await getCollection('blog', ({ data }) => {
     return !data.draft;
 });
 
-// Sort posts (descending: newer posts first, e.g., post_1, post_2, post_3 based on id)
-posts.sort((a, b) => b.data.id.localeCompare(a.data.id));
+const MONTH_MAP: Record<string, number> = {
+    'Ocak': 0, 'Şubat': 1, 'Mart': 2, 'Nisan': 3, 'Mayıs': 4, 'Haziran': 5,
+    'Temmuz': 6, 'Ağustos': 7, 'Eylül': 8, 'Ekim': 9, 'Kasım': 10, 'Aralık': 11
+};
+
+function parseTurkishDate(dateStr: string): number {
+    const parts = dateStr.split(' ');
+    if (parts.length >= 3) {
+        const day = parseInt(parts[0]);
+        const monthName = parts[1];
+        const year = parseInt(parts[2]);
+        const month = MONTH_MAP[monthName] ?? 0;
+        return new Date(year, month, day).getTime();
+    }
+    return 0;
+}
+
+// Sort posts initially by date descending (newer posts first)
+posts.sort((a, b) => parseTurkishDate(b.data.date) - parseTurkishDate(a.data.date));
+
+// Extract unique months for filtering
+const months = [...new Set(posts.map(post => {
+    const parts = post.data.date.split(' ');
+    if (parts.length >= 3) {
+        return `${parts[1]} ${parts[2]}`;
+    }
+    return '';
+}).filter(Boolean))];
+
+// Sort months descending (newer months first)
+months.sort((a, b) => {
+    const partsA = a.split(' ');
+    const partsB = b.split(' ');
+    const yearA = parseInt(partsA[1]);
+    const yearB = parseInt(partsB[1]);
+    if (yearA !== yearB) return yearB - yearA;
+    const monthA = MONTH_MAP[partsA[0]] ?? 0;
+    const monthB = MONTH_MAP[partsB[0]] ?? 0;
+    return monthB - monthA;
+});
 
 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 ---
@@ -26,9 +64,35 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                 <div class="blog-layout-grid">
                     <!-- Left: Blog posts list -->
                     <div class="blog-posts-column">
+                        <!-- Glassmorphic Filter & Sort Control Bar -->
+                        <div class="blog-controls-bar">
+                            <div class="blog-control-group">
+                                <label for="monthFilter" class="blog-control-label">Aylık Arşiv:</label>
+                                <select id="monthFilter" class="blog-control-select">
+                                    <option value="all">Tüm Aylar</option>
+                                    {months.map(month => (
+                                        <option value={month}>{month}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            
+                            <div class="blog-control-group">
+                                <label for="sortOrder" class="blog-control-label">Tarih Sıralaması:</label>
+                                <select id="sortOrder" class="blog-control-select">
+                                    <option value="desc">Yeniden Eskiye (Azalan)</option>
+                                    <option value="asc">Eskiden Yeniye (Artan)</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="blog-list-container" id="blogGrid">
                             {posts.map((post, idx) => (
-                                <article class="blog-card reveal" style={`animation-delay: ${idx * 0.15}s;`}>
+                                <article 
+                                    class="blog-card reveal" 
+                                    style={`animation-delay: ${idx * 0.15}s;`}
+                                    data-timestamp={parseTurkishDate(post.data.date)}
+                                    data-month={post.data.date.split(' ').slice(1).join(' ')}
+                                >
                                     <div>
                                         {post.data.imageUrl && (
                                             <div class="blog-card-cover" style="margin-bottom: 1.5rem; border-radius: var(--border-radius-md); overflow: hidden; height: 180px; border: 1px solid var(--border-color);">
@@ -116,3 +180,105 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
         </section>
     </main>
 </Layout>
+
+<style>
+    .blog-controls-bar {
+        background-color: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: var(--border-radius-md);
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .blog-control-group {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .blog-control-label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+    }
+
+    .blog-control-select {
+        background-color: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        border-radius: var(--border-radius-sm);
+        padding: 0.4rem 2rem 0.4rem 0.75rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        outline: none;
+        transition: border-color 0.3s, box-shadow 0.3s;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888888' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 0.85rem;
+    }
+
+    .blog-control-select:focus {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.2);
+    }
+
+    @media (max-width: 600px) {
+        .blog-controls-bar {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .blog-control-group {
+            justify-content: space-between;
+        }
+    }
+</style>
+
+<script>
+    const monthFilter = document.getElementById('monthFilter');
+    const sortOrder = document.getElementById('sortOrder');
+    const blogGrid = document.getElementById('blogGrid');
+
+    if (monthFilter && sortOrder && blogGrid) {
+        const articles = Array.from(blogGrid.querySelectorAll('article.blog-card'));
+
+        const applyFilterAndSort = () => {
+            const selectedMonth = monthFilter.value;
+            const selectedSort = sortOrder.value;
+
+            // 1. Filter articles
+            articles.forEach(article => {
+                const month = article.getAttribute('data-month');
+                if (selectedMonth === 'all' || month === selectedMonth) {
+                    article.style.display = '';
+                } else {
+                    article.style.display = 'none';
+                }
+            });
+
+            // 2. Sort visible articles in the DOM
+            const sortedArticles = articles.slice().sort((a, b) => {
+                const tsA = parseInt(a.getAttribute('data-timestamp') || '0');
+                const tsB = parseInt(b.getAttribute('data-timestamp') || '0');
+                return selectedSort === 'asc' ? tsA - tsB : tsB - tsA;
+            });
+
+            // Re-append sorted articles to container
+            sortedArticles.forEach(article => {
+                blogGrid.appendChild(article);
+            });
+        };
+
+        monthFilter.addEventListener('change', applyFilterAndSort);
+        sortOrder.addEventListener('change', applyFilterAndSort);
+    }
+</script>
