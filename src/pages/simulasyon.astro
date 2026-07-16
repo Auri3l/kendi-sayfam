@@ -1,0 +1,769 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
+---
+
+<Layout title="Cephe Simülasyon Laboratuvarı | Ata Yiğit Telli" activePage="simulasyon" description="Rüzgar yükü ve güneş radyasyonu altında giydirme cephe panellerinin canlı statik sehim ve termal performans simülasyon laboratuvarı.">
+    <main>
+        <section class="section section-padding sim-lab-section" style="margin-top: 5rem; min-height: 90vh;">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Dinamik Mühendislik Analizi</span>
+                    <h3 class="section-title">Cephe Simülasyon Laboratuvarı</h3>
+                    <div class="section-divider"></div>
+                </div>
+
+                <div class="sim-grid-layout">
+                    <!-- Left: Interactive Canvas Visualizer -->
+                    <div class="sim-canvas-container">
+                        <canvas id="facadeCanvas"></canvas>
+                        <div class="sim-panel-overlay">
+                            <div class="sim-panel-title">Canlı FEM &amp; Termal Analiz</div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Control Deck & Telemetry -->
+                    <div class="sim-control-deck">
+                        <div class="sim-glass-card">
+                            <h4 style="color: var(--text-primary); font-size: 1.2rem; font-weight: 700; margin-top: 0; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">Yük ve Geometri Kontrol Paneli</h4>
+                            
+                            <div class="sim-controls-wrapper">
+                                <!-- Wind Speed Control -->
+                                <div class="sim-control-group">
+                                    <div class="sim-control-label-row">
+                                        <span class="sim-control-label">Rüzgar Hızı (Wind Speed)</span>
+                                        <span class="sim-control-value" id="windVal">90 km/h</span>
+                                    </div>
+                                    <input type="range" id="windSlider" min="0" max="240" value="90" class="sim-range-input" />
+                                </div>
+
+                                <!-- Solar Radiation Control -->
+                                <div class="sim-control-group">
+                                    <div class="sim-control-label-row">
+                                        <span class="sim-control-label">Güneş Radyasyonu (Solar Intensity)</span>
+                                        <span class="sim-control-value" id="solarVal">400 W/m²</span>
+                                    </div>
+                                    <input type="range" id="solarSlider" min="0" max="1000" value="400" class="sim-range-input" />
+                                </div>
+
+                                <!-- Glass Width Control -->
+                                <div class="sim-control-group">
+                                    <div class="sim-control-label-row">
+                                        <span class="sim-control-label">Cam Genişliği (Width - b)</span>
+                                        <span class="sim-control-value" id="widthVal">1.50 m</span>
+                                    </div>
+                                    <input type="range" id="widthSlider" min="0.5" max="3.0" step="0.1" value="1.5" class="sim-range-input" />
+                                </div>
+
+                                <!-- Glass Height Control -->
+                                <div class="sim-control-group">
+                                    <div class="sim-control-label-row">
+                                        <span class="sim-control-label">Cam Yüksekliği (Height - a)</span>
+                                        <span class="sim-control-value" id="heightVal">3.00 m</span>
+                                    </div>
+                                    <input type="range" id="heightSlider" min="1.0" max="4.5" step="0.1" value="3.0" class="sim-range-input" />
+                                </div>
+
+                                <!-- Glass Type Control -->
+                                <div class="sim-control-group">
+                                    <label class="sim-control-label" for="glassSelect">Cam Kombinasyonu (Glass Type)</label>
+                                    <select id="glassSelect" class="sim-select">
+                                        <option value="single">Tek Kat Düz Cam (4mm) [U: 5.8, SHGC: 0.82]</option>
+                                        <option value="double">Standart Çift Cam (24mm) [U: 2.7, SHGC: 0.70]</option>
+                                        <option value="double-lowe" selected>Çift Cam Low-E (Argon) [U: 1.4, SHGC: 0.40]</option>
+                                        <option value="triple-lowe">Üç Cam Low-E (Argon Dolgulu) [U: 0.8, SHGC: 0.32]</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Telemetry Gauges Dashboard -->
+                        <div class="sim-dashboard-grid">
+                            <div class="sim-stat-card">
+                                <span class="sim-stat-label">Rüzgar Basıncı</span>
+                                <span class="sim-stat-value" id="pressureVal">383</span>
+                                <span class="sim-stat-unit">Pascal (Pa)</span>
+                            </div>
+                            <div class="sim-stat-card">
+                                <span class="sim-stat-label">Panel Sehim Değeri</span>
+                                <span class="sim-stat-value" id="deflectionVal">3.2</span>
+                                <span class="sim-stat-unit">Milimetre (mm)</span>
+                            </div>
+                            <div class="sim-stat-card">
+                                <span class="sim-stat-label">Isı İletim Hızı</span>
+                                <span class="sim-stat-value" id="heatVal">160</span>
+                                <span class="sim-stat-unit">Watt / m² (W)</span>
+                            </div>
+                            <div class="sim-stat-card">
+                                <span class="sim-stat-label">Termal Verimlilik</span>
+                                <span class="sim-stat-value" id="savingVal">51%</span>
+                                <span class="sim-stat-unit">Tek Cama Göre</span>
+                            </div>
+                        </div>
+
+                        <!-- Status Alert Indicator -->
+                        <div class="sim-status-badge status-safe" id="statusBadge">
+                            <span class="sim-status-dot"></span>
+                            <span id="statusText">Statik Sınır: GÜVENLİ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Client-side script logic for physical simulation -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const canvas = document.getElementById('facadeCanvas');
+                if (!canvas) return;
+                
+                const ctx = canvas.getContext('2d');
+                
+                // Sliders
+                const windSlider = document.getElementById('windSlider');
+                const solarSlider = document.getElementById('solarSlider');
+                const widthSlider = document.getElementById('widthSlider');
+                const heightSlider = document.getElementById('heightSlider');
+                const glassSelect = document.getElementById('glassSelect');
+                
+                // Values display
+                const windVal = document.getElementById('windVal');
+                const solarVal = document.getElementById('solarVal');
+                const widthVal = document.getElementById('widthVal');
+                const heightVal = document.getElementById('heightVal');
+                const pressureVal = document.getElementById('pressureVal');
+                const deflectionVal = document.getElementById('deflectionVal');
+                const heatVal = document.getElementById('heatVal');
+                const savingVal = document.getElementById('savingVal');
+                
+                const statusBadge = document.getElementById('statusBadge');
+                const statusText = document.getElementById('statusText');
+                
+                // Glass properties database
+                const GLASS_PROPS = {
+                    'single': { name: 'Tek Kat Düz Cam (4mm)', u: 5.8, shgc: 0.82, E: 70000, t: 4, saving: 0 },
+                    'double': { name: 'Standart Çift Cam (24mm)', u: 2.7, shgc: 0.70, E: 70000, t: 7.56, saving: 45 },
+                    'double-lowe': { name: 'Çift Cam Low-E (Argon)', u: 1.4, shgc: 0.40, E: 70000, t: 10.0, saving: 72 },
+                    'triple-lowe': { name: 'Üç Cam Low-E (Argon Dolgulu)', u: 0.8, shgc: 0.32, E: 70000, t: 11.45, saving: 85 }
+                };
+                
+                let particles = [];
+                let animationFrameId;
+                
+                // Particle structure
+                class WindParticle {
+                    constructor() {
+                        this.reset();
+                        this.x = Math.random() * (canvas.width * 0.7);
+                    }
+                    
+                    reset() {
+                        this.x = -10;
+                        this.y = Math.random() * canvas.height;
+                        this.speed = 3 + Math.random() * 5;
+                        this.length = 10 + Math.random() * 15;
+                        this.opacity = 0.1 + Math.random() * 0.4;
+                    }
+                    
+                    update(windSpeed) {
+                        const speedMultiplier = windSpeed / 60;
+                        this.x += this.speed * (speedMultiplier > 0.1 ? speedMultiplier : 0.1);
+                        
+                        // Particle collision with glass pane
+                        const glassX = canvas.width * 0.72;
+                        if (this.x >= glassX) {
+                            // deflecting flow downwards/upwards
+                            this.y += (this.y > canvas.height / 2 ? 2 : -2) * (windSpeed / 100);
+                            this.x += 1; // force past threshold
+                        }
+                        
+                        if (this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                            this.reset();
+                        }
+                    }
+                    
+                    draw() {
+                        ctx.strokeStyle = `rgba(156, 163, 175, ${this.opacity})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(this.x, this.y);
+                        ctx.lineTo(this.x - this.length, this.y);
+                        ctx.stroke();
+                    }
+                }
+                
+                function resizeCanvas() {
+                    const rect = canvas.getBoundingClientRect();
+                    canvas.width = rect.width * window.devicePixelRatio;
+                    canvas.height = rect.height * window.devicePixelRatio;
+                    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+                    
+                    // Initialize wind particles
+                    particles = [];
+                    const particleCount = Math.floor(rect.width / 15);
+                    for (let i = 0; i < particleCount; i++) {
+                        particles.push(new WindParticle());
+                    }
+                }
+                
+                resizeCanvas();
+                window.addEventListener('resize', resizeCanvas);
+                
+                // Mouse interactive coordinates
+                let mouseX = -100;
+                let mouseY = -100;
+                let isMouseOver = false;
+                
+                canvas.addEventListener('mousemove', (e) => {
+                    const rect = canvas.getBoundingClientRect();
+                    mouseX = e.clientX - rect.left;
+                    mouseY = e.clientY - rect.top;
+                    isMouseOver = true;
+                });
+                
+                canvas.addEventListener('mouseleave', () => {
+                    isMouseOver = false;
+                });
+                
+                function drawLoop() {
+                    const rect = canvas.getBoundingClientRect();
+                    const w = rect.width;
+                    const h = rect.height;
+                    
+                    ctx.clearRect(0, 0, w, h);
+                    
+                    // Current simulation inputs
+                    const windSpeed = parseFloat(windSlider.value);
+                    const solarRad = parseFloat(solarSlider.value);
+                    const glassWidth = parseFloat(widthSlider.value);
+                    const glassHeight = parseFloat(heightSlider.value);
+                    const glassType = glassSelect.value;
+                    const props = GLASS_PROPS[glassType];
+                    
+                    // Physics math calculations
+                    const windSpeedMS = windSpeed / 3.6;
+                    const pressure = 0.613 * windSpeedMS * windSpeedMS; // Pa
+                    
+                    // Flexural Rigidity D = E * t^3 / (12 * (1 - nu^2))
+                    const E_Pa = props.E * 1e6; // Pa
+                    const t_m = props.t / 1000; // m
+                    const nu = 0.22; // Poisson ratio
+                    const D = (E_Pa * Math.pow(t_m, 3)) / (12 * (1 - nu * nu));
+                    
+                    // Deflection formula for plate supported on 4 sides under uniform load:
+                    const b_m = Math.min(glassWidth, glassHeight); // short span
+                    const a_m = Math.max(glassWidth, glassHeight); // long span
+                    
+                    // Plate deflection factor approximation
+                    const deflectionM = (5 * pressure * Math.pow(b_m, 4)) / (384 * D) * (1 / (1 + Math.pow(b_m / a_m, 4)));
+                    const realDeflectionMM = deflectionM * 1000;
+                    
+                    // Exaggerate visually so the deflection shape is obvious
+                    const maxDeflectionPixels = Math.min(100, realDeflectionMM * 4.5);
+                    
+                    // Solar heat gain (W/m2)
+                    const netHeatGain = (solarRad * props.shgc) + (20 * props.u); // radiation + ambient delta
+                    
+                    // Telemetry updates
+                    windVal.innerText = `${windSpeed} km/h`;
+                    solarVal.innerText = `${solarRad} W/m²`;
+                    widthVal.innerText = `${glassWidth.toFixed(2)} m`;
+                    heightVal.innerText = `${glassHeight.toFixed(2)} m`;
+                    pressureVal.innerText = `${Math.round(pressure)}`;
+                    deflectionVal.innerText = realDeflectionMM.toFixed(2);
+                    heatVal.innerText = Math.round(netHeatGain);
+                    savingVal.innerText = `${props.saving}%`;
+                    
+                    // Status Badge Updates (Deflection limit L/300)
+                    const limitSpan = (glassHeight * 1000) / 300; // mm
+                    const dangerLimit = (glassHeight * 1000) / 200; // mm
+                    
+                    statusBadge.className = 'sim-status-badge';
+                    if (realDeflectionMM <= limitSpan) {
+                        statusBadge.classList.add('status-safe');
+                        statusText.innerText = `Statik Limit: GÜVENLİ (Limit L/300: ${limitSpan.toFixed(1)} mm)`;
+                    } else if (realDeflectionMM <= dangerLimit) {
+                        statusBadge.classList.add('status-warning');
+                        statusText.innerText = `UYARI: SEHİM LİMİTİ AŞILDI (L/300: ${limitSpan.toFixed(1)} mm)`;
+                    } else {
+                        statusBadge.classList.add('status-danger');
+                        statusText.innerText = `TEHLİKE: YAPISAL KAPASİTE YETERSİZ (L/200: ${dangerLimit.toFixed(1)} mm)`;
+                    }
+                    
+                    // 1. Draw Grid Lines background
+                    ctx.strokeStyle = 'var(--border-color)';
+                    ctx.lineWidth = 0.5;
+                    const gridSize = 40;
+                    for (let x = 0; x < w; x += gridSize) {
+                        ctx.beginPath();
+                        ctx.moveTo(x, 0);
+                        ctx.lineTo(x, h);
+                        ctx.stroke();
+                    }
+                    for (let y = 0; y < h; y += gridSize) {
+                        ctx.beginPath();
+                        ctx.moveTo(0, y);
+                        ctx.lineTo(w, y);
+                        ctx.stroke();
+                    }
+                    
+                    // 2. Update and draw wind particles
+                    particles.forEach(p => {
+                        p.update(windSpeed);
+                        p.draw();
+                    });
+                    
+                    // Proportional coordinates for Top & Bottom slabs based on Glass Height
+                    // Assume canvas height (e.g. 480px) represents 5.0m maximum height
+                    const verticalScale = 80; // px per meter
+                    const midCanvasY = h / 2;
+                    const panelHeightPixels = glassHeight * verticalScale;
+                    const anchorTopY = midCanvasY - (panelHeightPixels / 2);
+                    const anchorBotY = midCanvasY + (panelHeightPixels / 2);
+                    const panelX = w * 0.72;
+                    
+                    // 3. Draw Solar ray paths
+                    if (solarRad > 10) {
+                        const rayCount = Math.floor(solarRad / 180) + 1;
+                        ctx.lineWidth = 1.5;
+                        for (let i = 0; i < rayCount; i++) {
+                            const yStart = anchorTopY + ((anchorBotY - anchorTopY) / rayCount) * i + 10;
+                            const hitX = panelX - (maxDeflectionPixels * 0.3); // approximate bending offset at hit
+                            
+                            ctx.strokeStyle = `rgba(212, 163, 115, ${0.1 + (solarRad/1500)})`;
+                            ctx.beginPath();
+                            ctx.moveTo(0, yStart - 40);
+                            ctx.lineTo(hitX, yStart);
+                            ctx.stroke();
+                            
+                            // Reflected beam
+                            ctx.strokeStyle = `rgba(212, 163, 115, ${0.05 + (solarRad/3000)})`;
+                            ctx.beginPath();
+                            ctx.moveTo(hitX, yStart);
+                            ctx.lineTo(hitX - 80, yStart - 40);
+                            ctx.stroke();
+                            
+                            // Transmitted ray (shgc determined intensity)
+                            ctx.strokeStyle = `rgba(255, 100, 100, ${0.1 * props.shgc})`;
+                            ctx.beginPath();
+                            ctx.moveTo(hitX, yStart);
+                            ctx.lineTo(w, yStart + 20);
+                            ctx.stroke();
+                        }
+                    }
+                    
+                    // 4. Draw Structural Concrete Floor Slabs (Top & Bottom)
+                    ctx.fillStyle = 'var(--bg-tertiary)';
+                    ctx.fillRect(w * 0.7, anchorTopY - 40, w * 0.3, 40); // Top Slab
+                    ctx.fillRect(w * 0.7, anchorBotY, w * 0.3, 40); // Bottom Slab
+                    
+                    ctx.strokeStyle = 'var(--border-color)';
+                    ctx.lineWidth = 1.5;
+                    ctx.strokeRect(w * 0.7, anchorTopY - 40, w * 0.3, 40);
+                    ctx.strokeRect(w * 0.7, anchorBotY, w * 0.3, 40);
+                    
+                    // 5. Draw Aluminum Anchor brackets
+                    ctx.fillStyle = 'var(--text-muted)';
+                    ctx.fillRect(w * 0.71, anchorTopY, 12, 20);
+                    ctx.fillRect(w * 0.71, anchorBotY - 20, 12, 20);
+                    
+                    // 6. Draw Bending Facade Unitized Glass Panel
+                    ctx.beginPath();
+                    ctx.moveTo(panelX, anchorTopY);
+                    
+                    // Draw cubic bezier curve to simulate elastic flexural bending profile
+                    const ctrlX = panelX + maxDeflectionPixels;
+                    const midY = (anchorTopY + anchorBotY) / 2;
+                    ctx.bezierCurveTo(panelX, anchorTopY + 50, ctrlX, midY - 50, ctrlX, midY);
+                    ctx.bezierCurveTo(ctrlX, midY + 50, panelX, anchorBotY - 50, panelX, anchorBotY);
+                    
+                    // Draw Glass thickness lines
+                    ctx.strokeStyle = realDeflectionMM > dangerLimit ? 'rgba(231, 76, 60, 0.8)' : 'var(--accent-color)';
+                    ctx.lineWidth = props.t === 4 ? 3 : (props.t === 7.56 ? 5 : (props.t === 10 ? 7 : 10));
+                    ctx.shadowColor = realDeflectionMM > dangerLimit ? '#e74c3c' : 'var(--accent-color)';
+                    ctx.shadowBlur = realDeflectionMM > dangerLimit ? 8 : 2;
+                    ctx.stroke();
+                    ctx.shadowBlur = 0; // reset
+                    
+                    // 7. Draw stress heatmap overlay under deflection
+                    if (windSpeed > 10) {
+                        ctx.beginPath();
+                        ctx.moveTo(panelX, anchorTopY);
+                        ctx.bezierCurveTo(panelX, anchorTopY + 50, ctrlX, midY - 50, ctrlX, midY);
+                        ctx.bezierCurveTo(ctrlX, midY + 50, panelX, anchorBotY - 50, panelX, anchorBotY);
+                        
+                        // Stress color gradient (red at center of span, fading towards supports)
+                        const stressGrad = ctx.createLinearGradient(0, anchorTopY, 0, anchorBotY);
+                        stressGrad.addColorStop(0, 'rgba(46, 204, 113, 0)');
+                        stressGrad.addColorStop(0.3, `rgba(241, 196, 15, ${windSpeed / 300})`);
+                        stressGrad.addColorStop(0.5, `rgba(231, 76, 60, ${windSpeed / 240})`);
+                        stressGrad.addColorStop(0.7, `rgba(241, 196, 15, ${windSpeed / 300})`);
+                        stressGrad.addColorStop(1, 'rgba(46, 204, 113, 0)');
+                        
+                        ctx.strokeStyle = stressGrad;
+                        ctx.lineWidth = ctx.lineWidth * 0.4;
+                        ctx.stroke();
+                    }
+                    
+                    // 8. Draw 2D front view schematic thumbnail of the panel proportions
+                    const thumbScale = 20; // pixels per meter
+                    const thumbW = glassWidth * thumbScale;
+                    const thumbH = glassHeight * thumbScale;
+                    const thumbX = 20;
+                    const thumbY = h - thumbH - 20;
+                    
+                    // Draw outer border
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
+                    ctx.fillRect(thumbX, thumbY, thumbW, thumbH);
+                    ctx.strokeStyle = 'var(--text-muted)';
+                    ctx.lineWidth = 1.5;
+                    ctx.strokeRect(thumbX, thumbY, thumbW, thumbH);
+                    
+                    // Glass inner grid
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+                    ctx.lineWidth = 0.5;
+                    ctx.beginPath();
+                    ctx.moveTo(thumbX + thumbW/2, thumbY);
+                    ctx.lineTo(thumbX + thumbW/2, thumbY + thumbH);
+                    ctx.moveTo(thumbX, thumbY + thumbH/2);
+                    ctx.lineTo(thumbX + thumbW, thumbY + thumbH/2);
+                    ctx.stroke();
+                    
+                    // Labels
+                    ctx.fillStyle = 'var(--text-muted)';
+                    ctx.font = '9px var(--font-primary)';
+                    ctx.fillText(`${glassWidth.toFixed(1)}m`, thumbX + thumbW / 2 - 10, thumbY - 6);
+                    
+                    // Rotated text for height
+                    ctx.save();
+                    ctx.translate(thumbX - 6, thumbY + thumbH / 2 + 10);
+                    ctx.rotate(-Math.PI / 2);
+                    ctx.fillText(`${glassHeight.toFixed(1)}m`, 0, 0);
+                    ctx.restore();
+                    
+                    // 9. Draw Interactive Mouse Probe Tooltip (Simulated FEM Node lookup)
+                    if (isMouseOver && mouseX < w * 0.75 && mouseY >= anchorTopY && mouseY <= anchorBotY) {
+                        // Get closest Y on panel bending line to calculate coordinates
+                        const t = (mouseY - anchorTopY) / (anchorBotY - anchorTopY);
+                        if (t >= 0 && t <= 1) {
+                            // Bezier y formula logic
+                            const bendOffset = 4 * t * (1 - t) * maxDeflectionPixels;
+                            const nodeX = panelX + bendOffset;
+                            
+                            // Highlight node dot
+                            ctx.fillStyle = 'var(--text-primary)';
+                            ctx.beginPath();
+                            ctx.arc(nodeX, mouseY, 5, 0, Math.PI * 2);
+                            ctx.fill();
+                            ctx.strokeStyle = 'var(--bg-primary)';
+                            ctx.lineWidth = 1.5;
+                            ctx.stroke();
+                            
+                            // Tooltip info window
+                            const nodeStress = Math.round((windSpeed / 240) * 115 * 4 * t * (1 - t)); // MPa
+                            const nodeDeflect = (4 * t * (1 - t) * realDeflectionMM).toFixed(2); // mm
+                            
+                            ctx.fillStyle = 'rgba(31, 41, 55, 0.95)';
+                            ctx.strokeStyle = 'var(--border-color)';
+                            ctx.lineWidth = 1;
+                            
+                            const tipW = 140;
+                            const tipH = 55;
+                            const tipX = Math.max(10, nodeX - tipW - 15);
+                            const tipY = Math.min(h - tipH - 10, Math.max(10, mouseY - tipH / 2));
+                            
+                            ctx.fillRect(tipX, tipY, tipW, tipH);
+                            ctx.strokeRect(tipX, tipY, tipW, tipH);
+                            
+                            ctx.fillStyle = 'var(--text-primary)';
+                            ctx.font = 'bold 9px var(--font-primary)';
+                            ctx.fillText(`KOORDİNAT: x:${Math.round(nodeX)}, y:${Math.round(mouseY)}`, tipX + 8, tipY + 14);
+                            
+                            ctx.fillStyle = 'var(--text-secondary)';
+                            ctx.font = '8px var(--font-primary)';
+                            ctx.fillText(`Gerilme (Stress): ${nodeStress} MPa`, tipX + 8, tipY + 28);
+                            ctx.fillText(`Sehim (Deflection): ${nodeDeflect} mm`, tipX + 8, tipY + 40);
+                        }
+                    }
+                    
+                    animationFrameId = requestAnimationFrame(drawLoop);
+                }
+                
+                drawLoop();
+            });
+        </script>
+    </main>
+</Layout>
+
+<style>
+/* Simulation laboratory specific section overrides */
+.sim-lab-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.sim-grid-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2rem;
+    align-items: stretch;
+    margin-top: 2rem;
+}
+
+@media (max-width: 992px) {
+    .sim-grid-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sim-canvas-container {
+    position: relative;
+    background: radial-gradient(circle at center, var(--bg-tertiary), var(--bg-primary));
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--card-shadow);
+}
+
+.sim-canvas-container canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+}
+
+.sim-panel-overlay {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: rgba(var(--accent-rgb), 0.05);
+    border: 1px solid rgba(var(--accent-rgb), 0.15);
+    backdrop-filter: blur(10px);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius-sm);
+    pointer-events: none;
+}
+
+.sim-panel-title {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--accent-color);
+    letter-spacing: 1.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sim-panel-title::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent-color);
+    animation: simPulse 2s infinite;
+}
+
+@keyframes simPulse {
+    0% { opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { opacity: 0.3; }
+}
+
+.sim-control-deck {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    justify-content: space-between;
+}
+
+.sim-glass-card {
+    background-color: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
+    box-shadow: var(--card-shadow);
+}
+
+.sim-controls-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.sim-control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sim-control-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sim-control-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.sim-control-value {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    font-family: monospace;
+}
+
+.sim-range-input {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--bg-tertiary);
+    outline: none;
+    transition: background 0.3s;
+}
+
+.sim-range-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    cursor: pointer;
+    border: 2px solid var(--bg-secondary);
+    box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5);
+    transition: transform 0.1s ease;
+}
+
+.sim-range-input::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.sim-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: var(--border-radius-sm);
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.sim-select:focus {
+    border-color: var(--accent-color);
+}
+
+.sim-dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+@media (max-width: 480px) {
+    .sim-dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sim-stat-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.sim-stat-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sim-stat-value {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    font-family: monospace;
+}
+
+.sim-stat-unit {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.sim-status-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius-md);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    transition: var(--transition-fast);
+    border: 1px solid transparent;
+}
+
+.sim-status-badge.status-safe {
+    background: rgba(46, 204, 113, 0.08);
+    border-color: rgba(46, 204, 113, 0.25);
+    color: #2ecc71;
+}
+
+.sim-status-badge.status-warning {
+    background: rgba(241, 196, 15, 0.08);
+    border-color: rgba(241, 196, 15, 0.25);
+    color: #f1c40f;
+}
+
+.sim-status-badge.status-danger {
+    background: rgba(231, 76, 60, 0.08);
+    border-color: rgba(231, 76, 60, 0.25);
+    color: #e74c3c;
+    animation: simAlertBlink 1s infinite alternate;
+}
+
+@keyframes simAlertBlink {
+    0% {
+        box-shadow: 0 0 5px rgba(231, 76, 60, 0.1);
+        border-color: rgba(231, 76, 60, 0.25);
+    }
+    100% {
+        box-shadow: 0 0 15px rgba(231, 76, 60, 0.4);
+        border-color: rgba(231, 76, 60, 0.6);
+        background: rgba(231, 76, 60, 0.15);
+    }
+}
+
+.sim-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: currentColor;
+    box-shadow: 0 0 8px currentColor;
+}
+</style>
