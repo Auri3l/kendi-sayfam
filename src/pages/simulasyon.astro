@@ -19,7 +19,14 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                     <div class="sim-canvas-container">
                         <canvas id="facadeCanvas"></canvas>
                         <div class="sim-panel-overlay">
-                            <div class="sim-panel-title">Canlı FEM &amp; Termal Analiz</div>
+                            <div class="sim-panel-title">Canlı 3D FEM &amp; Termal Analiz</div>
+                        </div>
+                        <div class="sim-fem-hud" id="femHUD">
+                            <div class="hud-title">FEM DÜĞÜM ANALİZÖRÜ</div>
+                            <div class="hud-row"><span class="hud-label">Düğüm (Node):</span> <span class="hud-value" id="hudNode">-</span></div>
+                            <div class="hud-row"><span class="hud-label">Koordinat:</span> <span class="hud-value" id="hudCoord">-</span></div>
+                            <div class="hud-row"><span class="hud-label">Sehim (Deflection):</span> <span class="hud-value" id="hudDeflect">-</span></div>
+                            <div class="hud-row"><span class="hud-label">Gerilme (Stress):</span> <span class="hud-value" id="hudStress">-</span></div>
                         </div>
                     </div>
 
@@ -140,6 +147,12 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                 const statusBadge = document.getElementById('statusBadge');
                 const statusText = document.getElementById('statusText');
                 
+                // FEM HUD elements
+                const hudNode = document.getElementById('hudNode');
+                const hudCoord = document.getElementById('hudCoord');
+                const hudDeflect = document.getElementById('hudDeflect');
+                const hudStress = document.getElementById('hudStress');
+                
                 // Glass properties database
                 const GLASS_PROPS = {
                     'single': { name: 'Tek Kat Düz Cam (4mm)', u: 5.8, shgc: 0.82, E: 70000, t: 4, saving: 0 },
@@ -151,45 +164,30 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                 let particles = [];
                 let animationFrameId;
                 
-                // Particle structure
-                class WindParticle {
+                // 3D Wind Particle structure
+                class WindParticle3D {
                     constructor() {
                         this.reset();
-                        this.x = Math.random() * (canvas.width * 0.7);
+                        this.x3d = (Math.random() - 0.5) * 4.0; // random 3D x
+                        this.y3d = (Math.random() - 0.5) * 4.0; // random 3D y
                     }
                     
                     reset() {
-                        this.x = -10;
-                        this.y = Math.random() * canvas.height;
-                        this.speed = 3 + Math.random() * 5;
-                        this.length = 10 + Math.random() * 15;
-                        this.opacity = 0.1 + Math.random() * 0.4;
+                        this.x3d = (Math.random() - 0.5) * 3.0;
+                        this.y3d = (Math.random() - 0.5) * 4.0;
+                        this.z3d = 2.5 + Math.random() * 2.0; // starts in front of glass
+                        this.speed = 0.05 + Math.random() * 0.08;
+                        this.opacity = 0.15 + Math.random() * 0.35;
                     }
                     
                     update(windSpeed) {
                         const speedMultiplier = windSpeed / 60;
-                        this.x += this.speed * (speedMultiplier > 0.1 ? speedMultiplier : 0.1);
+                        this.z3d -= this.speed * (speedMultiplier > 0.1 ? speedMultiplier : 0.1);
                         
-                        // Particle collision with glass pane
-                        const glassX = canvas.width * 0.72;
-                        if (this.x >= glassX) {
-                            // deflecting flow downwards/upwards
-                            this.y += (this.y > canvas.height / 2 ? 2 : -2) * (windSpeed / 100);
-                            this.x += 1; // force past threshold
-                        }
-                        
-                        if (this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                        // If it passes behind the glass
+                        if (this.z3d < -1.5) {
                             this.reset();
                         }
-                    }
-                    
-                    draw() {
-                        ctx.strokeStyle = `rgba(156, 163, 175, ${this.opacity})`;
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(this.x, this.y);
-                        ctx.lineTo(this.x - this.length, this.y);
-                        ctx.stroke();
                     }
                 }
                 
@@ -201,9 +199,9 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                     
                     // Initialize wind particles
                     particles = [];
-                    const particleCount = Math.floor(rect.width / 15);
+                    const particleCount = 45;
                     for (let i = 0; i < particleCount; i++) {
-                        particles.push(new WindParticle());
+                        particles.push(new WindParticle3D());
                     }
                 }
                 
@@ -224,6 +222,10 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                 
                 canvas.addEventListener('mouseleave', () => {
                     isMouseOver = false;
+                    hudNode.innerText = "-";
+                    hudCoord.innerText = "-";
+                    hudDeflect.innerText = "-";
+                    hudStress.innerText = "-";
                 });
                 
                 function drawLoop() {
@@ -260,7 +262,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                     const realDeflectionMM = deflectionM * 1000;
                     
                     // Exaggerate visually so the deflection shape is obvious
-                    const maxDeflectionPixels = Math.min(100, realDeflectionMM * 4.5);
+                    const maxDeflectionPixels = Math.min(80, realDeflectionMM * 4.5);
                     
                     // Solar heat gain (W/m2)
                     const netHeatGain = (solarRad * props.shgc) + (20 * props.u); // radiation + ambient delta
@@ -275,9 +277,9 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                     heatVal.innerText = Math.round(netHeatGain);
                     savingVal.innerText = `${props.saving}%`;
                     
-                    // Status Badge Updates (Deflection limit L/300)
-                    const limitSpan = (glassHeight * 1000) / 300; // mm
-                    const dangerLimit = (glassHeight * 1000) / 200; // mm
+                    // Status Badge Updates (Deflection limit L/300 where L is short span b_m!)
+                    const limitSpan = (b_m * 1000) / 300; // mm
+                    const dangerLimit = (b_m * 1000) / 200; // mm
                     
                     statusBadge.className = 'sim-status-badge';
                     if (realDeflectionMM <= limitSpan) {
@@ -292,7 +294,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                     }
                     
                     // 1. Draw Grid Lines background
-                    ctx.strokeStyle = 'var(--border-color)';
+                    ctx.strokeStyle = 'rgba(255,255,255,0.02)';
                     ctx.lineWidth = 0.5;
                     const gridSize = 40;
                     for (let x = 0; x < w; x += gridSize) {
@@ -308,184 +310,308 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                         ctx.stroke();
                     }
                     
-                    // 2. Update and draw wind particles
+                    // --- 3D PROJECTOR UTILITY ---
+                    // Isometric projection angles
+                    const pitch = 0.45; // forward tilt
+                    const yaw = -0.55;  // side rotation
+                    const centerX = w * 0.48;
+                    const centerY = h * 0.52;
+                    const scale3d = 95; // scaling factor for 3D coordinates
+                    
+                    function project3D(x3d, y3d, z3d) {
+                        // 1. Rotate around Y (yaw)
+                        const rx = x3d * Math.cos(yaw) - z3d * Math.sin(yaw);
+                        const rz = x3d * Math.sin(yaw) + z3d * Math.cos(yaw);
+                        const ry = y3d;
+                        
+                        // 2. Rotate around X (pitch)
+                        const px = rx;
+                        const py = ry * Math.cos(pitch) - rz * Math.sin(pitch);
+                        const pz = ry * Math.sin(pitch) + rz * Math.cos(pitch);
+                        
+                        // Project to 2D canvas coordinates
+                        return {
+                            x: centerX + px * scale3d,
+                            y: centerY - py * scale3d,
+                            depth: pz
+                        };
+                    }
+                    
+                    // 2. Update and Draw 3D Wind Flow Particles
                     particles.forEach(p => {
                         p.update(windSpeed);
-                        p.draw();
+                        
+                        // Project particle path endpoints
+                        const pt1 = project3D(p.x3d, p.y3d, p.z3d);
+                        const pt2 = project3D(p.x3d, p.y3d, p.z3d + 0.15); // short trail
+                        
+                        // Fade particles based on depth/clipping
+                        if (pt1.x >= 0 && pt1.x <= w && pt1.y >= 0 && pt1.y <= h) {
+                            ctx.strokeStyle = `rgba(156, 163, 175, ${p.opacity})`;
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(pt1.x, pt1.y);
+                            ctx.lineTo(pt2.x, pt2.y);
+                            ctx.stroke();
+                        }
                     });
                     
-                    // Proportional coordinates for Top & Bottom slabs based on Glass Height
-                    // Assume canvas height (e.g. 480px) represents 5.0m maximum height
-                    const verticalScale = 80; // px per meter
-                    const midCanvasY = h / 2;
-                    const panelHeightPixels = glassHeight * verticalScale;
-                    const anchorTopY = midCanvasY - (panelHeightPixels / 2);
-                    const anchorBotY = midCanvasY + (panelHeightPixels / 2);
-                    const panelX = w * 0.72;
+                    // 3. Draw 3D Concrete Floor Slabs (Behind/Under the panel)
+                    ctx.fillStyle = 'rgba(47, 50, 58, 0.45)';
+                    ctx.strokeStyle = 'var(--border-color)';
+                    ctx.lineWidth = 1;
                     
-                    // 3. Draw Solar ray paths
-                    if (solarRad > 10) {
-                        const rayCount = Math.floor(solarRad / 180) + 1;
-                        ctx.lineWidth = 1.5;
-                        for (let i = 0; i < rayCount; i++) {
-                            const yStart = anchorTopY + ((anchorBotY - anchorTopY) / rayCount) * i + 10;
-                            const hitX = panelX - (maxDeflectionPixels * 0.3); // approximate bending offset at hit
+                    // We render top and bottom floor slabs as 3D boxes
+                    const slabW = glassWidth + 0.6;
+                    const slabD = 0.8;
+                    const halfH = glassHeight / 2;
+                    
+                    // Bottom Slab corners (drawn in 3D)
+                    const bSlabNodes = [
+                        project3D(-slabW/2, -halfH, -slabD), // 0
+                        project3D(slabW/2, -halfH, -slabD),  // 1
+                        project3D(slabW/2, -halfH, 0),       // 2
+                        project3D(-slabW/2, -halfH, 0),      // 3
+                        project3D(-slabW/2, -halfH - 0.25, -slabD), // 4
+                        project3D(slabW/2, -halfH - 0.25, -slabD),  // 5
+                        project3D(slabW/2, -halfH - 0.25, 0),       // 6
+                        project3D(-slabW/2, -halfH - 0.25, 0)       // 7
+                    ];
+                    
+                    // Draw Bottom Slab
+                    ctx.beginPath();
+                    ctx.moveTo(bSlabNodes[4].x, bSlabNodes[4].y);
+                    ctx.lineTo(bSlabNodes[5].x, bSlabNodes[5].y);
+                    ctx.lineTo(bSlabNodes[6].x, bSlabNodes[6].y);
+                    ctx.lineTo(bSlabNodes[7].x, bSlabNodes[7].y);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(bSlabNodes[7].x, bSlabNodes[7].y);
+                    ctx.lineTo(bSlabNodes[6].x, bSlabNodes[6].y);
+                    ctx.lineTo(bSlabNodes[2].x, bSlabNodes[2].y);
+                    ctx.lineTo(bSlabNodes[3].x, bSlabNodes[3].y);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                    
+                    // Top Slab corners
+                    const tSlabNodes = [
+                        project3D(-slabW/2, halfH + 0.25, -slabD), // 0
+                        project3D(slabW/2, halfH + 0.25, -slabD),  // 1
+                        project3D(slabW/2, halfH + 0.25, 0),       // 2
+                        project3D(-slabW/2, halfH + 0.25, 0),      // 3
+                        project3D(-slabW/2, halfH, -slabD),        // 4
+                        project3D(slabW/2, halfH, -slabD),         // 5
+                        project3D(slabW/2, halfH, 0),              // 6
+                        project3D(-slabW/2, halfH, 0)              // 7
+                    ];
+                    
+                    // Draw Top Slab
+                    ctx.beginPath();
+                    ctx.moveTo(tSlabNodes[4].x, tSlabNodes[4].y);
+                    ctx.lineTo(tSlabNodes[5].x, tSlabNodes[5].y);
+                    ctx.lineTo(tSlabNodes[6].x, tSlabNodes[6].y);
+                    ctx.lineTo(tSlabNodes[7].x, tSlabNodes[7].y);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(tSlabNodes[7].x, tSlabNodes[7].y);
+                    ctx.lineTo(tSlabNodes[6].x, tSlabNodes[6].y);
+                    ctx.lineTo(tSlabNodes[2].x, tSlabNodes[2].y);
+                    ctx.lineTo(tSlabNodes[3].x, tSlabNodes[3].y);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                    
+                    // 4. Generate 3D Glass Surface Grid Mesh (11x11 Node grid)
+                    const gridDivs = 10;
+                    const meshNodes = []; // 2D array of projected nodes
+                    let closestNode = null;
+                    let minDist = 99999;
+                    
+                    for (let i = 0; i <= gridDivs; i++) {
+                        meshNodes[i] = [];
+                        const u = i / gridDivs; // width ratio [0, 1]
+                        const x3d = (u - 0.5) * glassWidth;
+                        
+                        for (let j = 0; j <= gridDivs; j++) {
+                            const v = j / gridDivs; // height ratio [0, 1]
+                            const y3d = (v - 0.5) * glassHeight;
                             
-                            ctx.strokeStyle = `rgba(212, 163, 115, ${0.1 + (solarRad/1500)})`;
-                            ctx.beginPath();
-                            ctx.moveTo(0, yStart - 40);
-                            ctx.lineTo(hitX, yStart);
-                            ctx.stroke();
+                            // Deflection shape (Simply supported plate formula shape: sin(u*pi) * sin(v*pi))
+                            const nodeDeflectRatio = Math.sin(u * Math.PI) * Math.sin(v * Math.PI);
+                            const nodeDeflectMM = nodeDeflectRatio * realDeflectionMM;
                             
-                            // Reflected beam
-                            ctx.strokeStyle = `rgba(212, 163, 115, ${0.05 + (solarRad/3000)})`;
-                            ctx.beginPath();
-                            ctx.moveTo(hitX, yStart);
-                            ctx.lineTo(hitX - 80, yStart - 40);
-                            ctx.stroke();
+                            // Visual out-of-plane deflection (along Z axis)
+                            // We convert the mm deflection to 3D Z coordinate offset
+                            const z3dOffset = -(nodeDeflectRatio * maxDeflectionPixels) / scale3d;
                             
-                            // Transmitted ray (shgc determined intensity)
-                            ctx.strokeStyle = `rgba(255, 100, 100, ${0.1 * props.shgc})`;
+                            const pt2d = project3D(x3d, y3d, z3dOffset);
+                            
+                            // Calculate local stress (MPa) - max stress is at the center span
+                            const nodeStress = Math.round((windSpeed / 240) * 115 * nodeDeflectRatio);
+                            
+                            meshNodes[i][j] = {
+                                px: pt2d.x,
+                                py: pt2d.y,
+                                stress: nodeStress,
+                                deflect: nodeDeflectMM,
+                                u: u,
+                                v: v,
+                                x3d: x3d,
+                                y3d: y3d
+                            };
+                            
+                            // Inspect closest node under mouse
+                            if (isMouseOver) {
+                                const dist = Math.hypot(pt2d.x - mouseX, pt2d.y - mouseY);
+                                if (dist < minDist && dist < 22) {
+                                    minDist = dist;
+                                    closestNode = { i, j, ...meshNodes[i][j] };
+                                }
+                            }
+                        }
+                    }
+                    
+                    // 5. Draw 3D Stress Heatmap Mesh faces
+                    for (let i = 0; i < gridDivs; i++) {
+                        for (let j = 0; j < gridDivs; j++) {
+                            const n00 = meshNodes[i][j];
+                            const n10 = meshNodes[i+1][j];
+                            const n11 = meshNodes[i+1][j+1];
+                            const n01 = meshNodes[i][j+1];
+                            
+                            // Average stress ratio of this quad cell
+                            const avgRatio = (n00.deflect + n10.deflect + n11.deflect + n01.deflect) / (4 * (realDeflectionMM || 1));
+                            
+                            // Interpolate color: Green (safe, 0) -> Yellow (0.5) -> Red (danger, 1)
+                            const r = Math.min(255, Math.floor(255 * avgRatio * 2));
+                            const g = Math.min(255, Math.floor(255 * (1 - avgRatio) * 1.5));
+                            const b = 50;
+                            
+                            // Base color fill with high-tech semi-transparency
+                            ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${0.15 + avgRatio * 0.35})`;
+                            
                             ctx.beginPath();
-                            ctx.moveTo(hitX, yStart);
-                            ctx.lineTo(w, yStart + 20);
+                            ctx.moveTo(n00.px, n00.py);
+                            ctx.lineTo(n10.px, n10.py);
+                            ctx.lineTo(n11.px, n11.py);
+                            ctx.lineTo(n01.px, n01.py);
+                            ctx.closePath();
+                            ctx.fill();
+                            
+                            // Quad cell border grid lines
+                            ctx.strokeStyle = realDeflectionMM > dangerLimit ? 'rgba(231, 76, 60, 0.15)' : 'rgba(255, 255, 255, 0.08)';
+                            ctx.lineWidth = 0.5;
                             ctx.stroke();
                         }
                     }
                     
-                    // 4. Draw Structural Concrete Floor Slabs (Top & Bottom)
-                    ctx.fillStyle = 'var(--bg-tertiary)';
-                    ctx.fillRect(w * 0.7, anchorTopY - 40, w * 0.3, 40); // Top Slab
-                    ctx.fillRect(w * 0.7, anchorBotY, w * 0.3, 40); // Bottom Slab
+                    // 6. Draw 3D Frame Mullion Borders (Giydirme Cephe Alüminyum Profili)
+                    ctx.strokeStyle = 'var(--text-muted)';
+                    ctx.lineWidth = 3;
                     
-                    ctx.strokeStyle = 'var(--border-color)';
-                    ctx.lineWidth = 1.5;
-                    ctx.strokeRect(w * 0.7, anchorTopY - 40, w * 0.3, 40);
-                    ctx.strokeRect(w * 0.7, anchorBotY, w * 0.3, 40);
-                    
-                    // 5. Draw Aluminum Anchor brackets
-                    ctx.fillStyle = 'var(--text-muted)';
-                    ctx.fillRect(w * 0.71, anchorTopY, 12, 20);
-                    ctx.fillRect(w * 0.71, anchorBotY - 20, 12, 20);
-                    
-                    // 6. Draw Bending Facade Unitized Glass Panel
+                    // Left border profile
                     ctx.beginPath();
-                    ctx.moveTo(panelX, anchorTopY);
-                    
-                    // Draw cubic bezier curve to simulate elastic flexural bending profile
-                    const ctrlX = panelX + maxDeflectionPixels;
-                    const midY = (anchorTopY + anchorBotY) / 2;
-                    ctx.bezierCurveTo(panelX, anchorTopY + 50, ctrlX, midY - 50, ctrlX, midY);
-                    ctx.bezierCurveTo(ctrlX, midY + 50, panelX, anchorBotY - 50, panelX, anchorBotY);
-                    
-                    // Draw Glass thickness lines
-                    ctx.strokeStyle = realDeflectionMM > dangerLimit ? 'rgba(231, 76, 60, 0.8)' : 'var(--accent-color)';
-                    ctx.lineWidth = props.t === 4 ? 3 : (props.t === 7.56 ? 5 : (props.t === 10 ? 7 : 10));
-                    ctx.shadowColor = realDeflectionMM > dangerLimit ? '#e74c3c' : 'var(--accent-color)';
-                    ctx.shadowBlur = realDeflectionMM > dangerLimit ? 8 : 2;
+                    ctx.moveTo(meshNodes[0][0].px, meshNodes[0][0].py);
+                    for (let j = 1; j <= gridDivs; j++) ctx.lineTo(meshNodes[0][j].px, meshNodes[0][j].py);
                     ctx.stroke();
-                    ctx.shadowBlur = 0; // reset
                     
-                    // 7. Draw stress heatmap overlay under deflection
-                    if (windSpeed > 10) {
+                    // Right border profile
+                    ctx.beginPath();
+                    ctx.moveTo(meshNodes[gridDivs][0].px, meshNodes[gridDivs][0].py);
+                    for (let j = 1; j <= gridDivs; j++) ctx.lineTo(meshNodes[gridDivs][j].px, meshNodes[gridDivs][j].py);
+                    ctx.stroke();
+                    
+                    // Top border profile
+                    ctx.beginPath();
+                    ctx.moveTo(meshNodes[0][gridDivs].px, meshNodes[0][gridDivs].py);
+                    for (let i = 1; i <= gridDivs; i++) ctx.lineTo(meshNodes[i][gridDivs].px, meshNodes[i][gridDivs].py);
+                    ctx.stroke();
+                    
+                    // Bottom border profile
+                    ctx.beginPath();
+                    ctx.moveTo(meshNodes[0][0].px, meshNodes[0][0].py);
+                    for (let i = 1; i <= gridDivs; i++) ctx.lineTo(meshNodes[i][0].px, meshNodes[i][0].py);
+                    ctx.stroke();
+                    
+                    // 7. Draw Solar Ray path (drawn in 3D projection)
+                    if (solarRad > 10) {
+                        const hitNode = meshNodes[Math.floor(gridDivs/2)][Math.floor(gridDivs/2)];
+                        
+                        // Ray coming from top-left front 3D coordinate to center node
+                        const sunSource3D = { x3d: -glassWidth * 1.5, y3d: glassHeight * 1.5, z3d: 2.0 };
+                        const sunSourcePt = project3D(sunSource3D.x3d, sunSource3D.y3d, sunSource3D.z3d);
+                        
+                        ctx.lineWidth = 2.0;
+                        ctx.strokeStyle = `rgba(212, 163, 115, ${0.25 + (solarRad/1500)})`;
+                        ctx.shadowColor = 'var(--accent-color)';
+                        ctx.shadowBlur = 4;
+                        
                         ctx.beginPath();
-                        ctx.moveTo(panelX, anchorTopY);
-                        ctx.bezierCurveTo(panelX, anchorTopY + 50, ctrlX, midY - 50, ctrlX, midY);
-                        ctx.bezierCurveTo(ctrlX, midY + 50, panelX, anchorBotY - 50, panelX, anchorBotY);
+                        ctx.moveTo(sunSourcePt.x, sunSourcePt.y);
+                        ctx.lineTo(hitNode.px, hitNode.py);
+                        ctx.stroke();
+                        ctx.shadowBlur = 0; // reset
                         
-                        // Stress color gradient (red at center of span, fading towards supports)
-                        const stressGrad = ctx.createLinearGradient(0, anchorTopY, 0, anchorBotY);
-                        stressGrad.addColorStop(0, 'rgba(46, 204, 113, 0)');
-                        stressGrad.addColorStop(0.3, `rgba(241, 196, 15, ${windSpeed / 300})`);
-                        stressGrad.addColorStop(0.5, `rgba(231, 76, 60, ${windSpeed / 240})`);
-                        stressGrad.addColorStop(0.7, `rgba(241, 196, 15, ${windSpeed / 300})`);
-                        stressGrad.addColorStop(1, 'rgba(46, 204, 113, 0)');
+                        // Reflected Ray
+                        const reflectPt = project3D(-glassWidth * 2.5, glassHeight * 1.0, 3.5);
+                        ctx.strokeStyle = `rgba(212, 163, 115, ${0.1 + (solarRad/3000)})`;
+                        ctx.beginPath();
+                        ctx.moveTo(hitNode.px, hitNode.py);
+                        ctx.lineTo(reflectPt.x, reflectPt.y);
+                        ctx.stroke();
                         
-                        ctx.strokeStyle = stressGrad;
-                        ctx.lineWidth = ctx.lineWidth * 0.4;
+                        // Transmitted Ray (behind the glass panel)
+                        const transmitPt = project3D(glassWidth * 0.8, -glassHeight * 0.6, -1.5);
+                        ctx.strokeStyle = `rgba(255, 100, 100, ${0.15 * props.shgc})`;
+                        ctx.beginPath();
+                        ctx.moveTo(hitNode.px, hitNode.py);
+                        ctx.lineTo(transmitPt.x, transmitPt.y);
                         ctx.stroke();
                     }
                     
-                    // 8. Draw 2D front view schematic thumbnail of the panel proportions
-                    const thumbScale = 20; // pixels per meter
-                    const thumbW = glassWidth * thumbScale;
-                    const thumbH = glassHeight * thumbScale;
-                    const thumbX = 20;
-                    const thumbY = h - thumbH - 20;
-                    
-                    // Draw outer border
-                    ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
-                    ctx.fillRect(thumbX, thumbY, thumbW, thumbH);
-                    ctx.strokeStyle = 'var(--text-muted)';
-                    ctx.lineWidth = 1.5;
-                    ctx.strokeRect(thumbX, thumbY, thumbW, thumbH);
-                    
-                    // Glass inner grid
-                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
-                    ctx.lineWidth = 0.5;
-                    ctx.beginPath();
-                    ctx.moveTo(thumbX + thumbW/2, thumbY);
-                    ctx.lineTo(thumbX + thumbW/2, thumbY + thumbH);
-                    ctx.moveTo(thumbX, thumbY + thumbH/2);
-                    ctx.lineTo(thumbX + thumbW, thumbY + thumbH/2);
-                    ctx.stroke();
-                    
-                    // Labels
-                    ctx.fillStyle = 'var(--text-muted)';
-                    ctx.font = '9px var(--font-primary)';
-                    ctx.fillText(`${glassWidth.toFixed(1)}m`, thumbX + thumbW / 2 - 10, thumbY - 6);
-                    
-                    // Rotated text for height
-                    ctx.save();
-                    ctx.translate(thumbX - 6, thumbY + thumbH / 2 + 10);
-                    ctx.rotate(-Math.PI / 2);
-                    ctx.fillText(`${glassHeight.toFixed(1)}m`, 0, 0);
-                    ctx.restore();
-                    
-                    // 9. Draw Interactive Mouse Probe Tooltip (Simulated FEM Node lookup)
-                    if (isMouseOver && mouseX < w * 0.75 && mouseY >= anchorTopY && mouseY <= anchorBotY) {
-                        // Get closest Y on panel bending line to calculate coordinates
-                        const t = (mouseY - anchorTopY) / (anchorBotY - anchorTopY);
-                        if (t >= 0 && t <= 1) {
-                            // Bezier y formula logic
-                            const bendOffset = 4 * t * (1 - t) * maxDeflectionPixels;
-                            const nodeX = panelX + bendOffset;
-                            
-                            // Highlight node dot
-                            ctx.fillStyle = 'var(--text-primary)';
-                            ctx.beginPath();
-                            ctx.arc(nodeX, mouseY, 5, 0, Math.PI * 2);
-                            ctx.fill();
-                            ctx.strokeStyle = 'var(--bg-primary)';
-                            ctx.lineWidth = 1.5;
-                            ctx.stroke();
-                            
-                            // Tooltip info window
-                            const nodeStress = Math.round((windSpeed / 240) * 115 * 4 * t * (1 - t)); // MPa
-                            const nodeDeflect = (4 * t * (1 - t) * realDeflectionMM).toFixed(2); // mm
-                            
-                            ctx.fillStyle = 'rgba(31, 41, 55, 0.95)';
-                            ctx.strokeStyle = 'var(--border-color)';
-                            ctx.lineWidth = 1;
-                            
-                            const tipW = 140;
-                            const tipH = 55;
-                            const tipX = Math.max(10, nodeX - tipW - 15);
-                            const tipY = Math.min(h - tipH - 10, Math.max(10, mouseY - tipH / 2));
-                            
-                            ctx.fillRect(tipX, tipY, tipW, tipH);
-                            ctx.strokeRect(tipX, tipY, tipW, tipH);
-                            
-                            ctx.fillStyle = 'var(--text-primary)';
-                            ctx.font = 'bold 9px var(--font-primary)';
-                            ctx.fillText(`KOORDİNAT: x:${Math.round(nodeX)}, y:${Math.round(mouseY)}`, tipX + 8, tipY + 14);
-                            
-                            ctx.fillStyle = 'var(--text-secondary)';
-                            ctx.font = '8px var(--font-primary)';
-                            ctx.fillText(`Gerilme (Stress): ${nodeStress} MPa`, tipX + 8, tipY + 28);
-                            ctx.fillText(`Sehim (Deflection): ${nodeDeflect} mm`, tipX + 8, tipY + 40);
-                        }
+                    // 8. Dynamic interactive tooltip node selection (FEM Crosshair HUD)
+                    if (closestNode) {
+                        // Highlight target node
+                        ctx.fillStyle = 'var(--text-primary)';
+                        ctx.beginPath();
+                        ctx.arc(closestNode.px, closestNode.py, 6, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.strokeStyle = 'var(--bg-primary)';
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+                        
+                        // Draw HUD telemetry update
+                        hudNode.innerText = `#${closestNode.i}_${closestNode.j}`;
+                        hudCoord.innerText = `x: ${closestNode.x3d.toFixed(2)}m, y: ${closestNode.y3d.toFixed(2)}m`;
+                        hudDeflect.innerText = `${closestNode.deflect.toFixed(2)} mm`;
+                        hudStress.innerText = `${closestNode.stress} MPa`;
+                        
+                        // Draw horizontal/vertical guidelines
+                        ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+                        ctx.lineWidth = 1;
+                        ctx.setLineDash([4, 4]);
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(closestNode.px, 0);
+                        ctx.lineTo(closestNode.px, h);
+                        ctx.moveTo(0, closestNode.py);
+                        ctx.lineTo(w, closestNode.py);
+                        ctx.stroke();
+                        ctx.setLineDash([]); // reset
                     }
+                    
+                    // 9. Simple 2D Dimensions indicator on the side
+                    ctx.fillStyle = 'var(--text-muted)';
+                    ctx.font = 'bold 9px var(--font-primary)';
+                    ctx.fillText(`GEOMETRİ: ${glassWidth.toFixed(2)}m x ${glassHeight.toFixed(2)}m`, 20, 20);
+                    ctx.fillText(`EN/BOY ORANI: 1 : ${(glassHeight/glassWidth).toFixed(1)}`, 20, 32);
                     
                     animationFrameId = requestAnimationFrame(drawLoop);
                 }
@@ -523,7 +649,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius-lg);
     overflow: hidden;
-    height: 520px;
+    height: 540px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -575,6 +701,48 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
     0% { opacity: 0.3; }
     50% { opacity: 1; }
     100% { opacity: 0.3; }
+}
+
+/* Premium FEM Telemetry overlay HUD */
+.sim-fem-hud {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    background: rgba(31, 41, 55, 0.85);
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(12px);
+    border-radius: var(--border-radius-md);
+    padding: 0.75rem 1rem;
+    width: 220px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    pointer-events: none;
+    font-family: monospace;
+}
+
+.hud-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.5px;
+}
+
+.hud-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.hud-label {
+    color: var(--text-muted);
+}
+
+.hud-value {
+    color: var(--text-primary);
+    font-weight: bold;
 }
 
 .sim-control-deck {
