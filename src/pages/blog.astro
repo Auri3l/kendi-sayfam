@@ -48,6 +48,10 @@ months.sort((a, b) => {
     return monthB - monthA;
 });
 
+// Extract unique categories for filtering
+const categories = [...new Set(posts.map(post => post.data.category).filter(Boolean))];
+categories.sort((a, b) => a.localeCompare(b, 'tr'));
+
 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 ---
 
@@ -67,6 +71,16 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                         <!-- Glassmorphic Filter & Sort Control Bar -->
                         <div class="blog-controls-bar">
                             <div class="blog-control-group">
+                                <label for="categoryFilter" class="blog-control-label">Kategori:</label>
+                                <select id="categoryFilter" class="blog-control-select">
+                                    <option value="all">Tüm Kategoriler</option>
+                                    {categories.map(category => (
+                                        <option value={category}>{category}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div class="blog-control-group">
                                 <label for="monthFilter" class="blog-control-label">Aylık Arşiv:</label>
                                 <select id="monthFilter" class="blog-control-select">
                                     <option value="all">Tüm Aylar</option>
@@ -85,13 +99,14 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                             </div>
                         </div>
 
-                        <div class="blog-list-container" id="blogGrid">
+                        <div class="blog-list" id="blogGrid">
                             {posts.map((post, idx) => (
                                 <article 
                                     class="blog-card reveal" 
                                     style={`animation-delay: ${idx * 0.15}s;`}
                                     data-timestamp={parseTurkishDate(post.data.date)}
                                     data-month={post.data.date.split(' ').slice(1).join(' ')}
+                                    data-category={post.data.category}
                                 >
                                     <div>
                                         {post.data.imageUrl && (
@@ -244,21 +259,28 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
 </style>
 
 <script>
+    const categoryFilter = document.getElementById('categoryFilter');
     const monthFilter = document.getElementById('monthFilter');
     const sortOrder = document.getElementById('sortOrder');
     const blogGrid = document.getElementById('blogGrid');
 
-    if (monthFilter && sortOrder && blogGrid) {
+    if (categoryFilter && monthFilter && sortOrder && blogGrid) {
         const articles = Array.from(blogGrid.querySelectorAll('article.blog-card'));
 
         const applyFilterAndSort = () => {
+            const selectedCategory = categoryFilter.value;
             const selectedMonth = monthFilter.value;
             const selectedSort = sortOrder.value;
 
             // 1. Filter articles
             articles.forEach(article => {
+                const category = article.getAttribute('data-category');
                 const month = article.getAttribute('data-month');
-                if (selectedMonth === 'all' || month === selectedMonth) {
+                
+                const matchesCategory = (selectedCategory === 'all' || category === selectedCategory);
+                const matchesMonth = (selectedMonth === 'all' || month === selectedMonth);
+
+                if (matchesCategory && matchesMonth) {
                     article.style.display = '';
                 } else {
                     article.style.display = 'none';
@@ -278,6 +300,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
             });
         };
 
+        categoryFilter.addEventListener('change', applyFilterAndSort);
         monthFilter.addEventListener('change', applyFilterAndSort);
         sortOrder.addEventListener('change', applyFilterAndSort);
     }
