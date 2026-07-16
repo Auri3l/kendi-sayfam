@@ -482,8 +482,8 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
 
         <!-- Client-side script logic for physical simulation and quantity takeoffs -->
         <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                // --- TAB SWITCHER LOGIC ---
+            // Run initialization immediately since Astro modules are executed after DOM parsing
+            // --- TAB SWITCHER LOGIC ---
                 const tabBtns = document.querySelectorAll('.sim-tab-btn');
                 const tabPanels = document.querySelectorAll('.sim-tab-panel');
 
@@ -1272,7 +1272,6 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                     });
                     updateScreedWetCalculations();
                 }
-            });
         </script>
     </main>
 </Layout>
