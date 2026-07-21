@@ -103,6 +103,11 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                                             <option value="triple-lowe">Üç Cam Low-E (Argon Dolgulu) [U: 0.8, SHGC: 0.32]</option>
                                         </select>
                                     </div>
+
+                                    <button type="button" class="btn btn-primary calc-btn" id="btnCalcFEM" style="width: 100%; margin-top: 0.5rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2 12 22"/><line x1="2" y1="17" x2="12" y2="22"/><line x1="22" y1="17" x2="12" y2="22"/><line x1="2" y1="12" x2="12" y2="17"/><line x1="22" y1="12" x2="12" y2="17"/></svg>
+                                        ⚡ 3D FEM Analizini Yeniden Hesapla
+                                    </button>
                                 </div>
                             </div>
 
@@ -194,6 +199,11 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                                         <option value="16">10 + 16 + 10 mm Çift Cam (16mm Cam Ağırlığı)</option>
                                     </select>
                                 </div>
+
+                                <button type="button" class="btn btn-primary calc-btn" id="btnCalcCephe" style="width: 100%; margin-top: 0.5rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 2v4M8 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+                                    ⚡ Cephe Metrajını Hesapla
+                                </button>
                             </div>
                         </div>
                         <div class="metraj-table-panel sim-glass-card">
@@ -282,6 +292,11 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                                     <label class="sim-control-label">Demir/Donatı Birim Oranı (kg/m³ Beton)</label>
                                     <input type="number" id="inpRebarRatio" value="120" step="5" class="sim-select" style="padding:0.5rem;" />
                                 </div>
+
+                                <button type="button" class="btn btn-primary calc-btn" id="btnCalcBeton" style="width: 100%; margin-top: 0.5rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                                    ⚡ Beton &amp; Kalıp Metrajını Hesapla
+                                </button>
                             </div>
                         </div>
                         <div class="metraj-table-panel sim-glass-card">
@@ -351,6 +366,11 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                                     </div>
                                     <input type="range" id="inpPlasterThk" min="1.0" max="4.0" step="0.5" value="2.0" class="sim-range-input" />
                                 </div>
+
+                                <button type="button" class="btn btn-primary calc-btn" id="btnCalcDuvar" style="width: 100%; margin-top: 0.5rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 9v12M15 3v6M9 3v6M15 15v6"/></svg>
+                                    ⚡ Duvar &amp; Sıva Metrajını Hesapla
+                                </button>
                             </div>
                         </div>
                         <div class="metraj-table-panel sim-glass-card">
@@ -439,6 +459,11 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                                     <label class="sim-control-label">Seramik Fire Kayıp Oranı (%)</label>
                                     <input type="number" id="inpTileWaste" value="8" min="2" max="20" class="sim-select" style="padding:0.5rem;" />
                                 </div>
+
+                                <button type="button" class="btn btn-primary calc-btn" id="btnCalcSap" style="width: 100%; margin-top: 0.5rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M8 11h8M12 7v8"/></svg>
+                                    ⚡ Şap &amp; Seramik Metrajını Hesapla
+                                </button>
                             </div>
                         </div>
                         <div class="metraj-table-panel sim-glass-card" style="max-height:600px; overflow-y:auto;">
@@ -1257,24 +1282,71 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                     el.addEventListener('change', updateScreedWetCalculations);
                 });
 
-                // Initial calculation triggers on page load
+                // Button Click Listeners with feedback
+                function flashTableUpdate(panelId, toastTitle, toastMsg) {
+                    const panel = document.getElementById(panelId);
+                    if (panel) {
+                        const cells = panel.querySelectorAll('td[id^="out"], .sim-stat-value');
+                        cells.forEach(cell => {
+                            cell.classList.remove('table-updated');
+                            void cell.offsetWidth; // trigger reflow
+                            cell.classList.add('table-updated');
+                        });
+                    }
+                    if (typeof window.showToast === 'function') {
+                        window.showToast(toastTitle, toastMsg);
+                    }
+                }
+
+                document.getElementById('btnCalcFEM')?.addEventListener('click', () => {
+                    updateFEMLabels();
+                    flashTableUpdate('tab-fem', 'FEM Analizi Güncellendi', '3D Sehim ve rüzgar gerilmeleri yeniden hesaplandı.');
+                });
+
+                document.getElementById('btnCalcCephe')?.addEventListener('click', () => {
+                    updateFacadeCalculations();
+                    flashTableUpdate('tab-cephe', 'Cephe Metrajı Hesaplandı', '10 farklı profil, cam ve fitil kalemi güncellendi.');
+                });
+
+                document.getElementById('btnCalcBeton')?.addEventListener('click', () => {
+                    updateConcreteCalculations();
+                    flashTableUpdate('tab-beton', 'Beton & Kalıp Metrajı Hesaplandı', 'Beton hacimleri, kalıp alanları ve donatı tonajı güncellendi.');
+                });
+
+                document.getElementById('btnCalcDuvar')?.addEventListener('click', () => {
+                    updateMasonryCalculations();
+                    flashTableUpdate('tab-duvar', 'Duvar & Sıva Metrajı Hesaplandı', 'Blok adedi, örgü ve sıva harç metrajları hesaplandı.');
+                });
+
+                document.getElementById('btnCalcSap')?.addEventListener('click', () => {
+                    updateScreedWetCalculations();
+                    flashTableUpdate('tab-sap', 'Şap & Seramik Metrajı Hesaplandı', '19 adet şap, izolasyon ve seramik malzemesi hesaplandı.');
+                });
+
+                // Run calculations immediately on script load
                 function initAllTakeoffs() {
+                    updateFEMLabels();
                     updateFacadeCalculations();
                     updateConcreteCalculations();
                     updateMasonryCalculations();
                     updateScreedWetCalculations();
                 }
 
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', initAllTakeoffs);
-                } else {
-                    initAllTakeoffs();
-                }
+                initAllTakeoffs();
+                window.addEventListener('load', initAllTakeoffs);
         </script>
     </main>
 </Layout>
 
 <style>
+.table-updated {
+    animation: metrajHighlight 0.7s ease-out;
+}
+@keyframes metrajHighlight {
+    0% { background-color: rgba(var(--accent-rgb), 0.35); color: var(--accent-color); text-shadow: 0 0 10px var(--accent-color); }
+    100% { background-color: transparent; }
+}
+
 /* Simulation & Metraj layout styles */
 .sim-lab-section {
     position: relative;
