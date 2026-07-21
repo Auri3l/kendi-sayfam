@@ -330,11 +330,11 @@ body {
 }
 
 .dark-theme .hero-section {
-    background-image: linear-gradient(rgba(29, 31, 36, 0.88), rgba(29, 31, 36, 0.94)), url('/kendi-sayfam/images/hero_bg.png');
+    background-image: linear-gradient(rgba(29, 31, 36, 0.88), rgba(29, 31, 36, 0.94)), url('/images/hero_bg.png');
 }
 
 .light-theme .hero-section {
-    background-image: linear-gradient(rgba(250, 246, 240, 0.88), rgba(250, 246, 240, 0.94)), url('/kendi-sayfam/images/hero_bg.png');
+    background-image: linear-gradient(rgba(250, 246, 240, 0.88), rgba(250, 246, 240, 0.94)), url('/images/hero_bg.png');
 }
 
 .hero-bg-grid {
