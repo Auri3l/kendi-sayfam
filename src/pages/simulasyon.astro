@@ -631,6 +631,23 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                     });
                 }
                     
+                    const pitch = 0.45;
+                    const yaw = -0.55;
+                    const scale3d = 95;
+                    
+                    function project3D(x3d, y3d, z3d) {
+                        const r = canvas ? canvas.getBoundingClientRect() : {width:400,height:300};
+                        const cX = r.width * 0.48;
+                        const cY = r.height * 0.52;
+                        const rx = x3d * Math.cos(yaw) - z3d * Math.sin(yaw);
+                        const rz = x3d * Math.sin(yaw) + z3d * Math.cos(yaw);
+                        const ry = y3d;
+                        const px = rx;
+                        const py = ry * Math.cos(pitch) - rz * Math.sin(pitch);
+                        const pz = ry * Math.sin(pitch) + rz * Math.cos(pitch);
+                        return { x: cX + px * scale3d, y: cY - py * scale3d, depth: pz };
+                    }
+
                     const drawLoop = () => {
                         if (!canvas || !ctx) return;
                         const rect = canvas.getBoundingClientRect();
@@ -723,22 +740,6 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                                 ctx.stroke();
                             }
                         });
-                        
-                        const pitch = 0.45;
-                        const yaw = -0.55;
-                        const centerX = w * 0.48;
-                        const centerY = h * 0.52;
-                        const scale3d = 95;
-                        
-                        function project3D(x3d, y3d, z3d) {
-                            const rx = x3d * Math.cos(yaw) - z3d * Math.sin(yaw);
-                            const rz = x3d * Math.sin(yaw) + z3d * Math.cos(yaw);
-                            const ry = y3d;
-                            const px = rx;
-                            const py = ry * Math.cos(pitch) - rz * Math.sin(pitch);
-                            const pz = ry * Math.sin(pitch) + rz * Math.cos(pitch);
-                            return { x: centerX + px * scale3d, y: centerY - py * scale3d, depth: pz };
-                        }
                         
                         ctx.fillStyle = 'rgba(47, 50, 58, 0.45)';
                         ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
