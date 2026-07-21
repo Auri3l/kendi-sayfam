@@ -601,18 +601,24 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                 }
                     
                     const drawLoop = () => {
+                        if (!canvas || !ctx) return;
                         const rect = canvas.getBoundingClientRect();
                         const w = rect.width;
                         const h = rect.height;
                         
+                        if (w === 0 || h === 0) {
+                            animationFrameId = requestAnimationFrame(drawLoop);
+                            return;
+                        }
+
                         ctx.clearRect(0, 0, w, h);
                         
-                        const windSpeed = parseFloat(windSlider.value);
-                        const solarRad = parseFloat(solarSlider.value);
-                        const glassWidth = parseFloat(widthSlider.value);
-                        const glassHeight = parseFloat(heightSlider.value);
-                        const glassType = glassSelect.value;
-                        const props = GLASS_PROPS[glassType];
+                        const windSpeed = windSlider ? parseFloat(windSlider.value) : 90;
+                        const solarRad = solarSlider ? parseFloat(solarSlider.value) : 400;
+                        const glassWidth = widthSlider ? parseFloat(widthSlider.value) : 1.5;
+                        const glassHeight = heightSlider ? parseFloat(heightSlider.value) : 3.0;
+                        const glassType = glassSelect ? glassSelect.value : 'double-lowe';
+                        const props = GLASS_PROPS[glassType] || GLASS_PROPS['double-lowe'];
                         
                         const windSpeedMS = windSpeed / 3.6;
                         const pressure = 0.613 * windSpeedMS * windSpeedMS;
@@ -631,31 +637,33 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                         
                         const netHeatGain = (solarRad * props.shgc) + (20 * props.u);
                         
-                        windVal.innerText = `${windSpeed} km/h`;
-                        solarVal.innerText = `${solarRad} W/m²`;
-                        widthVal.innerText = `${glassWidth.toFixed(2)} m`;
-                        heightVal.innerText = `${glassHeight.toFixed(2)} m`;
-                        pressureVal.innerText = `${Math.round(pressure)}`;
-                        deflectionVal.innerText = realDeflectionMM.toFixed(2);
-                        heatVal.innerText = Math.round(netHeatGain);
-                        savingVal.innerText = `${props.saving}%`;
+                        if (windVal) windVal.innerText = `${windSpeed} km/h`;
+                        if (solarVal) solarVal.innerText = `${solarRad} W/m²`;
+                        if (widthVal) widthVal.innerText = `${glassWidth.toFixed(2)} m`;
+                        if (heightVal) heightVal.innerText = `${glassHeight.toFixed(2)} m`;
+                        if (pressureVal) pressureVal.innerText = `${Math.round(pressure)}`;
+                        if (deflectionVal) deflectionVal.innerText = realDeflectionMM.toFixed(2);
+                        if (heatVal) heatVal.innerText = Math.round(netHeatGain);
+                        if (savingVal) savingVal.innerText = `${props.saving}%`;
                         
                         const limitSpan = (b_m * 1000) / 300;
                         const dangerLimit = (b_m * 1000) / 200;
                         
-                        statusBadge.className = 'sim-status-badge';
-                        if (realDeflectionMM <= limitSpan) {
-                            statusBadge.classList.add('status-safe');
-                            statusText.innerText = `Statik Limit: GÜVENLİ (Limit L/300: ${limitSpan.toFixed(1)} mm)`;
-                        } else if (realDeflectionMM <= dangerLimit) {
-                            statusBadge.classList.add('status-warning');
-                            statusText.innerText = `UYARI: SEHİM LİMİTİ AŞILDI (L/300: ${limitSpan.toFixed(1)} mm)`;
-                        } else {
-                            statusBadge.classList.add('status-danger');
-                            statusText.innerText = `TEHLİKE: YAPISAL KAPASİTE YETERSİZ (L/200: ${dangerLimit.toFixed(1)} mm)`;
+                        if (statusBadge && statusText) {
+                            statusBadge.className = 'sim-status-badge';
+                            if (realDeflectionMM <= limitSpan) {
+                                statusBadge.classList.add('status-safe');
+                                statusText.innerText = `Statik Limit: GÜVENLİ (Limit L/300: ${limitSpan.toFixed(1)} mm)`;
+                            } else if (realDeflectionMM <= dangerLimit) {
+                                statusBadge.classList.add('status-warning');
+                                statusText.innerText = `UYARI: SEHİM LİMİTİ AŞILDI (L/300: ${limitSpan.toFixed(1)} mm)`;
+                            } else {
+                                statusBadge.classList.add('status-danger');
+                                statusText.innerText = `TEHLİKE: YAPISAL KAPASİTE YETERSİZ (L/200: ${dangerLimit.toFixed(1)} mm)`;
+                            }
                         }
                         
-                        ctx.strokeStyle = 'rgba(255,255,255,0.02)';
+                        ctx.strokeStyle = 'rgba(255,255,255,0.04)';
                         ctx.lineWidth = 0.5;
                         const gridSize = 40;
                         for (let x = 0; x < w; x += gridSize) {
@@ -702,7 +710,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                         }
                         
                         ctx.fillStyle = 'rgba(47, 50, 58, 0.45)';
-                        ctx.strokeStyle = 'var(--border-color)';
+                        ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
                         ctx.lineWidth = 1;
                         
                         const slabW = glassWidth + 0.6;
@@ -830,7 +838,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                             }
                         }
                         
-                        ctx.strokeStyle = 'var(--text-muted)';
+                        ctx.strokeStyle = 'rgba(212, 163, 115, 0.6)';
                         ctx.lineWidth = 3;
                         ctx.beginPath();
                         ctx.moveTo(meshNodes[0][0].px, meshNodes[0][0].py);
@@ -858,7 +866,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                             
                             ctx.lineWidth = 2.0;
                             ctx.strokeStyle = `rgba(212, 163, 115, ${0.25 + (solarRad/1500)})`;
-                            ctx.shadowColor = 'var(--accent-color)';
+                            ctx.shadowColor = '#d4a373';
                             ctx.shadowBlur = 4;
                             ctx.beginPath();
                             ctx.moveTo(sunSourcePt.x, sunSourcePt.y);
@@ -882,18 +890,18 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                         }
                         
                         if (closestNode) {
-                            ctx.fillStyle = 'var(--text-primary)';
+                            ctx.fillStyle = '#ffffff';
                             ctx.beginPath();
                             ctx.arc(closestNode.px, closestNode.py, 6, 0, Math.PI * 2);
                             ctx.fill();
-                            ctx.strokeStyle = 'var(--bg-primary)';
+                            ctx.strokeStyle = '#1d1f24';
                             ctx.lineWidth = 2;
                             ctx.stroke();
                             
-                            hudNode.innerText = `#${closestNode.i}_${closestNode.j}`;
-                            hudCoord.innerText = `x: ${closestNode.x3d.toFixed(2)}m, y: ${closestNode.y3d.toFixed(2)}m`;
-                            hudDeflect.innerText = `${closestNode.deflect.toFixed(2)} mm`;
-                            hudStress.innerText = `${closestNode.stress} MPa`;
+                            if (hudNode) hudNode.innerText = `#${closestNode.i}_${closestNode.j}`;
+                            if (hudCoord) hudCoord.innerText = `x: ${closestNode.x3d.toFixed(2)}m, y: ${closestNode.y3d.toFixed(2)}m`;
+                            if (hudDeflect) hudDeflect.innerText = `${closestNode.deflect.toFixed(2)} mm`;
+                            if (hudStress) hudStress.innerText = `${closestNode.stress} MPa`;
                             
                             ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
                             ctx.lineWidth = 1;
@@ -907,8 +915,8 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                             ctx.setLineDash([]);
                         }
                         
-                        ctx.fillStyle = 'var(--text-muted)';
-                        ctx.font = 'bold 9px var(--font-primary)';
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+                        ctx.font = 'bold 9px Inter, sans-serif';
                         ctx.fillText(`GEOMETRİ: ${glassWidth.toFixed(2)}m x ${glassHeight.toFixed(2)}m`, 20, 20);
                         ctx.fillText(`EN/BOY ORANI: 1 : ${(glassHeight/glassWidth).toFixed(1)}`, 20, 32);
                         
