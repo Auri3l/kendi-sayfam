@@ -506,9 +506,10 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
         </section>
 
         <!-- Client-side script logic for physical simulation and quantity takeoffs -->
-        <script>
-            // Run initialization immediately since Astro modules are executed after DOM parsing
-            // --- TAB SWITCHER LOGIC ---
+        <script is:inline>
+            (function() {
+                // Run initialization immediately since Astro modules are executed after DOM parsing
+                // --- TAB SWITCHER LOGIC ---
                 const tabBtns = document.querySelectorAll('.sim-tab-btn');
                 const tabPanels = document.querySelectorAll('.sim-tab-panel');
 
@@ -520,7 +521,12 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                         tabPanels.forEach(p => p.classList.remove('active'));
 
                         btn.classList.add('active');
-                        document.getElementById(`tab-${targetTab}`).classList.add('active');
+                        document.getElementById(`tab-${targetTab}`)?.classList.add('active');
+
+                        if (targetTab === 'cephe') updateFacadeCalculations();
+                        else if (targetTab === 'beton') updateConcreteCalculations();
+                        else if (targetTab === 'duvar') updateMasonryCalculations();
+                        else if (targetTab === 'sap') updateScreedWetCalculations();
                     });
                 });
 
@@ -618,10 +624,10 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                     
                     canvas.addEventListener('mouseleave', () => {
                         isMouseOver = false;
-                        hudNode.innerText = "-";
-                        hudCoord.innerText = "-";
-                        hudDeflect.innerText = "-";
-                        hudStress.innerText = "-";
+                        if (hudNode) hudNode.innerText = "-";
+                        if (hudCoord) hudCoord.innerText = "-";
+                        if (hudDeflect) hudDeflect.innerText = "-";
+                        if (hudStress) hudStress.innerText = "-";
                     });
                 }
                     
@@ -1334,6 +1340,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
 
                 initAllTakeoffs();
                 window.addEventListener('load', initAllTakeoffs);
+            })();
         </script>
     </main>
 </Layout>
