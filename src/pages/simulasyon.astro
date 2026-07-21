@@ -1305,7 +1305,6 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                 }
 
                 document.getElementById('btnCalcFEM')?.addEventListener('click', () => {
-                    updateFEMLabels();
                     flashTableUpdate('tab-fem', 'FEM Analizi Güncellendi', '3D Sehim ve rüzgar gerilmeleri yeniden hesaplandı.');
                 });
 
@@ -1331,7 +1330,6 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
 
                 // Run calculations immediately on script load
                 function initAllTakeoffs() {
-                    updateFEMLabels();
                     updateFacadeCalculations();
                     updateConcreteCalculations();
                     updateMasonryCalculations();
