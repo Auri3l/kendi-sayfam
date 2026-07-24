@@ -70,12 +70,14 @@ excerpt: "Alçı sıva, brüt beton ve alçıpan yüzeylerde doğru astar ve boy
 
 <p>İç cephe boya hesabında teorik sarfiyat değerleri üzerinden net alan hesabı yapılır. Standart bir konut odasında süpürgelik ve kapı-pencere düşümleri sonrası net duvar alanı belirlenir:</p>
 
-<p>$$\text{Net Duvar Alanı (m²)} = \text{Çevre (m)} \times \text{Yükseklik (m)} - \text{Kapı/Pencere Alanları (m²)}$$</p>
+<div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 1rem; border-radius: var(--border-radius-sm); text-align: center; margin: 1rem 0; font-size: 1rem; font-weight: 700; color: var(--text-primary);">
+    Net Duvar Alanı (m²) = Çevre (m) × Yükseklik (m) − Kapı/Pencere Alanları (m²)
+</div>
 
 <p>Genel malzeme sarfiyat katsayıları:</p>
 <ul>
     <li><strong>İç Cephe Astarı Sarfiyatı:</strong> Tek katta 1 Litre Astar ile yaklaşık <strong>12 - 15 m²</strong> alan kaplanır.</li>
-    <li><strong>İç Cephe Boyası Sarfiyatı (Çift Kat):</strong> Çift kat uygulamada 1 Litre Boya ile yaklaşık <strong>6 - 8 m²</strong> net alan kaplanır (1 kg boya $\approx$ 6.5 m² çift kat).</li>
+    <li><strong>İç Cephe Boyası Sarfiyatı (Çift Kat):</strong> Çift kat uygulamada 1 Litre Boya ile yaklaşık <strong>6 - 8 m²</strong> net alan kaplanır (1 kg boya ≈ 6.5 m² çift kat).</li>
     <li><strong>Tavan Boyası Sarfiyatı (Çift Kat):</strong> 1 Litre tavan boyası ile çift katta yaklaşık <strong>5 - 7 m²</strong> tavan alanı boyanır.</li>
 </ul>
 
