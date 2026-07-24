@@ -127,6 +127,73 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                 }
             });
         });
+
+        // --- IN-ARTICLE PAINT CALCULATOR WIDGET LOGIC ---
+        function calcPaintRequirements() {
+            const lenEl = document.getElementById('inpPaintRoomLen');
+            const widEl = document.getElementById('inpPaintRoomWidth');
+            if (!lenEl || !widEl) return;
+
+            const len = parseFloat(lenEl.value) || 6.0;
+            const wid = parseFloat(widEl.value) || 4.0;
+            const hght = parseFloat(document.getElementById('inpPaintRoomHeight')?.value || '2.8') || 2.8;
+            const open = parseFloat(document.getElementById('inpPaintOpenings')?.value || '6.0') || 0;
+            const stype = document.getElementById('inpPaintSurfaceType')?.value || 'alci';
+            const coats = parseInt(document.getElementById('inpPaintCoats')?.value || '2') || 2;
+
+            const grossWallArea = 2 * (len + wid) * hght;
+            const netWallArea = Math.max(5, grossWallArea - open);
+            const ceilingArea = len * wid;
+
+            let primerCoverageM2Ltr = 12;
+            if (stype === 'alci') primerCoverageM2Ltr = 10;
+            else if (stype === 'brut') primerCoverageM2Ltr = 8;
+            else if (stype === 'eski') primerCoverageM2Ltr = 14;
+
+            const primerLtr = netWallArea / primerCoverageM2Ltr;
+            let paintCoverageM2LtrPerCoat = 14;
+            const paintLtr = (netWallArea * coats) / paintCoverageM2LtrPerCoat;
+            const ceilingLtr = (ceilingArea * 2) / 13;
+
+            const getBucketText = (ltr) => {
+                if (ltr <= 2.5) return `${ltr.toFixed(1)} Lt (2.5L Ambalaj)`;
+                if (ltr <= 7.5) return `${ltr.toFixed(1)} Lt (7.5L Kova)`;
+                if (ltr <= 15) return `${ltr.toFixed(1)} Lt (15L Kova)`;
+                const buckets = Math.ceil(ltr / 15);
+                return `${ltr.toFixed(1)} Lt (${buckets} Adet 15L Kova)`;
+            };
+
+            const setVal = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.innerText = val;
+            };
+
+            setVal('outNetWallArea', `${netWallArea.toFixed(1)} m²`);
+            setVal('outCeilingArea', `${ceilingArea.toFixed(1)} m²`);
+            setVal('outPrimerLtr', getBucketText(primerLtr));
+            setVal('outPaintLtr', getBucketText(paintLtr));
+            setVal('outCeilingLtr', getBucketText(ceilingLtr));
+        }
+
+        ['inpPaintRoomLen', 'inpPaintRoomWidth', 'inpPaintRoomHeight', 'inpPaintOpenings', 'inpPaintSurfaceType', 'inpPaintCoats'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('input', calcPaintRequirements);
+                el.addEventListener('change', calcPaintRequirements);
+                el.addEventListener('keyup', calcPaintRequirements);
+            }
+        });
+
+        document.getElementById('btnCalcPaintWidget')?.addEventListener('click', () => {
+            calcPaintRequirements();
+            if (typeof window.showToast === 'function') {
+                window.showToast("Hesaplama Yapıldı", "Boya ve astar ihtiyacı güncellendi.");
+            }
+        });
+
+        calcPaintRequirements();
+        setTimeout(calcPaintRequirements, 300);
+        window.addEventListener('load', calcPaintRequirements);
     })();
 </script>
 
