@@ -489,11 +489,16 @@ function updateDOMWithDecryptedContact(data) {
     const contactPhoneSlot = document.getElementById('contactPhoneSlot');
     const contactPhoneCard = document.getElementById('contactPhoneCard');
     if (contactPhoneSlot && contactPhoneCard) {
+        contactPhoneCard.removeAttribute('data-action');
+        contactPhoneCard.removeAttribute('role');
+        contactPhoneCard.removeAttribute('tabindex');
+        contactPhoneCard.removeAttribute('title');
+        contactPhoneCard.style.cursor = 'default';
         contactPhoneSlot.innerHTML = `
             <span class="contact-label">Telefon</span>
             <a href="${data.phoneTel}" class="contact-value unlocked-link">${data.phone}</a>
         `;
-        const badgeBtn = contactPhoneCard.querySelector('[data-action="unlockContact"]');
+        const badgeBtn = contactPhoneCard.querySelector('.btn-unlock-badge, [data-action="unlockContact"]');
         if (badgeBtn) {
             badgeBtn.outerHTML = `<span class="unlocked-badge" title="Bilgi Doğrulandı">🔓 Doğrulandı</span>`;
         }
@@ -502,11 +507,16 @@ function updateDOMWithDecryptedContact(data) {
     const contactAddressSlot = document.getElementById('contactAddressSlot');
     const contactAddressCard = document.getElementById('contactAddressCard');
     if (contactAddressSlot && contactAddressCard) {
+        contactAddressCard.removeAttribute('data-action');
+        contactAddressCard.removeAttribute('role');
+        contactAddressCard.removeAttribute('tabindex');
+        contactAddressCard.removeAttribute('title');
+        contactAddressCard.style.cursor = 'default';
         contactAddressSlot.innerHTML = `
             <span class="contact-label">Konum / Adres</span>
             <span class="contact-value unlocked-text">${data.address}</span>
         `;
-        const badgeBtn = contactAddressCard.querySelector('[data-action="unlockContact"]');
+        const badgeBtn = contactAddressCard.querySelector('.btn-unlock-badge, [data-action="unlockContact"]');
         if (badgeBtn) {
             badgeBtn.outerHTML = `<span class="unlocked-badge" title="Bilgi Doğrulandı">🔓 Doğrulandı</span>`;
         }
