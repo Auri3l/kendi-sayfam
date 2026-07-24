@@ -83,78 +83,70 @@ excerpt: "Alçı sıva, brüt beton ve alçıpan yüzeylerde doğru astar ve boy
 
 <!-- İnteraktif İç Cephe Boya ve Astar Hesaplama Widget'ı -->
 <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: 2rem; margin: 2.5rem 0;">
-    <h4 style="color: var(--text-primary); margin-top: 0; margin-bottom: 1.5rem; font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
-        🎨 İnteraktif İç Cephe Boya &amp; Astar İhtiyacı Simülatörü
-    </h4>
-    
-    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
-        Boyanacak alan boyutlarını girerek gerekli astar, iç cephe boyası ve tavan boyası miktarlarını kutu/kova bazında hesaplayın:
-    </p>
+<h4 style="color: var(--text-primary); margin-top: 0; margin-bottom: 1.5rem; font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">🎨 İnteraktif İç Cephe Boya &amp; Astar İhtiyacı Simülatörü</h4>
+<p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Boyanacak alan boyutlarını girerek gerekli astar, iç cephe boyası ve tavan boyası miktarlarını kutu/kova bazında hesaplayın:</p>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-        <div>
-            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Oda / Alan Uzunluğu (m)</label>
-            <input type="number" id="inpPaintRoomLen" value="6.0" min="1" max="50" step="0.5" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;" />
-        </div>
-        <div>
-            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Oda / Alan Genişliği (m)</label>
-            <input type="number" id="inpPaintRoomWidth" value="4.0" min="1" max="50" step="0.5" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;" />
-        </div>
-        <div>
-            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Tavan Yüksekliği (m)</label>
-            <input type="number" id="inpPaintRoomHeight" value="2.8" min="2.0" max="6.0" step="0.1" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;" />
-        </div>
-        <div>
-            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Kapı/Pencere Düşümü (m²)</label>
-            <input type="number" id="inpPaintOpenings" value="6.0" min="0" max="30" step="0.5" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;" />
-        </div>
-    </div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+<div>
+<label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Oda / Alan Uzunluğu (m)</label>
+<input type="number" id="inpPaintRoomLen" value="6.0" min="1" max="50" step="0.5" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;" />
+</div>
+<div>
+<label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Oda / Alan Genişliği (m)</label>
+<input type="number" id="inpPaintRoomWidth" value="4.0" min="1" max="50" step="0.5" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;" />
+</div>
+<div>
+<label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Tavan Yüksekliği (m)</label>
+<input type="number" id="inpPaintRoomHeight" value="2.8" min="2.0" max="6.0" step="0.1" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;" />
+</div>
+<div>
+<label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Kapı/Pencere Düşümü (m²)</label>
+<input type="number" id="inpPaintOpenings" value="6.0" min="0" max="30" step="0.5" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;" />
+</div>
+</div>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-        <div>
-            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Alt Yüzey Durumu</label>
-            <select id="inpPaintSurfaceType" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;">
-                <option value="alci" selected>Ham Alçı Sıva / Saten Alçı (Yüksek Emici)</option>
-                <option value="brut">Brüt Beton (Düşük Emici / Kuvars Astar)</option>
-                <option value="eski">Eski Boyalı Yüzey (Orta Emici / Renk Değişimi)</option>
-            </select>
-        </div>
-        <div>
-            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Boya Kat Sayısı</label>
-            <select id="inpPaintCoats" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;">
-                <option value="2" selected>2 Kat (Standart Uygulama)</option>
-                <option value="3">3 Kat (Yoğun Renk Değişimi)</option>
-            </select>
-        </div>
-    </div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+<div>
+<label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Alt Yüzey Durumu</label>
+<select id="inpPaintSurfaceType" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;">
+<option value="alci" selected>Ham Alçı Sıva / Saten Alçı (Yüksek Emici)</option>
+<option value="brut">Brüt Beton (Düşük Emici / Kuvars Astar)</option>
+<option value="eski">Eski Boyalı Yüzey (Orta Emici / Renk Değişimi)</option>
+</select>
+</div>
+<div>
+<label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Boya Kat Sayısı</label>
+<select id="inpPaintCoats" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;">
+<option value="2" selected>2 Kat (Standart Uygulama)</option>
+<option value="3">3 Kat (Yoğun Renk Değişimi)</option>
+</select>
+</div>
+</div>
 
-    <button type="button" class="btn btn-primary" id="btnCalcPaintWidget" style="width: 100%; margin-bottom: 1.5rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-        ⚡ Boya &amp; Astar İhtiyacını Hesapla
-    </button>
+<button type="button" class="btn btn-primary" id="btnCalcPaintWidget" style="width: 100%; margin-bottom: 1.5rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">⚡ Boya &amp; Astar İhtiyacını Hesapla</button>
 
-    <!-- Output Stats Cards -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
-        <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-color);">
-            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Net Duvar Alanı</span>
-            <strong id="outNetWallArea" style="font-size: 1.2rem; color: var(--accent-color);">50.0 m²</strong>
-        </div>
-        <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-color);">
-            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Tavan Alanı</span>
-            <strong id="outCeilingArea" style="font-size: 1.2rem; color: var(--accent-color);">24.0 m²</strong>
-        </div>
-        <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-color);">
-            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Gerekli Astar</span>
-            <strong id="outPrimerLtr" style="font-size: 1.2rem; color: var(--text-primary);">4.2 Lt (1 Kova)</strong>
-        </div>
-        <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-color);">
-            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Gerekli İç Boya</span>
-            <strong id="outPaintLtr" style="font-size: 1.2rem; color: var(--text-primary);">14.3 Lt (15L Kova)</strong>
-        </div>
-        <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-color);">
-            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Gerekli Tavan Boyası</span>
-            <strong id="outCeilingLtr" style="font-size: 1.2rem; color: var(--text-primary);">7.0 Lt (10L Kova)</strong>
-        </div>
-    </div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+<div style="background: var(--bg-secondary); padding: 1rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-color);">
+<span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Net Duvar Alanı</span>
+<strong id="outNetWallArea" style="font-size: 1.2rem; color: var(--accent-color);">50.0 m²</strong>
+</div>
+<div style="background: var(--bg-secondary); padding: 1rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-color);">
+<span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Tavan Alanı</span>
+<strong id="outCeilingArea" style="font-size: 1.2rem; color: var(--accent-color);">24.0 m²</strong>
+</div>
+<div style="background: var(--bg-secondary); padding: 1rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-color);">
+<span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Gerekli Astar</span>
+<strong id="outPrimerLtr" style="font-size: 1.2rem; color: var(--text-primary);">4.2 Lt (1 Kova)</strong>
+</div>
+<div style="background: var(--bg-secondary); padding: 1rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-color);">
+<span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Gerekli İç Boya</span>
+<strong id="outPaintLtr" style="font-size: 1.2rem; color: var(--text-primary);">14.3 Lt (15L Kova)</strong>
+</div>
+<div style="background: var(--bg-secondary); padding: 1rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-color);">
+<span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Gerekli Tavan Boyası</span>
+<strong id="outCeilingLtr" style="font-size: 1.2rem; color: var(--text-primary);">7.0 Lt (10L Kova)</strong>
+</div>
+</div>
 </div>
 
 <h4 style="color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1rem;">4. Şantiyede Kaliteli Uygulama İçin Altın Kurallar</h4>
