@@ -126,8 +126,12 @@ excerpt: "Alçı sıva, brüt beton ve alçıpan yüzeylerde doğru astar ve boy
         </div>
     </div>
 
+    <button type="button" class="btn btn-primary" id="btnCalcPaintWidget" style="width: 100%; margin-bottom: 1.5rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+        ⚡ Boya &amp; Astar İhtiyacını Hesapla
+    </button>
+
     <!-- Output Stats Cards -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
         <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-color);">
             <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Net Duvar Alanı</span>
             <strong id="outNetWallArea" style="font-size: 1.2rem; color: var(--accent-color);">50.0 m²</strong>
@@ -167,17 +171,17 @@ excerpt: "Alçı sıva, brüt beton ve alçıpan yüzeylerde doğru astar ve boy
 
         // Primer calculation
         let primerCoverageM2Ltr = 12;
-        if (stype === 'alci') primerCoverageM2Ltr = 10; // alci absorbs more
-        else if (stype === 'brut') primerCoverageM2Ltr = 8; // quartz primer heavier
+        if (stype === 'alci') primerCoverageM2Ltr = 10;
+        else if (stype === 'brut') primerCoverageM2Ltr = 8;
         else if (stype === 'eski') primerCoverageM2Ltr = 14;
 
         const primerLtr = netWallArea / primerCoverageM2Ltr;
 
-        // Paint calculation (double coat baseline: 7 m² / Ltr)
+        // Paint calculation
         let paintCoverageM2LtrPerCoat = 14;
         const paintLtr = (netWallArea * coats) / paintCoverageM2LtrPerCoat;
 
-        // Ceiling paint calculation (2 coats baseline)
+        // Ceiling paint calculation
         const ceilingLtr = (ceilingArea * 2) / 13;
 
         // Packaging helpers
@@ -206,14 +210,20 @@ excerpt: "Alçı sıva, brüt beton ve alçıpan yüzeylerde doğru astar ve boy
         if (el) {
             el.addEventListener('input', calcPaintRequirements);
             el.addEventListener('change', calcPaintRequirements);
+            el.addEventListener('keyup', calcPaintRequirements);
         }
     });
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', calcPaintRequirements);
-    } else {
+    document.getElementById('btnCalcPaintWidget')?.addEventListener('click', () => {
         calcPaintRequirements();
-    }
+        if (typeof window.showToast === 'function') {
+            window.showToast("Hesaplama Yapıldı", "Boya ve astar ihtiyacı güncellendi.");
+        }
+    });
+
+    calcPaintRequirements();
+    setTimeout(calcPaintRequirements, 300);
+    window.addEventListener('load', calcPaintRequirements);
 })();
 </script>
 
