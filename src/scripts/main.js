@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollSpy();
     setupFilters();
     setupAnimationOnScroll();
+    initProtectedContact();
 });
 
 // --- KARANLIK/AYDINLIK TEMA GEÇİŞİ ---
@@ -410,3 +411,172 @@ function setupAnimationOnScroll() {
         });
     }, 500);
 }
+
+// --- KORUMALI İLETİŞİM BİLGİLERİ & PASSPHRASE ŞİFRE ÇÖZÜMÜ ---
+const ENCRYPTED_CONTACT_DATA = {
+    salt: "31fb6bb0361a8317b99f5de9550f3e77",
+    iv: "1468fd2662f7eec9023ac25a",
+    tag: "d4ecae57b1375f9d2ee4c0b8bf6d4293",
+    ciphertext: "947ea3926c271dd4eefa2bbf06c62c93926d3138ce862c60b6b317640f24708cd3e2cb418b38010a2076904778173b36f21c572bec881c5c7364bd92ff9ad1495036d746421e7a4c166a8523597dc81c0d61eade0f46b8"
+};
+
+async function decryptContactPayload(passphrase) {
+    const norm = passphrase.trim().toLowerCase();
+    const encoder = new TextEncoder();
+    const decoder = new TextDecoder();
+
+    function hexToBuf(hex) {
+        const bytes = new Uint8Array(hex.length / 2);
+        for (let i = 0; i < hex.length; i += 2) {
+            bytes[i / 2] = parseInt(hex.substr(i, 2), 16);
+        }
+        return bytes.buffer;
+    }
+
+    const saltBuf = hexToBuf(ENCRYPTED_CONTACT_DATA.salt);
+    const ivBuf = hexToBuf(ENCRYPTED_CONTACT_DATA.iv);
+    const ctBuf = hexToBuf(ENCRYPTED_CONTACT_DATA.ciphertext);
+    const tagBuf = hexToBuf(ENCRYPTED_CONTACT_DATA.tag);
+
+    const combined = new Uint8Array(ctBuf.byteLength + tagBuf.byteLength);
+    combined.set(new Uint8Array(ctBuf), 0);
+    combined.set(new Uint8Array(tagBuf), ctBuf.byteLength);
+
+    const baseKey = await window.crypto.subtle.importKey(
+        'raw',
+        encoder.encode(norm),
+        'PBKDF2',
+        false,
+        ['deriveKey']
+    );
+
+    const derivedKey = await window.crypto.subtle.deriveKey(
+        {
+            name: 'PBKDF2',
+            salt: saltBuf,
+            iterations: 100000,
+            hash: 'SHA-256'
+        },
+        baseKey,
+        { name: 'AES-GCM', length: 256 },
+        false,
+        ['decrypt']
+    );
+
+    const decryptedBuf = await window.crypto.subtle.decrypt(
+        { name: 'AES-GCM', iv: ivBuf },
+        derivedKey,
+        combined
+    );
+
+    const jsonStr = decoder.decode(decryptedBuf);
+    return JSON.parse(jsonStr);
+}
+
+function updateDOMWithDecryptedContact(data) {
+    // 1. Hero Meta Card Slots (index.astro)
+    const heroPhoneSlot = document.getElementById('heroPhoneSlot');
+    if (heroPhoneSlot) {
+        heroPhoneSlot.innerHTML = `<a href="${data.phoneTel}" class="meta-value unlocked-link">${data.phone}</a>`;
+    }
+
+    const heroAddressSlot = document.getElementById('heroAddressSlot');
+    if (heroAddressSlot) {
+        heroAddressSlot.innerHTML = `<span class="meta-value unlocked-text">${data.address}</span>`;
+    }
+
+    // 2. Contact Page Slots (iletisim.astro)
+    const contactPhoneSlot = document.getElementById('contactPhoneSlot');
+    const contactPhoneCard = document.getElementById('contactPhoneCard');
+    if (contactPhoneSlot && contactPhoneCard) {
+        contactPhoneSlot.innerHTML = `
+            <span class="contact-label">Telefon</span>
+            <a href="${data.phoneTel}" class="contact-value unlocked-link">${data.phone}</a>
+        `;
+        const badgeBtn = contactPhoneCard.querySelector('[data-action="unlockContact"]');
+        if (badgeBtn) {
+            badgeBtn.outerHTML = `<span class="unlocked-badge" title="Bilgi Doğrulandı">🔓 Doğrulandı</span>`;
+        }
+    }
+
+    const contactAddressSlot = document.getElementById('contactAddressSlot');
+    const contactAddressCard = document.getElementById('contactAddressCard');
+    if (contactAddressSlot && contactAddressCard) {
+        contactAddressSlot.innerHTML = `
+            <span class="contact-label">Konum / Adres</span>
+            <span class="contact-value unlocked-text">${data.address}</span>
+        `;
+        const badgeBtn = contactAddressCard.querySelector('[data-action="unlockContact"]');
+        if (badgeBtn) {
+            badgeBtn.outerHTML = `<span class="unlocked-badge" title="Bilgi Doğrulandı">🔓 Doğrulandı</span>`;
+        }
+    }
+}
+
+function initProtectedContact() {
+    const modal = document.getElementById('passphraseModal');
+    const form = document.getElementById('passphraseForm');
+    const input = document.getElementById('passphraseInput');
+    const closeBtn = document.getElementById('closePassphraseModal');
+
+    // Check if previously decrypted in this session
+    const savedDecrypted = sessionStorage.getItem('decryptedContactData');
+    if (savedDecrypted) {
+        try {
+            const data = JSON.parse(savedDecrypted);
+            updateDOMWithDecryptedContact(data);
+        } catch (e) {
+            sessionStorage.removeItem('decryptedContactData');
+        }
+    }
+
+    // Open Modal Triggers
+    document.addEventListener('click', (e) => {
+        const trigger = e.target.closest('[data-action="unlockContact"]');
+        if (trigger) {
+            e.preventDefault();
+            if (modal) {
+                modal.classList.remove('hidden');
+                setTimeout(() => input?.focus(), 100);
+            }
+        }
+    });
+
+    const closeModal = () => {
+        if (modal) modal.classList.add('hidden');
+        if (input) input.value = '';
+    };
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    modal?.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const val = input ? input.value : '';
+            if (!val) return;
+
+            const submitBtn = document.getElementById('btnUnlockSubmit');
+            if (submitBtn) submitBtn.disabled = true;
+
+            try {
+                const decryptedData = await decryptContactPayload(val);
+                sessionStorage.setItem('decryptedContactData', JSON.stringify(decryptedData));
+                updateDOMWithDecryptedContact(decryptedData);
+                closeModal();
+                showToast('Erişim Onaylandı', 'Telefon numarası ve adres başarıyla çözüldü.', 'success');
+            } catch (err) {
+                showToast('Hatalı Passphrase', 'Girilen şifre geçersiz. Lütfen tekrar deneyiniz.', 'error');
+                if (input) {
+                    input.classList.add('input-shake');
+                    setTimeout(() => input.classList.remove('input-shake'), 500);
+                }
+            } finally {
+                if (submitBtn) submitBtn.disabled = false;
+            }
+        });
+    }
+}
+

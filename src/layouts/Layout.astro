@@ -99,6 +99,27 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
     <!-- Custom Toast Notification Container -->
     <div class="toast-container" id="toastContainer"></div>
 
+    <!-- Passphrase Modal for Protected Contact Information -->
+    <div class="passphrase-modal-overlay hidden" id="passphraseModal">
+        <div class="passphrase-modal-card">
+            <button type="button" class="passphrase-modal-close" id="closePassphraseModal" aria-label="Kapat">&times;</button>
+            <div class="passphrase-icon">🔑</div>
+            <h3 class="passphrase-modal-title">Korumalı İletişim Bilgisi</h3>
+            <p class="passphrase-modal-desc">
+                Telefon numarası ve adres bilgilerini görüntülemek için lütfen erişim şifresini (passphrase) giriniz.
+            </p>
+            <form id="passphraseForm" class="passphrase-form">
+                <div class="passphrase-input-wrap">
+                    <input type="password" id="passphraseInput" placeholder="Erişim şifresi..." autocomplete="off" required />
+                    <button type="submit" class="btn btn-primary btn-unlock-submit" id="btnUnlockSubmit">
+                        <span>Çöz &amp; Göster</span>
+                    </button>
+                </div>
+            </form>
+            <p class="passphrase-hint">💡 <strong>İpucu:</strong> Erişim Şifresi: <code>ayt2026</code></p>
+        </div>
+    </div>
+
     <!-- Centralized Script -->
     <script src="../scripts/main.js"></script>
 </body>

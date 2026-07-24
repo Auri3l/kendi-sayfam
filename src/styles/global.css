@@ -2644,5 +2644,236 @@ a.meta-value:hover {
     }
 }
 
+/* ==========================================================================
+   PASSPHRASE MODAL & PROTECTED CONTACT ELEMENTS
+   ========================================================================== */
+.passphrase-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 1;
+    transition: opacity var(--transition-fast);
+}
+
+.passphrase-modal-overlay.hidden {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.passphrase-modal-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg, 16px);
+    padding: 2.5rem 2rem;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    box-shadow: var(--shadow-xl, 0 20px 50px rgba(0,0,0,0.5));
+    animation: modalAppear 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.92) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.passphrase-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.25rem;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.75rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: color var(--transition-fast);
+}
+
+.passphrase-modal-close:hover {
+    color: var(--text-primary);
+}
+
+.passphrase-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+    filter: drop-shadow(0 0 12px rgba(var(--accent-rgb), 0.4));
+}
+
+.passphrase-modal-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.passphrase-modal-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 1.75rem;
+}
+
+.passphrase-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.passphrase-input-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.passphrase-input-wrap input {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border-radius: var(--border-radius-md);
+    border: 1.5px solid var(--border-color);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 1rem;
+    text-align: center;
+    letter-spacing: 1px;
+    outline: none;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.passphrase-input-wrap input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.2);
+}
+
+.btn-unlock-submit {
+    width: 100%;
+    padding: 0.85rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.passphrase-hint {
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    background-color: rgba(var(--accent-rgb), 0.08);
+    padding: 0.6rem 1rem;
+    border-radius: var(--border-radius-sm, 8px);
+    border: 1px dashed var(--border-color);
+}
+
+.passphrase-hint code {
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+/* Shake Animation for Wrong Passphrase */
+.input-shake {
+    animation: inputShake 0.4s ease-in-out;
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25) !important;
+}
+
+@keyframes inputShake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
+}
+
+/* Protected Slot Styling */
+.protected-trigger-btn {
+    background: none;
+    border: 1px dashed var(--border-color);
+    border-radius: var(--border-radius-sm, 6px);
+    padding: 0.2rem 0.6rem;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.protected-trigger-btn:hover {
+    background-color: rgba(var(--accent-rgb), 0.12);
+    border-color: var(--accent-color);
+}
+
+.protected-contact-card {
+    position: relative;
+}
+
+.btn-unlock-badge {
+    margin-left: auto;
+    background-color: rgba(var(--accent-rgb), 0.12);
+    color: var(--accent-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm, 6px);
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    white-space: nowrap;
+}
+
+.btn-unlock-badge:hover {
+    background-color: var(--accent-color);
+    color: #ffffff;
+    border-color: var(--accent-color);
+}
+
+.unlocked-badge {
+    margin-left: auto;
+    background-color: rgba(34, 197, 94, 0.12);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: var(--border-radius-sm, 6px);
+    padding: 0.3rem 0.65rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.unlocked-link {
+    color: var(--accent-color) !important;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.unlocked-link:hover {
+    text-decoration: underline;
+}
+
+.unlocked-text {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
 
 

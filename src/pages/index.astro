@@ -36,15 +36,23 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                     <div class="meta-card-inner">
                         <div class="meta-item">
                             <span class="meta-label">Telefon</span>
-                            <a href="tel:+905321567693" class="meta-value">0532 156 76 93</a>
+                            <div id="heroPhoneSlot" class="protected-slot">
+                                <button type="button" class="meta-value protected-trigger-btn" data-action="unlockContact" title="Telefon Numarasını Şifre İle Aç">
+                                    <span class="lock-icon">🔒</span> <span class="protected-mask-text">•••••••••• (Şifreli)</span>
+                                </button>
+                            </div>
                         </div>
                         <div class="meta-item">
                             <span class="meta-label">E-posta</span>
                             <a href="mailto:ytelli@gmail.com" class="meta-value">ytelli@gmail.com</a>
                         </div>
                         <div class="meta-item">
-                            <span class="meta-label">Konum</span>
-                            <span class="meta-value">Tuzla / İstanbul</span>
+                            <span class="meta-label">Konum / Adres</span>
+                            <div id="heroAddressSlot" class="protected-slot">
+                                <button type="button" class="meta-value protected-trigger-btn" data-action="unlockContact" title="Adresi Şifre İle Aç">
+                                    <span class="lock-icon">🔒</span> <span class="protected-mask-text">•••••••••• (Şifreli)</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
