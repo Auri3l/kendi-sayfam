@@ -563,7 +563,8 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                         btn.classList.add('active');
                         document.getElementById(`tab-${targetTab}`)?.classList.add('active');
 
-                        if (targetTab === 'cephe') updateFacadeCalculations();
+                        if (targetTab === 'fem') updateFEMCalculations();
+                        else if (targetTab === 'cephe') updateFacadeCalculations();
                         else if (targetTab === 'beton') updateConcreteCalculations();
                         else if (targetTab === 'duvar') updateMasonryCalculations();
                         else if (targetTab === 'sap') updateScreedWetCalculations();
@@ -998,6 +999,64 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                         drawLoop();
                     }
 
+                function updateFEMCalculations() {
+                    if (!windSlider || !solarSlider || !widthSlider || !heightSlider || !glassSelect) return;
+                    
+                    const windSpeed = parseFloat(windSlider.value) || 90;
+                    const solarRad = parseFloat(solarSlider.value) || 400;
+                    const glassWidth = parseFloat(widthSlider.value) || 1.5;
+                    const glassHeight = parseFloat(heightSlider.value) || 3.0;
+                    const glassType = glassSelect.value || 'double-lowe';
+                    const props = GLASS_PROPS[glassType] || GLASS_PROPS['double-lowe'];
+                    
+                    const windSpeedMS = windSpeed / 3.6;
+                    const pressure = 0.613 * windSpeedMS * windSpeedMS;
+                    
+                    const E_Pa = props.E * 1e6;
+                    const t_m = props.t / 1000;
+                    const nu = 0.22;
+                    const D = (E_Pa * Math.pow(t_m, 3)) / (12 * (1 - nu * nu));
+                    
+                    const b_m = Math.min(glassWidth, glassHeight);
+                    const a_m = Math.max(glassWidth, glassHeight);
+                    
+                    const deflectionM = (5 * pressure * Math.pow(b_m, 4)) / (384 * D) * (1 / (1 + Math.pow(b_m / a_m, 4)));
+                    const realDeflectionMM = deflectionM * 1000;
+                    
+                    const netHeatGain = (solarRad * props.shgc) + (20 * props.u);
+                    
+                    if (windVal) windVal.innerText = `${windSpeed} km/h`;
+                    if (solarVal) solarVal.innerText = `${solarRad} W/m²`;
+                    if (widthVal) widthVal.innerText = `${glassWidth.toFixed(2)} m`;
+                    if (heightVal) heightVal.innerText = `${glassHeight.toFixed(2)} m`;
+                    if (pressureVal) pressureVal.innerText = `${Math.round(pressure)}`;
+                    if (deflectionVal) deflectionVal.innerText = realDeflectionMM.toFixed(2);
+                    if (heatVal) heatVal.innerText = Math.round(netHeatGain);
+                    if (savingVal) savingVal.innerText = `${props.saving}%`;
+                    
+                    const limitSpan = (b_m * 1000) / 300;
+                    const dangerLimit = (b_m * 1000) / 200;
+                    
+                    if (statusBadge && statusText) {
+                        statusBadge.className = 'sim-status-badge';
+                        if (realDeflectionMM <= limitSpan) {
+                            statusBadge.classList.add('status-safe');
+                            statusText.innerText = `Statik Limit: GÜVENLİ (Limit L/300: ${limitSpan.toFixed(1)} mm)`;
+                        } else if (realDeflectionMM <= dangerLimit) {
+                            statusBadge.classList.add('status-warning');
+                            statusText.innerText = `UYARI: SEHİM LİMİTİ AŞILDI (L/300: ${limitSpan.toFixed(1)} mm)`;
+                        } else {
+                            statusBadge.classList.add('status-danger');
+                            statusText.innerText = `TEHLİKE: YAPISAL KAPASİTE YETERSİZ (L/200: ${dangerLimit.toFixed(1)} mm)`;
+                        }
+                    }
+                }
+
+                [windSlider, solarSlider, widthSlider, heightSlider, glassSelect].filter(Boolean).forEach(el => {
+                    el.addEventListener('input', updateFEMCalculations);
+                    el.addEventListener('change', updateFEMCalculations);
+                });
+
                 // --- TAB 2: FACADE QUANTITY CALCULATIONS (10 METRICS) ---
                 const inpFacWidth = document.getElementById('inpFacWidth');
                 const inpFacHeight = document.getElementById('inpFacHeight');
@@ -1346,6 +1405,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                 }
 
                 document.getElementById('btnCalcFEM')?.addEventListener('click', () => {
+                    updateFEMCalculations();
                     flashTableUpdate('tab-fem', 'FEM Analizi Güncellendi', '3D Sehim ve rüzgar gerilmeleri yeniden hesaplandı.');
                 });
 
@@ -1417,6 +1477,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
 
                 // Run calculations immediately on script load
                 function initAllTakeoffs() {
+                    updateFEMCalculations();
                     updateFacadeCalculations();
                     updateConcreteCalculations();
                     updateMasonryCalculations();
