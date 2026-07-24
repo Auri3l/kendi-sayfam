@@ -1,7 +1,8 @@
 {
-  "name": "squealing-star",
+  "name": "kendi-sayfam",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "description": "Ata Yiğit Telli - İnşaat Mühendisi & Proje Yöneticisi Kişisel Portfolyo ve Blog Web Sitesi",
   "engines": {
     "node": ">=22.12.0"
   },

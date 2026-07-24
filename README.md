@@ -1,46 +1,47 @@
-# Astro Starter Kit: Basics
+# Ata Yiğit Telli — Kişisel Portfolyo & Blog Web Sitesi
 
-```sh
-npm create astro@latest -- --template basics
-```
+Ata Yiğit Telli'nin (İnşaat Mühendisi & Proje Yöneticisi) kişisel web sitesi ve blog platformu. Bu proje, **Astro v5+** mimarisi kullanılarak yüksek performanslı ve modüler bir statik site olarak geliştirilmiştir.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 🚀 Öne Çıkan Özellikler
 
-## 🚀 Project Structure
+- **Modern & Duyarlı Arayüz:** Endüstriyel koyu ve açık tema desteği (FOUC koruması ile).
+- **İnteraktif Simülatörler & Hesaplayıcılar:**
+  - 🏗️ **Beton & Donatı (Metraj) Simülatörü** (`/simulasyon`)
+  - 🎨 **Makale İçi İnteraktif Boya & Astar Hesaplayıcı Widget'ı** (`/makale/post_10`)
+- **Astro Content Collections:** Tip güvenli Markdown içerik yönetimi.
+- **SEO & Performans:** Hızlı yüklenme süreleri, semantik HTML, OpenGraph meta etiketleri ve duyarlı bileşenler.
+- **GitHub Pages Otomatik Yaygınlaştırma:** `.github/workflows/deploy.yml` aracılığıyla her push işleminde otomatik yayınlama.
 
-Inside of your Astro project, you'll see the following folders and files:
+## 📁 Proje Yapısı
 
 ```text
 /
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
+├── .github/workflows/   # GitHub Pages CI/CD workflow deployment
+├── public/              # Statik görsel varlıkları ve faviconlar
+│   └── images/          # Görseller (hero, kaba inşaat, cephe, yalıtım vb.)
+├── src/
+│   ├── content/         # Blog makaleleri (Markdown içerik koleksiyonları)
+│   │   └── blog/
+│   ├── data/            # Özgeçmiş ve deneyim verileri (profileData.js)
+│   ├── layouts/         # Ana sayfa düzeni ve navigasyon (Layout.astro)
+│   ├── pages/           # Sayfa rotaları (Ana Sayfa, Blog, Simülasyon, İletişim, Makale Detay)
+│   ├── scripts/         # Tema, navigasyon ve interaktif JS mantığı (main.js)
+│   └── styles/          # Global stil tanımlamaları ve CSS değişkenleri (global.css)
+├── astro.config.mjs     # Astro konfigürasyonu (Base path: /kendi-sayfam)
 └── package.json
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## 🛠️ Komutlar
 
-## 🧞 Commands
+Bütün komutlar kök dizinden çalıştırılır:
 
-All commands are run from the root of the project, from a terminal:
+| Komut | Açıklama |
+| :--- | :--- |
+| `npm install` | Proje bağımlılıklarını yükler |
+| `npm run dev` | Geliştirici sunucusunu yerelde başlatır (`http://localhost:4321/kendi-sayfam/`) |
+| `npm run build` | Üretim derlemesini hazırlar (`./dist/`) |
+| `npm run preview` | Derlenen siteyi yerelde önizler |
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## 🌐 Yayınlama (Deployment)
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Proje `main` dalına push yapıldığında GitHub Actions workflow'u tetiklenir ve site otomatik olarak **GitHub Pages** üzerinde güncellenir.
