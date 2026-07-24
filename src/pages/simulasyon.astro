@@ -207,8 +207,18 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                             </div>
                         </div>
                         <div class="metraj-table-panel sim-glass-card">
-                            <h4 class="metraj-panel-title">Cephe Malzeme Metraj Tablosu (Poz Listesi)</h4>
-                            <table class="metraj-table">
+                            <div class="metraj-table-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+                                <h4 class="metraj-panel-title" style="margin: 0; border: none; padding: 0;">Cephe Malzeme Metraj Tablosu (Poz Listesi)</h4>
+                                <div class="metraj-actions" style="display: flex; gap: 0.5rem;">
+                                    <button type="button" class="btn btn-secondary btn-export-csv" data-target="table-cephe" data-filename="Cephe_Metraj_Cetveli" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; cursor: pointer;">
+                                        📊 CSV (Excel) İndir
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-print-pdf" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; cursor: pointer;">
+                                        🖨️ Raporu Yazdır
+                                    </button>
+                                </div>
+                            </div>
+                            <table class="metraj-table" id="table-cephe">
                                 <thead>
                                     <tr>
                                         <th>Poz No</th>
@@ -300,8 +310,18 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                             </div>
                         </div>
                         <div class="metraj-table-panel sim-glass-card">
-                            <h4 class="metraj-panel-title">Kaba İnşaat Malzeme Metraj Tablosu (Beton, Kalıp, Demir)</h4>
-                            <table class="metraj-table">
+                            <div class="metraj-table-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+                                <h4 class="metraj-panel-title" style="margin: 0; border: none; padding: 0;">Kaba İnşaat Malzeme Metraj Tablosu (Beton, Kalıp, Demir)</h4>
+                                <div class="metraj-actions" style="display: flex; gap: 0.5rem;">
+                                    <button type="button" class="btn btn-secondary btn-export-csv" data-target="table-beton" data-filename="Kaba_Insaat_Beton_Kalip_Metraj_Cetveli" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; cursor: pointer;">
+                                        📊 CSV (Excel) İndir
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-print-pdf" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; cursor: pointer;">
+                                        🖨️ Raporu Yazdır
+                                    </button>
+                                </div>
+                            </div>
+                            <table class="metraj-table" id="table-beton">
                                 <thead>
                                     <tr>
                                         <th>Poz No</th>
@@ -374,8 +394,18 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                             </div>
                         </div>
                         <div class="metraj-table-panel sim-glass-card">
-                            <h4 class="metraj-panel-title">Duvar ve Sıva Malzemeleri Detaylı Metraj Cetveli</h4>
-                            <table class="metraj-table">
+                            <div class="metraj-table-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+                                <h4 class="metraj-panel-title" style="margin: 0; border: none; padding: 0;">Duvar ve Sıva Malzemeleri Detaylı Metraj Cetveli</h4>
+                                <div class="metraj-actions" style="display: flex; gap: 0.5rem;">
+                                    <button type="button" class="btn btn-secondary btn-export-csv" data-target="table-duvar" data-filename="Duvar_Siva_Metraj_Cetveli" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; cursor: pointer;">
+                                        📊 CSV (Excel) İndir
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-print-pdf" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; cursor: pointer;">
+                                        🖨️ Raporu Yazdır
+                                    </button>
+                                </div>
+                            </div>
+                            <table class="metraj-table" id="table-duvar">
                                 <thead>
                                     <tr>
                                         <th>Poz No</th>
@@ -467,8 +497,18 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                             </div>
                         </div>
                         <div class="metraj-table-panel sim-glass-card" style="max-height:600px; overflow-y:auto;">
-                            <h4 class="metraj-panel-title">Şap, Yalıtım ve Seramik Kaplama Metraj Cetveli (19 Parametre)</h4>
-                            <table class="metraj-table">
+                            <div class="metraj-table-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+                                <h4 class="metraj-panel-title" style="margin: 0; border: none; padding: 0;">Şap, Yalıtım ve Seramik Kaplama Metraj Cetveli (19 Parametre)</h4>
+                                <div class="metraj-actions" style="display: flex; gap: 0.5rem;">
+                                    <button type="button" class="btn btn-secondary btn-export-csv" data-target="table-sap" data-filename="Sap_Yalıtim_Seramik_Metraj_Cetveli" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; cursor: pointer;">
+                                        📊 CSV (Excel) İndir
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-print-pdf" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; cursor: pointer;">
+                                        🖨️ Raporu Yazdır
+                                    </button>
+                                </div>
+                            </div>
+                            <table class="metraj-table" id="table-sap">
                                 <thead>
                                     <tr>
                                         <th>Poz No</th>
@@ -1327,6 +1367,52 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                 document.getElementById('btnCalcSap')?.addEventListener('click', () => {
                     updateScreedWetCalculations();
                     flashTableUpdate('tab-sap', 'Şap & Seramik Metrajı Hesaplandı', '19 adet şap, izolasyon ve seramik malzemesi hesaplandı.');
+                });
+
+                // Export Table to CSV & Print Listeners
+                function exportTableToCSV(tableId, filename) {
+                    const table = document.getElementById(tableId);
+                    if (!table) return;
+
+                    let csvContent = "\uFEFF"; // UTF-8 BOM for Turkish character support in Excel
+                    const rows = table.querySelectorAll("tr");
+
+                    rows.forEach((row) => {
+                        const cols = row.querySelectorAll("th, td");
+                        const rowData = [];
+                        cols.forEach((col) => {
+                            let text = col.innerText.replace(/"/g, '""').trim();
+                            rowData.push(`"${text}"`);
+                        });
+                        csvContent += rowData.join(";") + "\n";
+                    });
+
+                    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+                    const link = document.createElement("a");
+                    const url = URL.createObjectURL(blob);
+                    link.setAttribute("href", url);
+                    link.setAttribute("download", `${filename}_${new Date().toISOString().slice(0, 10)}.csv`);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+
+                    if (typeof window.showToast === 'function') {
+                        window.showToast("Excel İndirildi", `${filename}.csv bilgisayarınıza aktarıldı.`);
+                    }
+                }
+
+                document.querySelectorAll('.btn-export-csv').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const targetId = btn.getAttribute('data-target');
+                        const filename = btn.getAttribute('data-filename') || 'Metraj_Cetveli';
+                        exportTableToCSV(targetId, filename);
+                    });
+                });
+
+                document.querySelectorAll('.btn-print-pdf').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        window.print();
+                    });
                 });
 
                 // Run calculations immediately on script load

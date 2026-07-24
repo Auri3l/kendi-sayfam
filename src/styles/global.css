@@ -2570,4 +2570,79 @@ a.meta-value:hover {
     box-shadow: 0 0 8px currentColor;
 }
 
+/* ==========================================================================
+   PRINT STYLES FOR METRAJ REPORTS & ARTICLES
+   ========================================================================== */
+@media print {
+    .main-header,
+    .main-footer,
+    .custom-cursor,
+    .custom-cursor-dot,
+    .toast-container,
+    .sim-tabs-container,
+    .sim-controls-panel,
+    .metraj-controls-panel,
+    .metraj-actions,
+    .calc-btn,
+    .back-to-blog,
+    .share-buttons-group {
+        display: none !important;
+    }
+
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-size: 12pt;
+    }
+
+    .sim-lab-section, .section {
+        margin-top: 0 !important;
+        padding: 0 !important;
+    }
+
+    .sim-tab-panel {
+        display: block !important;
+    }
+
+    .metraj-grid {
+        display: block !important;
+    }
+
+    .metraj-table-panel {
+        background: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+    }
+
+    .metraj-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        font-size: 11pt !important;
+        color: #000000 !important;
+    }
+
+    .metraj-table th, 
+    .metraj-table td {
+        border: 1px solid #333333 !important;
+        padding: 6px 10px !important;
+        color: #000000 !important;
+        background: none !important;
+    }
+
+    .metraj-table th {
+        background-color: #f0f0f0 !important;
+        font-weight: bold !important;
+    }
+
+    .metraj-table-title, .metraj-panel-title {
+        color: #000000 !important;
+        font-size: 14pt !important;
+        margin-bottom: 15px !important;
+    }
+}
+
+
 

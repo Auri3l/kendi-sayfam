@@ -262,10 +262,11 @@ window.showToast = showToast;
 function initScrollSpy() {
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
     const scrollIndicator = document.querySelector('.scroll-indicator');
     
-    const isHomePage = (currentPage === 'index.html' || currentPage === '' || currentPage === '/' || currentPage === 'kendi-sayfam' || currentPage === 'kendi-sayfam/');
+    // Normalize path by stripping trailing slashes
+    const cleanPath = window.location.pathname.replace(/\/$/, '').toLowerCase();
+    const isHomePage = (cleanPath === '' || cleanPath.endsWith('/kendi-sayfam') || cleanPath.endsWith('index.html') || cleanPath.endsWith('/index'));
     const offset = 100;
 
     window.addEventListener('scroll', () => {
@@ -279,7 +280,7 @@ function initScrollSpy() {
             }
         }
 
-        if (isHomePage) {
+        if (isHomePage && sections.length > 0) {
             sections.forEach(section => {
                 const sectionTop = section.offsetTop - offset;
                 const sectionHeight = section.offsetHeight;
@@ -287,9 +288,9 @@ function initScrollSpy() {
 
                 if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
                     navLinks.forEach(link => {
-                        link.classList.remove('active');
-                        const href = link.getAttribute('href');
-                        if (href === `#${sectionId}` || href === `index.html#${sectionId}` || href.endsWith(`#${sectionId}`)) {
+                        const href = link.getAttribute('href') || '';
+                        if (href === `#${sectionId}` || href.endsWith(`#${sectionId}`)) {
+                            navLinks.forEach(l => l.classList.remove('active'));
                             link.classList.add('active');
                         }
                     });
