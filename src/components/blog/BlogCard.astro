@@ -1,0 +1,58 @@
+---
+interface Props {
+    id: string;
+    title: string;
+    date: string;
+    category: string;
+    excerpt: string;
+    imageUrl?: string;
+    timestamp: number;
+    month: string;
+    idx: number;
+    base: string;
+}
+
+const {
+    id,
+    title,
+    date,
+    category,
+    excerpt,
+    imageUrl,
+    timestamp,
+    month,
+    idx,
+    base
+} = Astro.props;
+---
+
+<article 
+    class="blog-card reveal" 
+    style={`animation-delay: ${idx * 0.15}s;`}
+    data-timestamp={timestamp}
+    data-month={month}
+    data-category={category}
+>
+    <div>
+        {imageUrl && (
+            <div class="blog-card-cover" style="margin-bottom: 1.5rem; border-radius: var(--border-radius-md); overflow: hidden; height: 180px; border: 1px solid var(--border-color);">
+                <img src={`${base}${imageUrl}`} alt={title} style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" loading="lazy" />
+            </div>
+        )}
+        <div class="blog-card-meta">
+            <span class="blog-card-date">{date}</span>
+            <span class="blog-card-category">{category}</span>
+        </div>
+        <h4 class="blog-card-title">{title}</h4>
+        <p class="blog-card-excerpt">{excerpt}</p>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+        <a href={`${base}makale/${id}/`} class="blog-read-more-btn" style="text-decoration: none;" id={`readMore_${id}`}>
+            Yazıyı Oku
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+        </a>
+    </div>
+</article>

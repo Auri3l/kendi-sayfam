@@ -1,35 +1,65 @@
 ---
 import '../styles/global.css';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import CustomCursor from '../components/ui/CustomCursor.astro';
+import ToastContainer from '../components/ui/ToastContainer.astro';
+import PassphraseModal from '../components/ui/PassphraseModal.astro';
 
 interface Props {
 	title?: string;
 	description?: string;
 	activePage?: string;
+	ogImage?: string;
 }
 
 const { 
 	title = "Ata Yiğit Telli | İnşaat Mühendisi & Proje Yöneticisi", 
 	description = "Ata Yiğit Telli - İnşaat Mühendisi. Büyük ölçekli projelerde saha şefliği, proje yönetimi ve sözleşme uzmanlığı.",
-	activePage = "home" 
+	activePage = "home",
+	ogImage
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://aur13l.github.io');
+const resolvedOgImage = ogImage ? new URL(`${base}${ogImage}`, Astro.site || 'https://aur13l.github.io').href : new URL(`${base}images/hero_bg.png`, Astro.site || 'https://aur13l.github.io').href;
 ---
 
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content={description}>
-    <!-- Favicon & Monogram Icon -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    
+    <!-- Canonical & Robots -->
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Ata Yiğit Telli" />
+
+    <!-- Open Graph / Facebook / LinkedIn -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={resolvedOgImage} />
+    <meta property="og:locale" content="tr_TR" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={resolvedOgImage} />
+
+    <!-- Favicon & Monogram Icons -->
     <link rel="icon" type="image/x-icon" href={`${base}favicon.ico`} />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     
     <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     
     <!-- Prevent FOUC Theme Flash -->
     <script is:inline>
@@ -46,81 +76,22 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
 </head>
 <body class="dark-theme">
     <!-- Custom Cursor Effect -->
-    <div class="custom-cursor"></div>
-    <div class="custom-cursor-dot"></div>
+    <CustomCursor />
 
     <!-- Navigation Header -->
-    <header class="main-header">
-        <div class="header-container">
-            <a href={base} class="logo-monogram" aria-label="Ana Sayfa">
-                <span>AYT</span>
-            </a>
-            
-            <nav class="nav-menu" id="navMenu">
-                <ul>
-                    <li><a href={`${base}#hakkimda`} class={`nav-link ${activePage === 'home' ? 'active' : ''}`}>Hakkımda (CV)</a></li>
-                    <li><a href={`${base}#projeler`} class="nav-link">Projeler</a></li>
-                    <li><a href={`${base}simulasyon/`} class={`nav-link ${activePage === 'simulasyon' ? 'active' : ''}`}>Simülatör</a></li>
-                    <li><a href={`${base}blog/`} class={`nav-link ${activePage === 'blog' ? 'active' : ''}`}>Blog</a></li>
-                    <li><a href={`${base}iletisim/`} class={`nav-link ${activePage === 'iletisim' ? 'active' : ''}`}>İletişim</a></li>
-                </ul>
-            </nav>
-
-            <div class="header-actions">
-                <!-- Theme Switcher Button -->
-                <button id="themeToggle" class="theme-toggle-btn" aria-label="Temayı Değiştir" title="Endüstriyel Açık / Endüstriyel Koyu Temalar Arasında Geçiş Yap">
-                    <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20">
-                        <circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/>
-                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                    <svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-                
-                <!-- Mobile Navigation Toggle -->
-                <button id="mobileNavToggle" class="mobile-nav-toggle" aria-label="Menüyü Aç/Kapat">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </button>
-            </div>
-        </div>
-    </header>
+    <Header activePage={activePage} base={base} />
 
     <!-- Main Content Slot -->
     <slot />
 
     <!-- Footer -->
-    <footer class="main-footer">
-        <div class="container footer-container">
-            <p class="copyright">© 2026 Ata Yiğit Telli. Tüm hakları saklıdır.</p>
-        </div>
-    </footer>
+    <Footer />
 
     <!-- Custom Toast Notification Container -->
-    <div class="toast-container" id="toastContainer"></div>
+    <ToastContainer />
 
     <!-- Passphrase Modal for Protected Contact Information -->
-    <div class="passphrase-modal-overlay hidden" id="passphraseModal">
-        <div class="passphrase-modal-card">
-            <button type="button" class="passphrase-modal-close" id="closePassphraseModal" aria-label="Kapat">&times;</button>
-            <div class="passphrase-icon">🔑</div>
-            <h3 class="passphrase-modal-title">Korumalı İletişim Bilgisi</h3>
-            <p class="passphrase-modal-desc">
-                Telefon numarası ve adres bilgilerini görüntülemek için lütfen erişim şifresini (passphrase) giriniz.
-            </p>
-            <form id="passphraseForm" class="passphrase-form">
-                <div class="passphrase-input-wrap">
-                    <input type="password" id="passphraseInput" placeholder="Erişim şifresi..." autocomplete="off" required />
-                    <button type="submit" class="btn btn-primary btn-unlock-submit" id="btnUnlockSubmit">
-                        <span>Çöz &amp; Göster</span>
-                    </button>
-                </div>
-            </form>
-            <p class="passphrase-hint">💡 <strong>İpucu:</strong> Erişim Şifresi: <code>ayt2026</code></p>
-        </div>
-    </div>
+    <PassphraseModal />
 
     <!-- Centralized Script -->
     <script src="../scripts/main.js"></script>

@@ -1,0 +1,73 @@
+---
+interface SubRole {
+    title: string;
+    date: string;
+}
+
+interface Props {
+    role: string;
+    company: string;
+    period: string;
+    location: string;
+    categories: string[];
+    description: string;
+    details?: string[];
+    subRoles?: SubRole[];
+    tags?: string[];
+    idx?: number;
+}
+
+const {
+    role,
+    company,
+    period,
+    location,
+    categories,
+    description,
+    details = [],
+    subRoles = [],
+    tags = [],
+    idx = 0
+} = Astro.props;
+
+const categoriesStr = categories.join(' ');
+---
+
+<div class="timeline-item reveal" data-categories={categoriesStr} style={`animation-delay: ${idx * 0.1}s`}>
+    <div class="timeline-node"></div>
+    <div class="timeline-meta">
+        <span class="timeline-date">{period}</span>
+        <span class="timeline-location">{location}</span>
+    </div>
+    <div class="timeline-card">
+        <h4 class="timeline-role-title">{role}</h4>
+        <h5 class="timeline-company">{company}</h5>
+        <p class="timeline-desc">{description}</p>
+        
+        {details && details.length > 0 && (
+            <ul class="timeline-details">
+                {details.map(det => <li>{det}</li>)}
+            </ul>
+        )}
+
+        {subRoles && subRoles.length > 0 && (
+            <div class="timeline-sub-roles">
+                <span class="sub-role-title">Kariyer Basamakları</span>
+                <div class="sub-roles-grid">
+                    {subRoles.map(sub => (
+                        <div class="sub-role-card">
+                            <span class="sub-role-name">{sub.title}</span>
+                            <span class="sub-role-date">{sub.date}</span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        )}
+
+        {tags && tags.length > 0 && (
+            <div class="timeline-tags">
+                {tags.map(tag => <span class="tag">{tag}</span>)}
+            </div>
+        )}
+    </div>
+</div>

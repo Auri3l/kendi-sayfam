@@ -1,0 +1,107 @@
+---
+---
+
+<div class="sim-tab-panel active" id="tab-fem" role="tabpanel" aria-labelledby="tab-fem-btn">
+    <div class="sim-grid-layout">
+        <!-- Left: Interactive Canvas Visualizer -->
+        <div class="sim-canvas-container">
+            <canvas id="facadeCanvas"></canvas>
+            <div class="sim-panel-overlay">
+                <div class="sim-panel-title">Canlı 3D FEM &amp; Termal Analiz</div>
+            </div>
+            <div class="sim-fem-hud" id="femHUD">
+                <div class="hud-title">FEM DÜĞÜM ANALİZÖRÜ</div>
+                <div class="hud-row"><span class="hud-label">Düğüm (Node):</span> <span class="hud-value" id="hudNode">-</span></div>
+                <div class="hud-row"><span class="hud-label">Koordinat:</span> <span class="hud-value" id="hudCoord">-</span></div>
+                <div class="hud-row"><span class="hud-label">Sehim (Deflection):</span> <span class="hud-value" id="hudDeflect">-</span></div>
+                <div class="hud-row"><span class="hud-label">Gerilme (Stress):</span> <span class="hud-value" id="hudStress">-</span></div>
+            </div>
+        </div>
+
+        <!-- Right: Control Deck & Telemetry -->
+        <div class="sim-control-deck">
+            <div class="sim-glass-card">
+                <h4 style="color: var(--text-primary); font-size: 1.2rem; font-weight: 700; margin-top: 0; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">Yük ve Geometri Kontrol Paneli</h4>
+                
+                <div class="sim-controls-wrapper">
+                    <div class="sim-control-group">
+                        <div class="sim-control-label-row">
+                            <span class="sim-control-label">Rüzgar Hızı (Wind Speed)</span>
+                            <span class="sim-control-value" id="windVal">90 km/h</span>
+                        </div>
+                        <input type="range" id="windSlider" min="0" max="240" value="90" class="sim-range-input" aria-label="Rüzgar Hızı" />
+                    </div>
+
+                    <div class="sim-control-group">
+                        <div class="sim-control-label-row">
+                            <span class="sim-control-label">Güneş Radyasyonu (Solar Intensity)</span>
+                            <span class="sim-control-value" id="solarVal">400 W/m²</span>
+                        </div>
+                        <input type="range" id="solarSlider" min="0" max="1000" value="400" class="sim-range-input" aria-label="Güneş Radyasyonu" />
+                    </div>
+
+                    <div class="sim-control-group">
+                        <div class="sim-control-label-row">
+                            <span class="sim-control-label">Cam Genişliği (Width - b)</span>
+                            <span class="sim-control-value" id="widthVal">1.50 m</span>
+                        </div>
+                        <input type="range" id="widthSlider" min="0.5" max="3.0" step="0.1" value="1.5" class="sim-range-input" aria-label="Cam Genişliği" />
+                    </div>
+
+                    <div class="sim-control-group">
+                        <div class="sim-control-label-row">
+                            <span class="sim-control-label">Cam Yüksekliği (Height - a)</span>
+                            <span class="sim-control-value" id="heightVal">3.00 m</span>
+                        </div>
+                        <input type="range" id="heightSlider" min="1.0" max="4.5" step="0.1" value="3.0" class="sim-range-input" aria-label="Cam Yüksekliği" />
+                    </div>
+
+                    <div class="sim-control-group">
+                        <label class="sim-control-label" for="glassSelect">Cam Kombinasyonu (Glass Type)</label>
+                        <select id="glassSelect" class="sim-select">
+                            <option value="single">Tek Kat Düz Cam (4mm) [U: 5.8, SHGC: 0.82]</option>
+                            <option value="double">Standart Çift Cam (24mm) [U: 2.7, SHGC: 0.70]</option>
+                            <option value="double-lowe" selected>Çift Cam Low-E (Argon) [U: 1.4, SHGC: 0.40]</option>
+                            <option value="triple-lowe">Üç Cam Low-E (Argon Dolgulu) [U: 0.8, SHGC: 0.32]</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="btn btn-primary calc-btn" id="btnCalcFEM" style="width: 100%; margin-top: 0.5rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2 12 22"/><line x1="2" y1="17" x2="12" y2="22"/><line x1="22" y1="17" x2="12" y2="22"/><line x1="2" y1="12" x2="12" y2="17"/><line x1="22" y1="12" x2="12" y2="17"/></svg>
+                        ⚡ 3D FEM Analizini Yeniden Hesapla
+                    </button>
+                </div>
+            </div>
+
+            <!-- Telemetry Gauges Dashboard -->
+            <div class="sim-dashboard-grid">
+                <div class="sim-stat-card">
+                    <span class="sim-stat-label">Rüzgar Basıncı</span>
+                    <span class="sim-stat-value" id="pressureVal">383</span>
+                    <span class="sim-stat-unit">Pascal (Pa)</span>
+                </div>
+                <div class="sim-stat-card">
+                    <span class="sim-stat-label">Panel Sehim Değeri</span>
+                    <span class="sim-stat-value" id="deflectionVal">3.2</span>
+                    <span class="sim-stat-unit">Milimetre (mm)</span>
+                </div>
+                <div class="sim-stat-card">
+                    <span class="sim-stat-label">Isı İletim Hızı</span>
+                    <span class="sim-stat-value" id="heatVal">160</span>
+                    <span class="sim-stat-unit">Watt / m² (W)</span>
+                </div>
+                <div class="sim-stat-card">
+                    <span class="sim-stat-label">Termal Verimlilik</span>
+                    <span class="sim-stat-value" id="savingVal">51%</span>
+                    <span class="sim-stat-unit">Tek Cama Göre</span>
+                </div>
+            </div>
+
+            <!-- Status Alert Indicator -->
+            <div class="sim-status-badge status-safe" id="statusBadge">
+                <span class="sim-status-dot"></span>
+                <span id="statusText">Statik Sınır: GÜVENLİ</span>
+            </div>
+        </div>
+    </div>
+</div>

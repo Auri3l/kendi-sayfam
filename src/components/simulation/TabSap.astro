@@ -1,0 +1,112 @@
+---
+---
+
+<div class="sim-tab-panel" id="tab-sap" role="tabpanel" aria-labelledby="tab-sap-btn">
+    <div class="metraj-grid">
+        <div class="metraj-controls-panel sim-glass-card">
+            <h4 class="metraj-panel-title">Şap, İzolasyon &amp; Seramik Girdileri</h4>
+            <div class="sim-controls-wrapper">
+                <div class="sim-control-group">
+                    <div class="sim-control-label-row">
+                        <span class="sim-control-label">Islak Hacim Zemin Alanı</span>
+                        <span class="sim-control-value" id="inpWetAreaVal">35 m²</span>
+                    </div>
+                    <input type="range" id="inpWetArea" min="5" max="150" value="35" class="sim-range-input" aria-label="Islak Hacim Zemin Alanı" />
+                </div>
+                <div class="sim-control-group">
+                    <div class="sim-control-label-row">
+                        <span class="sim-control-label">Zemin Çevresi (Pah Bandı İçin)</span>
+                        <span class="sim-control-value" id="inpWetPerimeterVal">24 m</span>
+                    </div>
+                    <input type="range" id="inpWetPerimeter" min="4" max="80" value="24" class="sim-range-input" aria-label="Zemin Çevresi" />
+                </div>
+                <div class="sim-control-group">
+                    <div class="sim-control-label-row">
+                        <span class="sim-control-label">Dökülecek Şap Kalınlığı</span>
+                        <span class="sim-control-value" id="inpScreedThkVal">5.0 cm</span>
+                    </div>
+                    <input type="range" id="inpScreedThk" min="2.0" max="8.0" step="0.5" value="5.0" class="sim-range-input" aria-label="Şap Kalınlığı" />
+                </div>
+                <div class="sim-control-group">
+                    <label class="sim-control-label" for="inpScreedGrade">Şap Çimento Dozaj Sınıfı</label>
+                    <select id="inpScreedGrade" class="sim-select">
+                        <option value="300">300 kg Çimento / m³ Sand (Hafif Şap)</option>
+                        <option value="350" selected>350 kg Çimento / m³ Sand (Standart Şantiye Şapı)</option>
+                    </select>
+                </div>
+                <div class="sim-control-group">
+                    <div class="sim-control-label-row">
+                        <span class="sim-control-label">Duvar Yalıtım Yüksekliği (Zeminden)</span>
+                        <span class="sim-control-value" id="inpIsoHeightVal">1.20 m</span>
+                    </div>
+                    <input type="range" id="inpIsoHeight" min="0.2" max="2.2" step="0.10" value="1.2" class="sim-range-input" aria-label="Duvar Yalıtım Yüksekliği" />
+                </div>
+                <div class="sim-control-group">
+                    <label class="sim-control-label" for="inpTileSize">Seçilen Seramik Boyutları</label>
+                    <select id="inpTileSize" class="sim-select">
+                        <option value="3060">30 x 60 cm Seramik</option>
+                        <option value="6060" selected>60 x 60 cm Seramik</option>
+                        <option value="6012">60 x 120 cm Seramik</option>
+                    </select>
+                </div>
+                <div class="sim-control-group">
+                    <label class="sim-control-label" for="inpIsoCoats">Yalıtım Katı Sayısı (Sürme Yalıtım)</label>
+                    <input type="number" id="inpIsoCoats" value="2" min="1" max="3" class="sim-select" style="padding:0.5rem;" />
+                </div>
+                <div class="sim-control-group">
+                    <label class="sim-control-label" for="inpTileWaste">Seramik Fire Kayıp Oranı (%)</label>
+                    <input type="number" id="inpTileWaste" value="8" min="2" max="20" class="sim-select" style="padding:0.5rem;" />
+                </div>
+
+                <button type="button" class="btn btn-primary calc-btn" id="btnCalcSap" style="width: 100%; margin-top: 0.5rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M8 11h8M12 7v8"/></svg>
+                    ⚡ Şap &amp; Seramik Metrajını Hesapla
+                </button>
+            </div>
+        </div>
+        <div class="metraj-table-panel sim-glass-card" style="max-height:600px; overflow-y:auto;">
+            <div class="metraj-table-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+                <h4 class="metraj-panel-title" style="margin: 0; border: none; padding: 0;">Şap, Yalıtım ve Seramik Kaplama Metraj Cetveli (19 Parametre)</h4>
+                <div class="metraj-actions" style="display: flex; gap: 0.5rem;">
+                    <button type="button" class="btn btn-secondary btn-export-csv" data-target="table-sap" data-filename="Sap_Yalıtim_Seramik_Metraj_Cetveli" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; cursor: pointer;">
+                        📊 CSV (Excel) İndir
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-print-pdf" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; cursor: pointer;">
+                        🖨️ Raporu Yazdır
+                    </button>
+                </div>
+            </div>
+            <table class="metraj-table" id="table-sap">
+                <thead>
+                    <tr>
+                        <th scope="col">Poz No</th>
+                        <th scope="col">Açıklama (Finishing &amp; Wet Area Item)</th>
+                        <th scope="col">Metraj Miktarı</th>
+                        <th scope="col">Birim</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>S-01</td><td>Toplam Şap Harcı Hacmi</td><td id="outScreedVol">-</td><td>m³</td></tr>
+                    <tr><td>S-02</td><td>Şap Çimentosu İhtiyacı</td><td id="outScreedCement">-</td><td>Torba (25kg)</td></tr>
+                    <tr><td>S-03</td><td>Şap Kum İhtiyacı</td><td id="outScreedSand">-</td><td>Ton</td></tr>
+                    <tr><td>S-04</td><td>Şap Karışım Suyu İhtiyacı</td><td id="outScreedWater">-</td><td>Litre</td></tr>
+                    <tr><td>S-05</td><td>Şap PP Elyaf Katkı Ağırlığı (Çatlama Önleyici)</td><td id="outScreedFiber">-</td><td>kg</td></tr>
+                    <tr><td>S-06</td><td>Şap Akışkanlaştırıcı Kimyasal Katkı Miktarı</td><td id="outScreedAdditive">-</td><td>Litre</td></tr>
+                    <tr><td>S-07</td><td>Zemin Şap Altı Çelik Hasır Alanı (Bindirme Dahil)</td><td id="outScreedMesh">-</td><td>m²</td></tr>
+                    <tr><td>S-08</td><td>Duvar Dibi Dilatasyon Genleşme Bandı Metrajı</td><td id="outScreedJointTape">-</td><td>mt</td></tr>
+                    <tr><td>S-09</td><td>Toplam Sürme Su Yalıtımı Uygulama Alanı</td><td id="outWaterproofArea">-</td><td>m²</td></tr>
+                    <tr><td>S-10</td><td>Su Yalıtımı Çift Bileşen Sıvı Akrilik Kısmı</td><td id="outWaterproofLiquid">-</td><td>kg</td></tr>
+                    <tr><td>S-11</td><td>Su Yalıtımı Çift Bileşen Toz Çimento Kısmı</td><td id="outWaterproofPowder">-</td><td>kg</td></tr>
+                    <tr><td>S-12</td><td>Pah Güçlendirme Yalıtım Derz Filesi Alanı</td><td id="outWaterproofMesh">-</td><td>m²</td></tr>
+                    <tr><td>S-13</td><td>Köşe Elastik Su Yalıtımı Pah Bandı Metrajı</td><td id="outWaterproofBand">-</td><td>mt</td></tr>
+                    <tr><td>S-14</td><td>Zemin Tozuma Önleyici Akrilik Astar Miktarı</td><td id="outPrimerWeight">-</td><td>kg</td></tr>
+                    <tr><td>S-15</td><td>Net Seramik Kaplama Alanı (Zemin + Duvar)</td><td id="outTileArea">-</td><td>m²</td></tr>
+                    <tr><td>S-16</td><td>Gerekli Seramik Paketi Sayısı</td><td id="outTileBoxes">-</td><td>Kutu</td></tr>
+                    <tr><td>S-17</td><td>Seramik Çimento Esaslı Yapıştırıcı Torba Sayısı</td><td id="outTileAdhesive">-</td><td>Torba (25kg)</td></tr>
+                    <tr><td>S-18</td><td>Seramik Derz Dolgusu Malzemesi</td><td id="outTileGrout">-</td><td>Torba (5kg)</td></tr>
+                    <tr><td>S-19</td><td>Seramik Hizalama Derz Artısı (Derz Haçı) Sayısı</td><td id="outTileSpacers">-</td><td>Adet</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
