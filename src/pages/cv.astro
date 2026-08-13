@@ -1,0 +1,498 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
+---
+
+<Layout title="Harvard Formatında CV | Ata Yiğit Telli" activePage="cv" description="Ata Yiğit Telli - İnşaat Mühendisi & Proje Yöneticisi Harvard Template Standartlarında Profesyonel Özgeçmiş (CV).">
+    <main>
+        <div class="cv-page-wrapper">
+            <!-- Top Controls Toolbar (Hidden in Print) -->
+            <div class="cv-toolbar no-print">
+                <div class="cv-toolbar-container">
+                    <a href={base} class="btn btn-secondary btn-sm cv-back-btn">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        Ana Sayfaya Dön
+                    </a>
+
+                    <div class="cv-toolbar-actions">
+                        <span class="cv-format-badge">Harvard Standart Formatı</span>
+                        <button type="button" class="btn btn-primary btn-sm" id="btnPrintCv" style="display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                                <rect x="6" y="14" width="12" height="8"></rect>
+                            </svg>
+                            Yazdır / PDF Olarak Kaydet
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Harvard Standard CV Sheet Container -->
+            <div class="harvard-cv-paper" id="harvardCvPaper">
+                <!-- Header: Name & Contact Information (Centered) -->
+                <header class="hcv-header">
+                    <h1 class="hcv-name">ATA YİĞİT TELLİ</h1>
+                    <p class="hcv-title">İnşaat Mühendisi &amp; Proje Yöneticisi</p>
+                    <div class="hcv-contact-line">
+                        <span>İstanbul, Türkiye</span>
+                        <span class="hcv-sep">•</span>
+                        <span id="cvPhoneSlot" class="protected-slot">
+                            <button type="button" class="protected-trigger-btn hcv-link" data-action="unlockContact" title="Telefon Numarasını Aç">
+                                🔒 +90 538 412 18 97 (Şifreli)
+                            </button>
+                        </span>
+                        <span class="hcv-sep">•</span>
+                        <a href="mailto:ytelli@gmail.com" class="hcv-link">ytelli@gmail.com</a>
+                        <span class="hcv-sep">•</span>
+                        <a href="https://www.linkedin.com/in/ay-t" target="_blank" rel="noopener noreferrer" class="hcv-link">linkedin.com/in/ay-t</a>
+                    </div>
+                </header>
+
+                <!-- 1. EDUCATION (EĞİTİM) -->
+                <section class="hcv-section">
+                    <h2 class="hcv-section-title">EĞİTİM / EDUCATION</h2>
+                    
+                    <div class="hcv-entry">
+                        <div class="hcv-entry-row">
+                            <span class="hcv-bold">İSTANBUL GEDİK ÜNİVERSİTESİ</span>
+                            <span class="hcv-right">İstanbul, Türkiye</span>
+                        </div>
+                        <div class="hcv-entry-row">
+                            <span class="hcv-italic">Yüksek Lisans: İş Sağlığı ve Güvenliği</span>
+                            <span class="hcv-right hcv-italic">2017 – 2018</span>
+                        </div>
+                    </div>
+
+                    <div class="hcv-entry">
+                        <div class="hcv-entry-row">
+                            <span class="hcv-bold">OKAN ÜNİVERSİTESİ</span>
+                            <span class="hcv-right">İstanbul, Türkiye</span>
+                        </div>
+                        <div class="hcv-entry-row">
+                            <span class="hcv-italic">Lisans: İnşaat Mühendisliği (%100 İngilizce)</span>
+                            <span class="hcv-right hcv-italic">2011 – 2015</span>
+                        </div>
+                    </div>
+
+                    <div class="hcv-entry">
+                        <div class="hcv-entry-row">
+                            <span class="hcv-bold">BEHİYE DR. NEVHİZ IŞIL ANADOLU LİSESİ</span>
+                            <span class="hcv-right">İstanbul, Türkiye</span>
+                        </div>
+                        <div class="hcv-entry-row">
+                            <span class="hcv-italic">Lise: Sayısal Bölüm</span>
+                            <span class="hcv-right hcv-italic">2006 – 2011</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. PROFESSIONAL EXPERIENCE (MESLEKİ DENEYİM) -->
+                <section class="hcv-section">
+                    <h2 class="hcv-section-title">MESLEKİ DENEYİM / PROFESSIONAL EXPERIENCE</h2>
+
+                    <!-- Experience 1 -->
+                    <div class="hcv-entry">
+                        <div class="hcv-entry-row">
+                            <span class="hcv-bold">TRENDWORLD MİMARLIK</span>
+                            <span class="hcv-right">İstanbul, Türkiye</span>
+                        </div>
+                        <div class="hcv-entry-row">
+                            <span class="hcv-italic">İnşaat Mühendisi / Saha Sorumlusu</span>
+                            <span class="hcv-right hcv-italic">Haziran 2026 – Devam Ediyor</span>
+                        </div>
+                        <ul class="hcv-bullets">
+                            <li>Ana müteahhit şantiye standartları doğrultusunda taşeron saha operasyonlarının sevk ve idaresinin yürütülmesi.</li>
+                            <li>Saha ekiplerinin günlük ve haftalık iş programlarının ana iş takvimine entegre edilmesi ve sahada takibi.</li>
+                            <li>İş güvenliği, teknik şartname ve kalite kontrol standartlarının eksiksiz uygulanmasının denetlenmesi.</li>
+                            <li>Taşeron sözleşme süreçlerinin, kapsam değişikliklerinin ve hakedişlerin idari ve teknik takibi.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Experience 2 -->
+                    <div class="hcv-entry">
+                        <div class="hcv-entry-row">
+                            <span class="hcv-bold">AA&amp;TD BUILDING SOLUTIONS (NCC PROJESİ)</span>
+                            <span class="hcv-right">İstanbul, Türkiye</span>
+                        </div>
+                        <div class="hcv-entry-row">
+                            <span class="hcv-italic">İnşaat Mühendisi / Teknik Ofis &amp; Proje Şefi</span>
+                            <span class="hcv-right hcv-italic">Aralık 2023 – Mart 2026</span>
+                        </div>
+                        <ul class="hcv-bullets">
+                            <li>Üstyapı projelerinde taşeron sözleşme yönetimi, teknik ofis süreçleri ve şantiye koordinasyonu.</li>
+                            <li>Ana müteahhit ve taşeron ilişkileri kapsamında sözleşme yönetimi, hakediş ve metraj kontrollerinin yürütülmesi.</li>
+                            <li>Mimari uygulama detaylarının şantiye şartlarına uygunluğunun denetlenmesi ve revizyonların yönetimi.</li>
+                            <li>Saha ilerleme raporlarının hazırlanması, bütçe takibi ve proje yönetimine periyodik sunumların yapılması.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Experience 3 -->
+                    <div class="hcv-entry">
+                        <div class="hcv-entry-row">
+                            <span class="hcv-bold">METAL YAPI</span>
+                            <span class="hcv-right">İstanbul, Türkiye &amp; ABD</span>
+                        </div>
+                        <div class="hcv-entry-row">
+                            <span class="hcv-italic">Proje Yöneticisi / İnşaat Mühendisi</span>
+                            <span class="hcv-right hcv-italic">Ekim 2016 – Temmuz 2023</span>
+                        </div>
+                        <div class="hcv-subroles">
+                            <span class="hcv-italic">Associate Project Manager (02/2023–07/2023) | Assistant Project Manager (11/2019–07/2023) | Civil Engineer (10/2016–07/2023)</span>
+                        </div>
+                        <ul class="hcv-bullets">
+                            <li>New York'taki One Madison Ave. ve One Willoughby Sq. kule projelerinde cephe imalat ve tasarım koordinasyonunun Türkiye'den yönetimi.</li>
+                            <li>Ana müteahhitler (Turner Construction, Gilbane vb.) ile teknik şartname, sözleşme ve onay süreçlerinin yürütülmesi.</li>
+                            <li>BIM (Yapı Bilgi Modellemesi) platformları üzerinden disiplinler arası 3D çakışma analizlerinin ve model koordinasyonunun sağlanması.</li>
+                            <li>Taşeron kapsam değişiklikleri, revizyon bütçeleri ve hakediş onay süreçlerinin takibi.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Experience 4 -->
+                    <div class="hcv-entry">
+                        <div class="hcv-entry-row">
+                            <span class="hcv-bold">İSTANBUL MCE YAPI DENETİM LTD. ŞTİ.</span>
+                            <span class="hcv-right">İstanbul, Türkiye</span>
+                        </div>
+                        <div class="hcv-entry-row">
+                            <span class="hcv-italic">Building Inspector (Saha Denetçisi / Yapı Denetim Mühendisi)</span>
+                            <span class="hcv-right hcv-italic">Şubat 2016 – Mayıs 2016</span>
+                        </div>
+                        <ul class="hcv-bullets">
+                            <li>5000 m² üzeri taahhütlerde betonarme taşıyıcı sistem demir donatı ve beton döküm denetimlerinin gerçekleştirilmesi.</li>
+                            <li>Yapı malzemelerinin TS 500 ve deprem yönetmeliği standartlarına uygunluğunun kontrolü ve resmi denetim raporlaması.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Experience 5 -->
+                    <div class="hcv-entry">
+                        <div class="hcv-entry-row">
+                            <span class="hcv-bold">ÖMAY YAPI</span>
+                            <span class="hcv-right">İstanbul, Türkiye</span>
+                        </div>
+                        <div class="hcv-entry-row">
+                            <span class="hcv-italic">Site Manager (Şantiye Şefi / Saha Mühendisi)</span>
+                            <span class="hcv-right hcv-italic">Ekim 2015 – Aralık 2015</span>
+                        </div>
+                        <ul class="hcv-bullets">
+                            <li>Ümraniye-Üsküdar metro hattı Çakmak (110) İstasyonu tünel kalıp ve peron betonarmesi kaba işlerinin saha yönetimi.</li>
+                            <li>Saha güvenlik önlemlerinin, altyapı deplase işlerinin ve ağır iş makinesi operasyonlarının planlanması.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- 3. SELECTED PROJECTS (SEÇİLMİŞ PROJELER) -->
+                <section class="hcv-section">
+                    <h2 class="hcv-section-title">SEÇİLMİŞ REFERANS PROJELER / KEY PROJECTS</h2>
+
+                    <div class="hcv-entry">
+                        <div class="hcv-entry-row">
+                            <span class="hcv-bold">One Madison Avenue</span>
+                            <span class="hcv-right">New York, ABD</span>
+                        </div>
+                        <p class="hcv-project-desc">Ofis kulesi projesinde özel tasarım Unitized Panel Cephe sistemlerinin tasarım ve fabrika imalat koordinasyonu.</p>
+                    </div>
+
+                    <div class="hcv-entry">
+                        <div class="hcv-entry-row">
+                            <span class="hcv-bold">One Willoughby Square</span>
+                            <span class="hcv-right">Brooklyn, NY, ABD</span>
+                        </div>
+                        <p class="hcv-project-desc">Yüksek yapı ofis projesinde geniş modüllü panel cephe imalat takibi ve onay süreçlerinin yürütülmesi.</p>
+                    </div>
+
+                    <div class="hcv-entry">
+                        <div class="hcv-entry-row">
+                            <span class="hcv-bold">Başarı Holding Genel Müdürlük</span>
+                            <span class="hcv-right">İstanbul, Türkiye</span>
+                        </div>
+                        <p class="hcv-project-desc">Spider cam cephe ve alüminyum kompozit kaplama imalatlarının tasarım, üretim ve montaj süreçlerinin yönetimi.</p>
+                    </div>
+
+                    <div class="hcv-entry">
+                        <div class="hcv-entry-row">
+                            <span class="hcv-bold">Maltepe Piazza</span>
+                            <span class="hcv-right">İstanbul, Türkiye</span>
+                        </div>
+                        <p class="hcv-project-desc">Karma kullanımlı AVM ve kule projesinde alüminyum giydirme cephe, skylight ve kanopi imalatlarının teknik koordinasyonu.</p>
+                    </div>
+                </section>
+
+                <!-- 4. SKILLS & COMPETENCIES (YETKİNLİKLER VE DİLLER) -->
+                <section class="hcv-section">
+                    <h2 class="hcv-section-title">YETKİNLİKLER &amp; DİLLER / SKILLS &amp; LANGUAGES</h2>
+                    
+                    <div class="hcv-skills-grid">
+                        <p><strong class="hcv-bold">Teknik Uzmanlık:</strong> Şantiye &amp; Saha Yönetimi, Sözleşme Yönetimi (FIDIC), Hak Ediş &amp; Metraj Analizi, Kapsam &amp; Bütçe Takibi, İş Güvenliği (İSG), Kalite Kontrol (TS 500, TS EN 13830).</p>
+                        <p><strong class="hcv-bold">Yazılım &amp; Araçlar:</strong> BIM (Autodesk Revit, Navisworks), AutoCAD, MS Project, Microsoft Office (İleri Düzey Excel &amp; Raporlama).</p>
+                        <p><strong class="hcv-bold">Diller:</strong> Türkçe (Anadil), İngilizce (Tam Profesyonel / Akıcı), Almanca (Temel-Orta), Rusça (Temel), Fransızca (Temel), İspanyolca (Başlangıç).</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+</Layout>
+
+<script is:inline>
+    document.getElementById('btnPrintCv')?.addEventListener('click', () => {
+        window.print();
+    });
+</script>
+
+<style>
+    .cv-page-wrapper {
+        min-height: 100vh;
+        background-color: var(--bg-primary);
+        padding: 6rem 1rem 4rem 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Top Toolbar */
+    .cv-toolbar {
+        width: 100%;
+        max-width: 820px;
+        margin-bottom: 1.5rem;
+    }
+
+    .cv-toolbar-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding: 0.75rem 1.25rem;
+        background-color: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--border-radius-md);
+        backdrop-filter: blur(10px);
+    }
+
+    .cv-toolbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .cv-format-badge {
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        color: var(--accent-color);
+        background-color: var(--bg-tertiary);
+        padding: 0.25rem 0.6rem;
+        border-radius: 4px;
+        border: 1px solid var(--border-color);
+    }
+
+    /* Harvard CV Standard Paper Styles */
+    .harvard-cv-paper {
+        width: 100%;
+        max-width: 820px;
+        background-color: #ffffff;
+        color: #111111;
+        font-family: 'Times New Roman', Times, Georgia, serif;
+        padding: 45px 50px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        border-radius: 2px;
+        box-sizing: border-box;
+        line-height: 1.35;
+        font-size: 10.5pt;
+    }
+
+    /* Header */
+    .hcv-header {
+        text-align: center;
+        margin-bottom: 18px;
+    }
+
+    .hcv-name {
+        font-size: 20pt;
+        font-weight: bold;
+        letter-spacing: 1.5px;
+        color: #000000;
+        margin: 0 0 4px 0;
+        text-transform: uppercase;
+        font-family: 'Times New Roman', Times, Georgia, serif;
+    }
+
+    .hcv-title {
+        font-size: 11pt;
+        font-style: italic;
+        color: #333333;
+        margin: 0 0 6px 0;
+    }
+
+    .hcv-contact-line {
+        font-size: 9.5pt;
+        color: #333333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .hcv-sep {
+        color: #666666;
+    }
+
+    .hcv-link {
+        color: #111111;
+        text-decoration: none;
+        background: none;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+    }
+
+    .hcv-link:hover {
+        text-decoration: underline;
+    }
+
+    /* Sections */
+    .hcv-section {
+        margin-bottom: 16px;
+    }
+
+    .hcv-section-title {
+        font-size: 11pt;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #000000;
+        border-bottom: 1px solid #000000;
+        padding-bottom: 2px;
+        margin: 0 0 8px 0;
+        letter-spacing: 0.8px;
+    }
+
+    /* Entries */
+    .hcv-entry {
+        margin-bottom: 10px;
+    }
+
+    .hcv-entry-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+
+    .hcv-bold {
+        font-weight: bold;
+        color: #000000;
+    }
+
+    .hcv-italic {
+        font-style: italic;
+        color: #222222;
+    }
+
+    .hcv-right {
+        text-align: right;
+        font-size: 10pt;
+    }
+
+    .hcv-subroles {
+        font-size: 9pt;
+        margin: 2px 0 4px 0;
+        color: #444444;
+    }
+
+    .hcv-bullets {
+        margin: 4px 0 0 18px;
+        padding: 0;
+        list-style-type: disc;
+    }
+
+    .hcv-bullets li {
+        margin-bottom: 2px;
+        font-size: 10pt;
+        color: #222222;
+        text-align: justify;
+    }
+
+    .hcv-project-desc {
+        margin: 2px 0 0 0;
+        font-size: 10pt;
+        color: #333333;
+    }
+
+    .hcv-skills-grid p {
+        margin: 0 0 4px 0;
+        font-size: 10pt;
+        color: #222222;
+    }
+
+    /* =========================================================================
+       PRINT STYLESHEET FOR CRISP PDF GENERATION
+       ========================================================================= */
+    @media print {
+        body, html {
+            background: #ffffff !important;
+            color: #000000 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .no-print,
+        .main-header,
+        .main-footer,
+        .custom-cursor,
+        .cursor-follower,
+        .toast-container {
+            display: none !important;
+        }
+
+        .cv-page-wrapper {
+            padding: 0 !important;
+            margin: 0 !important;
+            background: transparent !important;
+        }
+
+        .harvard-cv-paper {
+            max-width: 100% !important;
+            width: 100% !important;
+            padding: 10mm 15mm !important;
+            box-shadow: none !important;
+            border: none !important;
+            font-size: 10pt !important;
+            line-height: 1.3 !important;
+        }
+
+        .hcv-entry {
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .hcv-section {
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        @page {
+            margin: 10mm;
+            size: A4 portrait;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .harvard-cv-paper {
+            padding: 25px 20px;
+            font-size: 9.5pt;
+        }
+        .hcv-entry-row {
+            flex-direction: column;
+            gap: 2px;
+        }
+        .hcv-right {
+            text-align: left;
+        }
+    }
+</style>

@@ -15,7 +15,8 @@ const { activePage = 'home', base } = Astro.props;
         
         <nav class="nav-menu" id="navMenu" aria-label="Ana Gezinti Menüsü">
             <ul>
-                <li><a href={`${base}#hakkimda`} class={`nav-link ${activePage === 'home' ? 'active' : ''}`}>Hakkımda (CV)</a></li>
+                <li><a href={`${base}#hakkimda`} class={`nav-link ${activePage === 'home' ? 'active' : ''}`}>Hakkımda</a></li>
+                <li><a href={`${base}cv/`} class={`nav-link ${activePage === 'cv' ? 'active' : ''}`}>CV (Harvard)</a></li>
                 <li><a href={`${base}#projeler`} class="nav-link">Projeler</a></li>
                 <li><a href={`${base}simulasyon/`} class={`nav-link ${activePage === 'simulasyon' ? 'active' : ''}`}>Simülatör</a></li>
                 <li><a href={`${base}blog/`} class={`nav-link ${activePage === 'blog' ? 'active' : ''}`}>Blog</a></li>
