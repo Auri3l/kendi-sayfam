@@ -8,10 +8,10 @@ draft: false
 excerpt: "Binalarda Enerji Performansı (EKB) yönetmeliğindeki Neredeyse Sıfır Enerjili Binalar (NZEB) dönüşüm şartları, yenilenebilir enerji yüzdeleri ve imar/ruhsat süreçleri."
 ---
 <div class="rich-post-content">
-<p>Türkiye'de inşaat sektörü ve imar süreçleri, son yıllarda çevre dostu ve enerji verimli yapılaşmayı teşvik eden çok kritik yasal düzenlemelerden geçmektedir. Bu düzenlemelerin en önemlisi, Çevre, Şehircilik ve İklim Değişikliği Bakanlığı tarafından yürütülen <strong>Binalarda Enerji Performansı (BEP) Yönetmeliği</strong> ve bu yönetmeliğe eklenen <strong>NZEB (Neredeyse Sıfır Enerjili Binalar - Nearly Zero-Energy Buildings)</strong> zorunluluklarıdır. Artık yeni projelerin imar ruhsatı alabilmesi, sadece statik ve mimari uygunluğa değil, aynı zamanda sıkı enerji verimliliği ve yenilenebilir enerji kriterlerine de bağlıdır.</p>
+<p>Binalarda Enerji Performansı (BEP) Yönetmeliği ve NZEB (Neredeyse Sıfır Enerjili Binalar) kriterleri, yeni yapı ruhsatı ve tapu işlemlerinde yasal gerekliliktir.</p>
 
-<h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">1. Bina Enerji Sınıfları (EKB) Nedir?</h4>
-<p>Enerji Kimlik Belgesi (EKB), bir binanın metrekare başına düşen yıllık birincil enerji tüketimini ve sera gazı salınım miktarını gösteren yasal bir belgedir. Tıpkı beyaz eşyalarda olduğu gibi, binalar da <strong>A (en verimli)</strong> ile <strong>G (en verimsiz)</strong> arasında sınıflandırılır.</p>
+<h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">1. Enerji Kimlik Belgesi (EKB) ve Sınıflandırma</h4>
+<p>EKB, bir binanın yıllık metrekare başına tükettiği primer enerji miktarını ve sera gazı salım oranını gösteren resmi belgedir. A (en verimli) ile G (en verimsiz) arasında 7 sınıftan oluşur.</p>
 <ul>
     <li><strong>Yeni Binalar:</strong> İmar Kanunu ve BEP yönetmeliği uyarınca, yeni inşa edilecek binaların ruhsat alabilmesi için <strong>en az C sınıfı</strong> enerji kimlik belgesine sahip olması zorunludur. C sınıfının altında kalan yeni projelere belediyeler tarafından yapı ruhsatı verilmez.</li>
     <li><strong>Mevcut (Eski) Binalar:</strong> 2011 yılından önce ruhsat almış binalar "Mevcut Bina" statüsündedir. Bu binalar için asgari bir enerji sınıfı sınırı yoktur (D, E, F veya G sınıfı alabilirler). Ancak, tapuda alım-satım ve kiralama işlemlerinde EKB ibrazı zorunludur. Ayrıca, mevcut bir binada toplam kullanım alanının %25'inden fazlasını kapsayan esaslı tadilatlarda, tadilat yapılan kısımların enerji performansının C sınıfı seviyesine yükseltilmesi şart koşulur.</li>

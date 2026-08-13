@@ -8,10 +8,10 @@ draft: false
 excerpt: "Giydirme cephe sistemlerinin rüzgar, hava, su sızdırmazlığı ve sismik hareketlere dayanımını sahaya uygulanmadan önce doğrulayan mock-up test süreçleri."
 ---
 <div class="rich-post-content">
-<p>Büyük ölçekli ve yüksek katlı projelerde giydirme cephe sistemleri, binanın kabuğunu oluşturarak dış etkenlere karşı ilk savunma hattını oluşturur. Cephe sistemlerinin tasarım aşamasında teorik olarak yapılan statik ve ısıl hesapların, sahada birebir performans gösterip gösteremeyeceğini doğrulamak amacıyla yapılan test sürecine <strong>Mock-up (Performans) Testleri</strong> denir.</p>
+<p>Giydirme cephe sistemlerinin tasarım aşamasındaki statik, sızdırmazlık ve sismik hesaplarının sahada doğrulanması amacıyla <strong>Mock-up (Performans) Testleri</strong> uygulanır. Bu süreç, imalat öncesi sistem hatalarını tespit etmeyi hedefler.</p>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">1. Mock-up Testi Nedir ve Neden Yapılır?</h4>
-<p>Mock-up testi, sahada kurulacak olan cephe sisteminin tipik bir bölümünün (genellikle iki kat yüksekliğinde ve en az üç modül genişliğinde), laboratuvar ortamında kurulan özel bir test odasına (chamber) monte edilerek gerçek dış ortam koşullarına maruz bırakılması işlemidir. Bu testler sayesinde cephe tasarımındaki zayıf noktalar, imalat hataları ve montaj riskleri işin başında tespit edilir.</p>
+<p>Mock-up testi, sahada kurulacak cephe sisteminin tipik bir modülünün (genellikle iki kat yüksekliğinde ve en az üç modül genişliğinde), laboratuvarda test odasına (chamber) kurularak uluslararası standartlara (EN 13830 / AAMA) göre test edilmesidir.</p>
 
 <!-- Mini Interactive Mock-up Simulator Widget -->
 <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: 2rem; margin: 2.5rem 0;">

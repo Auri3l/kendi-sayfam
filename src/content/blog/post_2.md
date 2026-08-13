@@ -8,10 +8,10 @@ draft: false
 excerpt: "Islak hacimlerde seramik kaplama öncesi doğru su yalıtımı uygulaması, yapı ömrünü doğrudan etkiler. Yüzey hazırlığı, astar seçimi, köşe pah bantları ve katlar arası kuruma süreleri."
 ---
 <div class="rich-post-content">
-<p>Islak hacim imalatlarında (banyo, wc, balkon ve teraslar) seramik kaplama yapılmadan önce uygulanacak su yalıtım katmanı, yapı konforunu ve ömrünü koruyan en kritik katmandır. Seramik yapıştırıcıları su geçirimsiz olmadığı için, su yalıtım membranı döşenmeden yapılan uygulamalarda alt katlara su sızması kaçınılmazdır.</p>
+<p>Islak hacim imalatlarında (banyo, wc, balkon ve teraslar) seramik öncesi su yalıtım katmanı, alt katlara su sızıntısını ve döşemedeki betonarme donatısının korozyona uğramasını engeller. Seramik yapıştırıcıları ve derz dolguları tek başına su geçirimsiz olmadığı için, sürme yalıtım uygulaması standart bir zorunluluktur.</p>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">1. Yüzey Hazırlığı ve Astar Uygulaması</h4>
-<p>Başarılı bir su yalıtımının temeli aderansı zayıflatacak toz, yağ ve serbest parçalardan arındırılmış düzgün bir yüzeydir. Yüzeydeki bozukluklar tamir harçları ile giderilmeli, dik köşeler mutlaka pah harçları ile yuvarlatılmalıdır. Tozumanın önlenmesi ve emiciliğin dengelenmesi için yüzeye uygun akrilik esaslı astar sürülmelidir.</p>
+<p>Su yalıtımında aderansı zayıflatacak toz, yağ ve gevşek parçalar yüzeyden temizlenmelidir. Yüzey bozuklukları yapısal tamir harcı ile düzeltilmeli, dik iç ve dış köşelere pah harcı çekilmelidir. Yüzey emiciliğini dengelemek ve tozuma riskini kesmek için akrilik astar uygulanır.</p>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">2. Köşe Pah Bantları ve Kritik Noktalar</h4>
 <p>Yapısal hareketlerin ve çatlamaların en yoğun yaşandığı kolon-duvar ve zemin-duvar birleşim yerlerine (soğuk derzler) mutlaka elastik pah bandı yerleştirilmelidir. Pah bantları birinci kat yalıtım malzemesi henüz yaş iken bastırılarak oturtulmalı, üzerine ikinci kat sürülerek kilitlenmelidir.</p>

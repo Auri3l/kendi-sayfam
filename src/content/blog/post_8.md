@@ -8,10 +8,10 @@ draft: false
 excerpt: "İnşaat sektöründe karbon ayak izini azaltan yeşil bina tasarım kriterleri, LEED sertifikası puanlama sistemi ve mühendislik rolleri."
 ---
 <div class="rich-post-content">
-<p>Küresel iklim kriziyle mücadele kapsamında inşaat sektörü, enerji ve su tüketiminin en yoğun olduğu alanlardan biri olarak yeşil bina dönüşümünü hızlandırmaktadır. Sürdürülebilir yapılar tasarlamak ve bunları tescil etmek için dünya genelinde en çok kabul gören sistemlerin başında USGBC tarafından geliştirilen <strong>LEED (Leadership in Energy and Environmental Design)</strong> sertifikasyon sistemi gelmektedir.</p>
+<p>Binalarda enerji verimliliği ve su tasarrufunu ölçmek ve belgelendirmek amacıyla USGBC tarafından geliştirilen <strong>LEED (Leadership in Energy and Environmental Design)</strong> sertifikasyon kriterleri uygulanır.</p>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">1. LEED Sertifikası Kriter Kategorileri</h4>
-<p>Bir yapının LEED sertifikası alabilmesi için tasarım ve inşaat süreçlerinde şu ana başlıklardaki kriterleri karşılaması gerekir:</p>
+<p>Bir yapının LEED sertifikası alabilmesi için tasarım ve inşaat süreçlerinde şu ana kategorilerdeki şartları sağlaması gerekir:</p>
 <ul>
     <li><strong>Sürdürülebilir Alanlar (SS):</strong> İnşaatın çevreye olan olumsuz etkilerini azaltma ve biyoçeşitliliği koruma.</li>
     <li><strong>Su Verimliliği (WE):</strong> İç ve dış mekan su kullanımında akıllı armatürler ve peyzaj tasarımı ile tasarruf sağlama.</li>

@@ -8,10 +8,10 @@ draft: false
 excerpt: "Prefabrik betonarme veya çelik karkas binaların montaj süreçlerinde vinç konumlandırma, iş güvenliği ve lojistik yönetimi."
 ---
 <div class="rich-post-content">
-<p>Prefabrik betonarme veya yapısal çelik sistemler, şantiye süresini kısaltan ve fabrika koşullarında kontrollü imalat kalitesi sağlayan endüstriyel çözümlerdir. Ancak prefabrik yapıların şantiyedeki montaj süreçleri; ağır tonajlı elemanların taşınması, lojistik yönetimi ve vinç operasyonlarının hassas şekilde planlanmasını gerektirir. Lojistik ve kurulum planlamasında yapılacak ufak bir hata, şantiye duruşlarına ve ciddi iş kazalarına yol açabilir.</p>
+<p>Prefabrik betonarme ve yapısal çelik sistemlerin montajı; ağır tonajlı elemanların taşınması, şantiye stok sahası yönetimi ve vinç kapasite hesaplarının planlanmasını gerektirir.</p>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">1. Vinç Konumlandırma ve Tonaj Seçimi</h4>
-<p>Montaj planlamasının en kritik ayağı, sahada kullanılacak mobil veya kule vinçlerin konumlandırılması ve bom uzunluğuna göre kaldırma kapasitelerinin belirlenmesidir. Bir vincin kaldırabileceği yük miktarı, yükün vinç merkezine olan uzaklığı (çalışma yarıçapı - radius) arttıkça logaritmik olarak azalır.</p>
+<p>Montaj planlamasında vinçlerin bom uzunluğuna ve çalışma yarıçapına (radius) göre kaldırma kapasiteleri (SWL - Safe Working Load) belirlenmelidir. Vinç kaldırma kapasitesi, yükün merkezden uzaklığı arttıkça azalır.</p>
 
 <!-- Mini Interactive Crane Estimator Widget -->
 <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: 2rem; margin: 2.5rem 0;">

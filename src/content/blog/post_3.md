@@ -8,13 +8,13 @@ draft: false
 excerpt: "Modern giydirme cephe projelerinde doğru cam seçimi, binanın enerji verimliliği ve akustik konforunu belirler. U-değeri, solar faktör (SHGC) ve temperleme kriterleri."
 ---
 <div class="rich-post-content">
-<p>Modern yüksek yapılı giydirme cephe projelerinde cam, yalnızca estetik bir kabuk değil; binanın rüzgar yükü dayanımını, ısı yalıtım (U-Değeri) performansını, akustik konforunu ve güneş kontrol verimliliğini (SHGC/G-Değeri) belirleyen en önemli mühendislik elemanıdır.</p>
+<p>Giydirme cephe sistemlerinde cam üniteleri; binanın rüzgar yükü dayanımı, ısı geçirgenlik katsayısı ($U_g$), akustik performansı ve güneş kontrolü (SHGC / g-değeri) gereksinimlerini karşılamak üzere projelendirilir.</p>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">1. Isı ve Güneş Kontrol Performansı</h4>
-<p>Güneş kontrol kaplamalı çift veya üç camlı yalıtım üniteleri (IGU), binanın iklimlendirme yüklerini minimize eder. Dış camda Low-E kaplamaların kullanılması kızılötesi ışınları geri yansıtarak yazın serinlik, kışın ise sıcaklık koruması sağlar. İklim koşullarına ve rüzgar maruziyetine göre cam boşluğunda hava yerine argon gazı kullanımı ısı geçirgenlik katsayısını (Ug) belirgin oranda düşürür.</p>
+<p>Güneş kontrol kaplamalı çift veya üç camlı yalıtım üniteleri (IGU), binanın ısıtma ve soğutma yüklerini optimize eder. Dış camda Low-E kaplama kullanılması kızılötesi ışınları yansıtarak ısı iletimini sınırlar. Cam ara boşluğunda kuru hava yerine argon gazı dolgusu yapılması ısı geçirgenlik katsayısını ($U_g$) düşürür.</p>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">2. Emniyet ve Dayanım: Temperleme ve Laminasyon</h4>
-<p>Yüksek yapılarda cephe camları ciddi rüzgar yüklerine maruz kalır. Termal stres çatlamaları ve yük kırılmalarını önlemek amacıyla cephe camları ısıl işlemlere (temperleme veya yarı temperleme) tabi tutulur. Düşme tehlikesini önlemek amacıyla iç ve dış cam paneller akustik PVB (Polivinil Bütiral) ara katmanları ile lamine edilerek kırılma anında dahi cam bütünlüğünün korunması sağlanır.</p>
+<p>Yüksek yapılarda cephe camları rüzgar yükü ve termal gerilmelere maruz kalır. Termal kırılmaları önlemek için cam paneller ısıl işleme (temperleme veya yarı temperleme) tabi tutulur. Emniyet ve düşme güvenliği için iç ve dış cam paneller akustik PVB (Polivinil Bütiral) ara katmanı ile lamine edilir.</p>
 
 <!-- Mini Interactive Glass Calculator Widget -->
 <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: 2rem; margin: 2.5rem 0;">

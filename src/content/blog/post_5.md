@@ -8,10 +8,10 @@ draft: false
 excerpt: "Uluslararası inşaat projelerinde en çok tercih edilen FIDIC sözleşme modellerinde yüklenici ve işveren süre uzatımı (EOT) ve gecikme cezası (LD) hesaplama yöntemleri."
 ---
 <div class="rich-post-content">
-<p>Büyük ölçekli uluslararası inşaat projelerinde en sık karşılaşılan uyuşmazlıklar, işin hedeflenen sürede tamamlanamaması ve buna bağlı olarak ortaya çıkan süre uzatımı (EOT - Extension of Time) ile gecikme tazminatları (LD - Liquidated Damages) konularındadır. Bu süreçlerin FIDIC (Kırmızı Kitap veya Sarı Kitap) sözleşme koşullarına göre doğru yönetilmesi, hem yüklenici hem de işveren için hayati finansal sonuçlar doğurur.</p>
+<p>Uluslararası inşaat sözleşmelerinde en sık karşılaşılan uyuşmazlıklar, iş programı gecikmeleri, süre uzatımı (EOT - Extension of Time) talepleri ve gecikme cezaları (LD - Liquidated Damages) konularındadır. Bu süreçlerin FIDIC (Kırmızı veya Sarı Kitap) sözleşme maddelerine uygun yönetilmesi gerekir.</p>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">1. Süre Uzatımı (EOT) Kriterleri</h4>
-<p>Yüklenicinin süre uzatımı talep edebilmesi için gecikmenin kendi kusurundan kaynaklanmaması ve kritik yolu (critical path) etkilemesi gerekir. FIDIC Alt-Madde 20.1 (yeni 2017 versiyonunda Alt-Madde 20.2) uyarınca, gecikmeye sebep olan olayın fark edilmesinden itibaren <strong>28 gün içerisinde</strong> işverene/mühendise resmi hak talebi bildirimi (Claim Notice) yapılması zorunludur. Bu süre aşılırsa, yüklenici tüm haklarını kaybeder (Time-bar).</p>
+<p>Yüklenicinin süre uzatımı talep edebilmesi için gecikmenin kendi kusurundan kaynaklanmaması ve iş programındaki kritik yolu (critical path) etkilemesi şarttır. FIDIC Alt-Madde 20.1 (2017 versiyonunda 20.2) gereğince, gecikmeye neden olan durumun ortaya çıkışından itibaren <strong>28 gün içinde</strong> resmi hak talebi bildirimi (Claim Notice) yapılmalıdır. Bildirim yapılmazsa hak düşürücü süre (Time-bar) devreye girer.</p>
 
 <!-- Mini Interactive EOT & Penalty Calculator Widget -->
 <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: 2rem; margin: 2.5rem 0;">

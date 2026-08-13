@@ -8,10 +8,10 @@ draft: false
 excerpt: "Şap dökümlerinde büzülme (rötre) çatlaklarını önlemek için kullanılan polipropilen elyaflar, lateks katkılar ve çelik hasır uygulamaları."
 ---
 <div class="rich-post-content">
-<p>Zemin şap imalatı, özellikle ince inşaat aşamasında seramik, lamine parke veya epoksi kaplama öncesi düzgün bir terazi elde etmek için vazgeçilmez bir uygulamadır. Ancak şapın geniş alanlara ince kalınlıkta (genellikle 3-7 cm) serilmesi, yüksek yüzey alanı/hacim oranı sebebiyle hızlı su kaybına ve dolayısıyla ciddi büzülme (rötre) çatlaklarına yol açar. Çatlakları minimize etmek ve şapın mekanik dayanımını artırmak, doğru katkı seçimi ve donatı kullanımı ile mümkündür.</p>
+<p>Zemin şap imalatlarında seramik, parke veya epoksi kaplama öncesi düzgün bir terazi elde edilir. Şapın geniş alanlara ince katman halinde (3-7 cm) serilmesi, hızlı su kaybına ve kuruma rötresi çatlaklarına yol açabilir. Bu çatlakları önlemek için polipropilen elyaf, lateks katkılar veya çelik hasır donatı kullanılır.</p>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">1. Polipropilen Elyaf (PP Fiber) ve Çatlak Kontrolü</h4>
-<p>Karışıma eklenen polipropilen mikro elyaflar (genellikle 6mm veya 12mm boyunda), harç içerisinde üç boyutlu bir ağ yapısı oluşturur. Bu ağ, betonun taze fazdaki plastik rötre çatlaklarının ilerlemesini engeller. Elyaf kullanımı şapın darbe dayanımını ve aşınma direncini de artırır. Standart şantiye şaplarında metreküp başına <strong>600g ila 900g</strong> elyaf eklenmesi önerilir.</p>
+<p>Karışıma eklenen polipropilen mikro elyaflar (6 mm veya 12 mm), harç içerisinde üç boyutlu bir ağ oluşturur. Bu donatı etkisi taze fazdaki plastik rötre çatlaklarının ilerlemesini sınırlar. Standart şantiye şaplarında metreküp başına <strong>600g ila 900g</strong> elyaf ilave edilir.</p>
 
 <!-- Mini Interactive Screed Admixture Calculator Widget -->
 <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: 2rem; margin: 2.5rem 0;">
