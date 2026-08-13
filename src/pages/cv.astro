@@ -4,7 +4,7 @@ import Layout from '../layouts/Layout.astro';
 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 ---
 
-<Layout title="Harvard Formatında CV | Ata Yiğit Telli" activePage="cv" description="Ata Yiğit Telli - İnşaat Mühendisi & Proje Yöneticisi Harvard Template Standartlarında Profesyonel Özgeçmiş (CV).">
+<Layout title="Özgeçmiş (CV) | Ata Yiğit Telli" activePage="cv" description="Ata Yiğit Telli - İnşaat Mühendisi & Proje Yöneticisi Profesyonel Özgeçmiş (CV).">
     <main>
         <div class="cv-page-wrapper">
             <!-- Top Controls Toolbar (Hidden in Print) -->
@@ -19,7 +19,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                     </a>
 
                     <div class="cv-toolbar-actions">
-                        <span class="cv-format-badge">Harvard Standart Formatı</span>
+                        <span class="cv-format-badge">Standart Özgeçmiş</span>
                         <button type="button" class="btn btn-primary btn-sm" id="btnPrintCv" style="display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer;">
                             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                 <polyline points="6 9 6 2 18 2 18 9"></polyline>
@@ -32,8 +32,8 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                 </div>
             </div>
 
-            <!-- Harvard Standard CV Sheet Container -->
-            <div class="harvard-cv-paper" id="harvardCvPaper">
+            <!-- Standard Clean CV Sheet Container -->
+            <div class="standard-cv-paper" id="standardCvPaper">
                 <!-- Header: Name & Contact Information (Centered) -->
                 <header class="hcv-header">
                     <h1 class="hcv-name">ATA YİĞİT TELLİ</h1>
@@ -291,8 +291,8 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
         border: 1px solid var(--border-color);
     }
 
-    /* Harvard CV Standard Paper Styles */
-    .harvard-cv-paper {
+    /* Standard Clean CV Paper Styles */
+    .standard-cv-paper {
         width: 100%;
         max-width: 820px;
         background-color: #ffffff;
@@ -456,7 +456,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
             background: transparent !important;
         }
 
-        .harvard-cv-paper {
+        .standard-cv-paper {
             max-width: 100% !important;
             width: 100% !important;
             padding: 10mm 15mm !important;
@@ -483,7 +483,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
     }
 
     @media (max-width: 768px) {
-        .harvard-cv-paper {
+        .standard-cv-paper {
             padding: 25px 20px;
             font-size: 9.5pt;
         }
