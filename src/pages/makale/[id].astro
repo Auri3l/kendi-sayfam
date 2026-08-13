@@ -30,7 +30,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                 <!-- Article Header -->
                 <div class="article-detail-header" style="margin-bottom: 2.5rem; text-align: center;">
                     <a href={`${base}blog/`} class="back-to-blog" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent-color); font-size: 0.9rem; text-decoration: none; margin-bottom: 1.5rem; font-weight: 600; transition: var(--transition-fast);" id="backBtn">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
                             <line x1="19" y1="12" x2="5" y2="12"></line>
                             <polyline points="12 19 5 12 12 5"></polyline>
                         </svg>
@@ -128,8 +128,326 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
             });
         });
 
-        // --- IN-ARTICLE PAINT CALCULATOR WIDGET LOGIC ---
-        function calcPaintRequirements() {
+        // Helper to bind events to multiple element IDs
+        function bindInputs(ids, handler) {
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('input', handler);
+                    el.addEventListener('change', handler);
+                    el.addEventListener('keyup', handler);
+                }
+            });
+        }
+
+        // =========================================================================
+        // IN-ARTICLE CALCULATOR WIDGETS
+        // =========================================================================
+
+        // 1. POST 2: Insulation Calculator
+        window.calculateInsulation = function() {
+            const area = parseFloat(document.getElementById('isoArea')?.value) || 0;
+            const coats = parseFloat(document.getElementById('isoCoats')?.value) || 0;
+            const rate = parseFloat(document.getElementById('isoRate')?.value) || 0;
+            const perimeter = parseFloat(document.getElementById('isoPerimeter')?.value) || 0;
+            
+            const totalKg = area * coats * rate;
+            const bags = Math.ceil(totalKg / 20);
+            
+            const totalKgEl = document.getElementById('isoTotalKg');
+            const bagsEl = document.getElementById('isoBags');
+            const pahEl = document.getElementById('isoPahLength');
+
+            if (totalKgEl) totalKgEl.innerText = totalKg.toLocaleString('tr-TR') + ' kg';
+            if (bagsEl) bagsEl.innerText = bags + ' torba (20kg)';
+            if (pahEl) pahEl.innerText = perimeter.toLocaleString('tr-TR') + ' m';
+        };
+        bindInputs(['isoArea', 'isoCoats', 'isoRate', 'isoPerimeter'], window.calculateInsulation);
+
+        // 2. POST 3: Glass Weight Calculator
+        window.calculateGlassWeight = function() {
+            const width = parseFloat(document.getElementById('glassWidth')?.value) || 0;
+            const height = parseFloat(document.getElementById('glassHeight')?.value) || 0;
+            const outer = parseFloat(document.getElementById('glassOuterThk')?.value) || 0;
+            const inner = parseFloat(document.getElementById('glassInnerThk')?.value) || 0;
+            
+            const area = width * height;
+            // Soda-lime glass density = 2.5 kg/(m2 * mm)
+            const totalWeight = area * (outer + inner) * 2.5;
+            
+            const areaEl = document.getElementById('glassAreaResult');
+            const weightEl = document.getElementById('glassWeightResult');
+
+            if (areaEl) areaEl.innerText = area.toFixed(2).toLocaleString('tr-TR') + ' m²';
+            if (weightEl) weightEl.innerText = Math.round(totalWeight).toLocaleString('tr-TR') + ' kg';
+        };
+        bindInputs(['glassWidth', 'glassHeight', 'glassOuterThk', 'glassInnerThk'], window.calculateGlassWeight);
+
+        // 3. POST 4: Mock-up Wind Deflection Simulator
+        window.calculateMockup = function() {
+            const p = parseFloat(document.getElementById('testPressure')?.value) || 0;
+            const ix = parseFloat(document.getElementById('mullionIx')?.value) || 1;
+            const l = parseFloat(document.getElementById('spanLength')?.value) || 0;
+            const w = parseFloat(document.getElementById('moduleWidth')?.value) || 0;
+            
+            const loadNm = p * w;
+            const loadKnm = loadNm / 1000;
+            
+            const E = 70 * 1e9; // N/m²
+            const I_m4 = ix * 1e-8; // m^4
+            const deflectionM = (5 * loadNm * Math.pow(l, 4)) / (384 * E * I_m4);
+            const deflectionMM = deflectionM * 1000;
+            
+            const limit = Math.min(15, (l * 1000) / 200);
+            
+            const loadEl = document.getElementById('mockupLoad');
+            const defEl = document.getElementById('mockupDeflect');
+            const limitEl = document.getElementById('mockupLimit');
+            const resultEl = document.getElementById('mockupResult');
+
+            if (loadEl) loadEl.innerText = loadKnm.toFixed(2) + ' kN/m';
+            if (defEl) defEl.innerText = deflectionMM.toFixed(2) + ' mm';
+            if (limitEl) limitEl.innerText = limit.toFixed(1) + ' mm';
+            
+            if (resultEl) {
+                if (deflectionMM <= limit) {
+                    resultEl.innerText = 'BAŞARILI (PASSED - Sehim Güvenli)';
+                    resultEl.style.color = '#2ecc71';
+                } else {
+                    resultEl.innerText = 'BAŞARISIZ (FAILED - Profil Güçlendirilmeli)';
+                    resultEl.style.color = '#e74c3c';
+                }
+            }
+        };
+        bindInputs(['testPressure', 'mullionIx', 'spanLength', 'moduleWidth'], window.calculateMockup);
+
+        // 4. POST 5: FIDIC EOT & Penalty Calculator
+        window.calculateEOT = function() {
+            const price = parseFloat(document.getElementById('contractVal')?.value) || 0;
+            const rate = parseFloat(document.getElementById('penaltyRate')?.value) || 0;
+            const delay = parseFloat(document.getElementById('delayDays')?.value) || 0;
+            const eot = parseFloat(document.getElementById('eotDays')?.value) || 0;
+            
+            const netDelayDays = Math.max(0, delay - eot);
+            const dailyCost = price * (rate / 100);
+            const calculatedPenalty = netDelayDays * dailyCost;
+            
+            const maxPenalty = price * 0.10;
+            const finalPenalty = Math.min(calculatedPenalty, maxPenalty);
+            const pct = price > 0 ? (finalPenalty / price) * 100 : 0;
+            
+            const netDelayEl = document.getElementById('netDelay');
+            const totalPenEl = document.getElementById('totalPenalty');
+            const penPctEl = document.getElementById('penaltyPercentage');
+            const limitEl = document.getElementById('limitStatus');
+
+            if (netDelayEl) netDelayEl.innerText = netDelayDays + ' gün';
+            if (totalPenEl) totalPenEl.innerText = '$' + finalPenalty.toLocaleString('en-US', {maximumFractionDigits: 0});
+            if (penPctEl) penPctEl.innerText = '%' + pct.toFixed(2);
+            
+            if (limitEl) {
+                if (calculatedPenalty >= maxPenalty && calculatedPenalty > 0) {
+                    limitEl.innerText = 'AZAMİ CEZA LİMİTİNE ULAŞILDI (%10 Barajı)';
+                    limitEl.style.color = '#e74c3c';
+                } else {
+                    limitEl.innerText = 'Limit Altında (Güvenli)';
+                    limitEl.style.color = '#2ecc71';
+                }
+            }
+        };
+        bindInputs(['contractVal', 'penaltyRate', 'delayDays', 'eotDays'], window.calculateEOT);
+
+        // 5. POST 6: Screed Mix & Admixture Calculator
+        window.calculateScreedMix = function() {
+            const area = parseFloat(document.getElementById('screedArea')?.value) || 0;
+            const thk = parseFloat(document.getElementById('screedThickness')?.value) || 0;
+            const dozaj = parseFloat(document.getElementById('screedDozaj')?.value) || 0;
+            const latexRate = parseFloat(document.getElementById('screedLatexRate')?.value) || 0;
+            
+            const vol = area * (thk / 100);
+            const cementKg = vol * dozaj;
+            const cementBags = Math.ceil(cementKg / 50);
+            const fiberKg = vol * 0.8;
+            const latexLiters = cementKg * (latexRate / 100);
+            
+            const volEl = document.getElementById('mixVol');
+            const cementEl = document.getElementById('mixCement');
+            const fiberEl = document.getElementById('mixFiber');
+            const latexEl = document.getElementById('mixLatex');
+
+            if (volEl) volEl.innerText = vol.toFixed(2) + ' m³';
+            if (cementEl) cementEl.innerText = cementBags + ' torba (' + Math.round(cementKg).toLocaleString('tr-TR') + ' kg)';
+            if (fiberEl) fiberEl.innerText = fiberKg.toFixed(2) + ' kg';
+            if (latexEl) latexEl.innerText = latexLiters.toFixed(1) + ' Litre';
+        };
+        bindInputs(['screedArea', 'screedThickness', 'screedDozaj', 'screedLatexRate'], window.calculateScreedMix);
+
+        // 6. POST 7: Crane Safety & Capacity Estimator
+        window.calculateCraneRisk = function() {
+            const weight = parseFloat(document.getElementById('loadWeight')?.value) || 0;
+            const radius = parseFloat(document.getElementById('craneRadius')?.value) || 1;
+            const cap = parseFloat(document.getElementById('craneCapacity')?.value) || 1;
+            const wind = parseFloat(document.getElementById('windLimit')?.value) || 0;
+            
+            let swl = (cap * 2.8) / radius;
+            if (wind > 30) {
+                swl = swl * 0.80;
+            } else if (wind > 40) {
+                swl = swl * 0.50;
+            }
+            
+            const ratio = swl > 0 ? (weight / swl) * 100 : 999;
+            
+            const swlEl = document.getElementById('swlResult');
+            const ratioEl = document.getElementById('craneRatio');
+            const safetyEl = document.getElementById('craneSafety');
+
+            if (swlEl) swlEl.innerText = swl.toFixed(1) + ' Ton';
+            if (ratioEl) ratioEl.innerText = '%' + ratio.toFixed(1);
+            
+            if (safetyEl) {
+                if (wind >= 45) {
+                    safetyEl.innerText = 'OPERASYON YASAK (Fırtına Sınırı Aşılmıştır - 45 km/h)';
+                    safetyEl.style.color = '#e74c3c';
+                } else if (ratio > 95) {
+                    safetyEl.innerText = 'TEHLİKELİ (Aşırı Yük - Devrilme Riski!)';
+                    safetyEl.style.color = '#e74c3c';
+                } else if (ratio > 85) {
+                    safetyEl.innerText = 'LİMİTTE (Gözetimli ve Tedbirli Kaldırma)';
+                    safetyEl.style.color = '#f1c40f';
+                } else {
+                    safetyEl.innerText = 'GÜVENLİ (Yeşil Işık - Güvenli Çalışma Alanı)';
+                    safetyEl.style.color = '#2ecc71';
+                }
+            }
+        };
+        bindInputs(['loadWeight', 'craneRadius', 'craneCapacity', 'windLimit'], window.calculateCraneRisk);
+
+        // 7. POST 8: LEED Certification Simulator
+        window.calculateLEED = function() {
+            let loc = parseFloat(document.getElementById('leedLoc')?.value) || 0;
+            let wat = parseFloat(document.getElementById('leedWater')?.value) || 0;
+            let nrg = parseFloat(document.getElementById('leedEnergy')?.value) || 0;
+            let mat = parseFloat(document.getElementById('leedMaterials')?.value) || 0;
+            let air = parseFloat(document.getElementById('leedAir')?.value) || 0;
+            let inn = parseFloat(document.getElementById('leedInnov')?.value) || 0;
+            
+            loc = Math.min(16, Math.max(0, loc));
+            wat = Math.min(11, Math.max(0, wat));
+            nrg = Math.min(33, Math.max(0, nrg));
+            mat = Math.min(13, Math.max(0, mat));
+            air = Math.min(16, Math.max(0, air));
+            inn = Math.min(10, Math.max(0, inn));
+            
+            const total = loc + wat + nrg + mat + air + inn;
+            const scoreEl = document.getElementById('leedTotalScore');
+            const badgeEl = document.getElementById('leedBadge');
+
+            if (scoreEl) scoreEl.innerText = total + ' / 110 Puan';
+            
+            if (badgeEl) {
+                if (total >= 80) {
+                    badgeEl.innerText = 'PLATINUM (En Üst Seviye)';
+                    badgeEl.style.color = '#e5e4e2';
+                } else if (total >= 60) {
+                    badgeEl.innerText = 'GOLD (Altın Seviye)';
+                    badgeEl.style.color = '#f1c40f';
+                } else if (total >= 50) {
+                    badgeEl.innerText = 'SILVER (Gümüş Seviye)';
+                    badgeEl.style.color = '#bdc3c7';
+                } else if (total >= 40) {
+                    badgeEl.innerText = 'CERTIFIED (Onaylı Sertifika)';
+                    badgeEl.style.color = '#d35400';
+                } else {
+                    badgeEl.innerText = 'SERTİFİKA ALAMAZ (Maksimum 40 Puan Altı)';
+                    badgeEl.style.color = '#e74c3c';
+                }
+            }
+        };
+        bindInputs(['leedLoc', 'leedWater', 'leedEnergy', 'leedMaterials', 'leedAir', 'leedInnov'], window.calculateLEED);
+
+        // 8. POST 9: BEP & NZEB Permit Simulator
+        window.toggleRenewableInput = function() {
+            const status = document.getElementById('bepStatus')?.value;
+            const container = document.getElementById('renewableContainer');
+            if (container) {
+                container.style.opacity = (status === 'existing') ? '0.4' : '1';
+            }
+        };
+
+        window.checkBepCompliance = function() {
+            const status = document.getElementById('bepStatus')?.value || 'new';
+            const area = parseFloat(document.getElementById('bepArea')?.value) || 0;
+            const cons = parseFloat(document.getElementById('bepConsumption')?.value) || 0;
+            const renew = parseFloat(document.getElementById('bepRenewable')?.value) || 0;
+            
+            let energyClass = 'G';
+            let classColor = '#e74c3c';
+            if (cons < 45) { energyClass = 'A'; classColor = '#2ecc71'; }
+            else if (cons < 80) { energyClass = 'B'; classColor = '#27ae60'; }
+            else if (cons < 120) { energyClass = 'C'; classColor = '#f1c40f'; }
+            else if (cons < 170) { energyClass = 'D'; classColor = '#e67e22'; }
+            else if (cons < 220) { energyClass = 'E'; classColor = '#d35400'; }
+            else if (cons < 280) { energyClass = 'F'; classColor = '#c0392b'; }
+            
+            const nzebApplies = (status === 'new' && area >= 2000);
+            
+            const classEl = document.getElementById('bepClass');
+            const nzebEl = document.getElementById('bepNzebStatus');
+            const resultEl = document.getElementById('bepPermitResult');
+            const notesEl = document.getElementById('bepNotes');
+
+            if (classEl) {
+                classEl.innerText = energyClass + ' Sınıfı';
+                classEl.style.color = classColor;
+            }
+            if (nzebEl) {
+                nzebEl.innerText = nzebApplies ? 'KAPSAMDA (Limit 2000m²)' : 'Kapsam Dışı';
+            }
+            
+            let permitApproved = true;
+            let notes = '';
+            
+            if (status === 'new') {
+                if (nzebApplies) {
+                    if (energyClass !== 'A' && energyClass !== 'B') {
+                        permitApproved = false;
+                        notes += '• NZEB kapsamında 2.000 m² üzeri yeni yapılarda asgari enerji sınıfı B olmalıdır. Sizin sınıfınız: ' + energyClass + '. ';
+                    }
+                    if (renew < 10) {
+                        permitApproved = false;
+                        notes += '• Yenilenebilir enerji payı en az %10 olmalıdır. Sizin oranınız: %' + renew + '. ';
+                    }
+                } else {
+                    if (energyClass !== 'A' && energyClass !== 'B' && energyClass !== 'C') {
+                        permitApproved = false;
+                        notes += '• Yeni yapılarda asgari enerji sınıfı C olmalıdır. Sizin sınıfınız: ' + energyClass + '. ';
+                    }
+                }
+            } else {
+                notes = '• Mevcut yapılarda tapu satışı ve kiralama için EKB belgesi yeterlidir, asgari enerji sınıfı aranmaz. Tadilat yapılırsa en az C olmalıdır.';
+            }
+            
+            if (resultEl && notesEl) {
+                if (permitApproved) {
+                    resultEl.innerText = 'İMAR RUHSATI ONAYLANDI (APPROVED)';
+                    resultEl.style.color = '#2ecc71';
+                    if (status === 'new') {
+                        notesEl.innerText = 'Projeniz BEP yönetmeliği kriterlerine uygundur. Yapı ruhsatı düzenlenebilir.' + (nzebApplies ? ' (NZEB Uyumlu)' : '');
+                    } else {
+                        notesEl.innerText = notes;
+                    }
+                } else {
+                    resultEl.innerText = 'İMAR RUHSATI REDDEDİLDİ (REJECTED)';
+                    resultEl.style.color = '#e74c3c';
+                    notesEl.innerText = notes;
+                }
+            }
+        };
+        bindInputs(['bepStatus', 'bepArea', 'bepConsumption', 'bepRenewable'], window.checkBepCompliance);
+
+        // 9. POST 10: Paint Calculator
+        window.calcPaintRequirements = function() {
             const lenEl = document.getElementById('inpPaintRoomLen');
             const widEl = document.getElementById('inpPaintRoomWidth');
             if (!lenEl || !widEl) return;
@@ -173,27 +491,35 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
             setVal('outPrimerLtr', getBucketText(primerLtr));
             setVal('outPaintLtr', getBucketText(paintLtr));
             setVal('outCeilingLtr', getBucketText(ceilingLtr));
-        }
-
-        ['inpPaintRoomLen', 'inpPaintRoomWidth', 'inpPaintRoomHeight', 'inpPaintOpenings', 'inpPaintSurfaceType', 'inpPaintCoats'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) {
-                el.addEventListener('input', calcPaintRequirements);
-                el.addEventListener('change', calcPaintRequirements);
-                el.addEventListener('keyup', calcPaintRequirements);
-            }
-        });
+        };
+        bindInputs(['inpPaintRoomLen', 'inpPaintRoomWidth', 'inpPaintRoomHeight', 'inpPaintOpenings', 'inpPaintSurfaceType', 'inpPaintCoats'], window.calcPaintRequirements);
 
         document.getElementById('btnCalcPaintWidget')?.addEventListener('click', () => {
-            calcPaintRequirements();
+            window.calcPaintRequirements();
             if (typeof window.showToast === 'function') {
                 window.showToast("Hesaplama Yapıldı", "Boya ve astar ihtiyacı güncellendi.");
             }
         });
 
-        calcPaintRequirements();
-        setTimeout(calcPaintRequirements, 300);
-        window.addEventListener('load', calcPaintRequirements);
+        // Run all present widgets upon page initialization
+        function initAllWidgets() {
+            if (document.getElementById('isoArea')) window.calculateInsulation();
+            if (document.getElementById('glassWidth')) window.calculateGlassWeight();
+            if (document.getElementById('testPressure')) window.calculateMockup();
+            if (document.getElementById('contractVal')) window.calculateEOT();
+            if (document.getElementById('screedArea')) window.calculateScreedMix();
+            if (document.getElementById('loadWeight')) window.calculateCraneRisk();
+            if (document.getElementById('leedLoc')) window.calculateLEED();
+            if (document.getElementById('bepStatus')) {
+                window.toggleRenewableInput();
+                window.checkBepCompliance();
+            }
+            if (document.getElementById('inpPaintRoomLen')) window.calcPaintRequirements();
+        }
+
+        initAllWidgets();
+        setTimeout(initAllWidgets, 200);
+        window.addEventListener('load', initAllWidgets);
     })();
 </script>
 
@@ -213,9 +539,11 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
         margin-top: 2.5rem;
         margin-bottom: 1rem;
     }
-    .article-body-content ul {
+    .article-body-content ul, .article-body-content ol {
         margin-left: 1.5rem;
         margin-bottom: 1.5rem;
+    }
+    .article-body-content ul {
         list-style-type: square;
     }
     .article-body-content li {
