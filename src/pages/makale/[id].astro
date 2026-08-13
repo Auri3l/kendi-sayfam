@@ -501,6 +501,51 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
             }
         });
 
+        // 10. POST 11: Italian Paint & Wax Calculator
+        window.calcItalianRequirements = function() {
+            const areaEl = document.getElementById('inpItalianArea');
+            if (!areaEl) return;
+
+            const area = parseFloat(areaEl.value) || 25.0;
+            const type = document.getElementById('inpItalianType')?.value || 'stucco';
+            const wax = document.getElementById('inpItalianWax')?.value || 'yes';
+
+            let unitPaste = 1.0; // kg/m2 for stucco
+            let speedHoursPerM2 = 0.75;
+            if (type === 'marmorino') {
+                unitPaste = 1.8;
+                speedHoursPerM2 = 0.65;
+            } else if (type === 'travertino') {
+                unitPaste = 2.4;
+                speedHoursPerM2 = 0.60;
+            }
+
+            const primerKg = area * 0.18; // Quartz primer approx 0.18 kg/m2
+            const pasteKg = area * unitPaste;
+            const buckets20kg = Math.ceil(pasteKg / 20);
+            const waxLiter = wax === 'yes' ? (area * 0.05) : 0;
+            const totalHours = Math.ceil(area * speedHoursPerM2);
+
+            const setVal = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.innerText = val;
+            };
+
+            setVal('outItalianPrimer', primerKg.toFixed(1) + ' kg');
+            setVal('outItalianPaste', Math.round(pasteKg).toLocaleString('tr-TR') + ' kg');
+            setVal('outItalianBuckets', buckets20kg + ' Kova (20kg)');
+            setVal('outItalianWax', wax === 'yes' ? waxLiter.toFixed(1) + ' Lt' : 'Gereksiz');
+            setVal('outItalianHours', totalHours + ' Saat');
+        };
+        bindInputs(['inpItalianArea', 'inpItalianType', 'inpItalianWax'], window.calcItalianRequirements);
+
+        document.getElementById('btnCalcItalianWidget')?.addEventListener('click', () => {
+            window.calcItalianRequirements();
+            if (typeof window.showToast === 'function') {
+                window.showToast("Hesaplama Yapıldı", "İtalyan boya ve wax ihtiyacı güncellendi.");
+            }
+        });
+
         // Run all present widgets upon page initialization
         function initAllWidgets() {
             if (document.getElementById('isoArea')) window.calculateInsulation();
@@ -515,6 +560,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                 window.checkBepCompliance();
             }
             if (document.getElementById('inpPaintRoomLen')) window.calcPaintRequirements();
+            if (document.getElementById('inpItalianArea')) window.calcItalianRequirements();
         }
 
         initAllWidgets();
