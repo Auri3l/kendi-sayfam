@@ -42,8 +42,8 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                         <span>İstanbul, Türkiye</span>
                         <span class="hcv-sep">•</span>
                         <span id="cvPhoneSlot" class="protected-slot">
-                            <button type="button" class="protected-trigger-btn hcv-link" data-action="unlockContact" title="Telefon Numarasını Aç">
-                                🔒 +90 538 412 18 97 (Şifreli)
+                            <button type="button" class="protected-trigger-btn hcv-link" data-action="unlockContact" title="Telefon Numarasını Şifre İle Aç">
+                                🔒 •••••••••• (Şifreli)
                             </button>
                         </span>
                         <span class="hcv-sep">•</span>
@@ -474,6 +474,15 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
         .hcv-section {
             break-inside: avoid;
             page-break-inside: avoid;
+        }
+
+        .protected-trigger-btn {
+            border: none !important;
+            background: none !important;
+            box-shadow: none !important;
+            color: #111111 !important;
+            font-size: inherit !important;
+            padding: 0 !important;
         }
 
         @page {

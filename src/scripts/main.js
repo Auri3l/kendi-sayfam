@@ -521,6 +521,12 @@ function updateDOMWithDecryptedContact(data) {
             badgeBtn.outerHTML = `<span class="unlocked-badge" title="Bilgi Doğrulandı">🔓 Doğrulandı</span>`;
         }
     }
+
+    // 3. CV Page Slot (cv.astro)
+    const cvPhoneSlot = document.getElementById('cvPhoneSlot');
+    if (cvPhoneSlot) {
+        cvPhoneSlot.innerHTML = `<a href="${data.phoneTel}" class="hcv-link">${data.phone}</a>`;
+    }
 }
 
 function initProtectedContact() {
