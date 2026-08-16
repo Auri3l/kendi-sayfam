@@ -22,7 +22,10 @@
         const activePanel = document.getElementById(`tab-${targetTab}`);
         if (activePanel) activePanel.classList.add('active');
 
-        if (targetTab === 'fem') updateFEMCalculations();
+        if (targetTab === 'fem') {
+            resizeCanvas();
+            updateFEMCalculations();
+        }
         else if (targetTab === 'radar') updateRadarDecisions();
         else if (targetTab === 'karsilastirma') renderComparison(currentCompareCat);
         else if (targetTab === 'donati-hesap') { updateRebarCalculator(); updateProfileCalculator(); runRebarOptimizer(); }
@@ -120,9 +123,12 @@
     const resizeCanvas = () => {
         if (!canvas || !ctx) return;
         const rect = canvas.getBoundingClientRect();
-        canvas.width = rect.width * window.devicePixelRatio;
-        canvas.height = rect.height * window.devicePixelRatio;
-        ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        if (rect.width === 0 || rect.height === 0) return;
+        
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.round(rect.width * dpr);
+        canvas.height = Math.round(rect.height * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         
         particles = [];
         const particleCount = 45;
@@ -163,8 +169,8 @@
     
     function project3D(x3d, y3d, z3d) {
         const r = canvas ? canvas.getBoundingClientRect() : {width:400,height:300};
-        const cX = r.width * 0.48;
-        const cY = r.height * 0.52;
+        const cX = (r.width || 400) * 0.48;
+        const cY = (r.height || 300) * 0.52;
         const rx = x3d * Math.cos(yaw) - z3d * Math.sin(yaw);
         const rz = x3d * Math.sin(yaw) + z3d * Math.cos(yaw);
         const ry = y3d;
@@ -183,6 +189,17 @@
         if (w === 0 || h === 0) {
             requestAnimationFrame(drawLoop);
             return;
+        }
+
+        // Auto-heal resolution and transform if dimensions changed
+        const dpr = window.devicePixelRatio || 1;
+        if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) {
+            canvas.width = Math.round(w * dpr);
+            canvas.height = Math.round(h * dpr);
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            if (particles.length === 0) {
+                for (let i = 0; i < 45; i++) particles.push(new WindParticle3D());
+            }
         }
 
         ctx.clearRect(0, 0, w, h);

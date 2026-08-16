@@ -273,7 +273,7 @@
    ========================================================================== */
 .sim-grid-layout {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
+    grid-template-columns: 1.25fr 1fr;
     gap: 2rem;
     align-items: stretch;
 }
@@ -290,71 +290,216 @@
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius-lg);
     overflow: hidden;
-    height: 540px;
+    min-height: 560px;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.sim-canvas {
+#facadeCanvas, .sim-canvas {
     width: 100% !important;
     height: 100% !important;
+    display: block;
     outline: none;
+    cursor: crosshair;
 }
 
-.sim-hud-overlay {
+.sim-panel-overlay {
     position: absolute;
     top: 1rem;
     left: 1rem;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.sim-panel-title {
     background: rgba(15, 23, 42, 0.85);
     border: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(8px);
+    padding: 0.45rem 0.85rem;
     border-radius: var(--border-radius-sm);
-    padding: 0.6rem 0.9rem;
-    font-family: monospace;
-    font-size: 0.75rem;
-    color: #38bdf8;
-    pointer-events: none;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent-color);
 }
 
-.sim-telemetry-panel {
+.sim-fem-hud {
     position: absolute;
-    bottom: 1rem;
-    left: 1rem;
+    top: 1rem;
     right: 1rem;
-    background: rgba(15, 23, 42, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(15, 23, 42, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(8px);
     border-radius: var(--border-radius-sm);
     padding: 0.75rem 1rem;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.75rem;
-    pointer-events: none;
-}
-
-@media (max-width: 600px) {
-    .sim-telemetry-panel {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-.telemetry-item {
-    text-align: center;
-}
-
-.telemetry-label {
-    font-size: 0.7rem;
-    color: #94a3b8;
-    display: block;
-    margin-bottom: 0.2rem;
-}
-
-.telemetry-value {
-    font-size: 1rem;
-    font-weight: 700;
     font-family: monospace;
+    font-size: 0.8rem;
+    color: #38bdf8;
+    pointer-events: none;
+    z-index: 10;
+    min-width: 190px;
+}
+
+.hud-title {
+    font-weight: 700;
+    font-size: 0.75rem;
+    color: var(--accent-color);
+    margin-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.25rem;
+    letter-spacing: 0.5px;
+}
+
+.hud-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+    font-size: 0.75rem;
+}
+
+.hud-label {
+    color: #94a3b8;
+}
+
+.hud-value {
     color: #f8fafc;
+    font-weight: 700;
+}
+
+.sim-control-deck {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.sim-controls-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.sim-control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.sim-control-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sim-control-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.sim-control-value {
+    font-size: 0.85rem;
+    font-family: monospace;
+    font-weight: 700;
+    color: var(--accent-color);
+    background: var(--bg-tertiary);
+    padding: 0.15rem 0.55rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.sim-range-input {
+    width: 100%;
+    accent-color: var(--accent-color);
+    cursor: pointer;
+}
+
+.sim-dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.sim-stat-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.sim-stat-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sim-stat-value {
+    font-size: 1.35rem;
+    font-family: monospace;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.sim-stat-unit {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.sim-status-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.2rem;
+    border-radius: var(--border-radius-md);
+    font-weight: 700;
+    font-size: 0.85rem;
+    border: 1px solid transparent;
+}
+
+.sim-status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.sim-status-badge.status-safe {
+    background: rgba(46, 204, 113, 0.12);
+    color: #2ecc71;
+    border-color: rgba(46, 204, 113, 0.3);
+}
+
+.sim-status-badge.status-safe .sim-status-dot {
+    background: #2ecc71;
+    box-shadow: 0 0 8px #2ecc71;
+}
+
+.sim-status-badge.status-warning {
+    background: rgba(241, 196, 15, 0.12);
+    color: #f1c40f;
+    border-color: rgba(241, 196, 15, 0.3);
+}
+
+.sim-status-badge.status-warning .sim-status-dot {
+    background: #f1c40f;
+    box-shadow: 0 0 8px #f1c40f;
+}
+
+.sim-status-badge.status-danger {
+    background: rgba(231, 76, 60, 0.12);
+    color: #e74c3c;
+    border-color: rgba(231, 76, 60, 0.3);
+}
+
+.sim-status-badge.status-danger .sim-status-dot {
+    background: #e74c3c;
+    box-shadow: 0 0 8px #e74c3c;
 }
 
 /* ==========================================================================
