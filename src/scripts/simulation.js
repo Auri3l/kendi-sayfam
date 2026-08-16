@@ -88,10 +88,10 @@
     const hudStress = document.getElementById('hudStress');
     
     const GLASS_PROPS = {
-        'single': { name: 'Tek Kat Düz Cam (4mm)', u: 5.8, shgc: 0.82, E: 70000, t: 4, saving: 0 },
-        'double': { name: 'Standart Çift Cam (24mm)', u: 2.7, shgc: 0.70, E: 70000, t: 7.56, saving: 45 },
-        'double-lowe': { name: 'Çift Cam Low-E (Argon)', u: 1.4, shgc: 0.40, E: 70000, t: 10.0, saving: 72 },
-        'triple-lowe': { name: 'Üç Cam Low-E (Argon Dolgulu)', u: 0.8, shgc: 0.32, E: 70000, t: 11.45, saving: 85 }
+        'single': { name: 'Tek Kat Düz Cam (6mm)', u: 5.8, shgc: 0.82, E: 70000, t: 6.0, saving: 0 },
+        'double': { name: 'Standart Çift Cam (6+16+6mm)', u: 2.7, shgc: 0.70, E: 70000, t: 7.56, saving: 53 },
+        'double-lowe': { name: 'Çift Cam Low-E (Argonlu 6+16+6mm)', u: 1.1, shgc: 0.38, E: 70000, t: 7.56, saving: 78 },
+        'triple-lowe': { name: 'Üç Cam Çift Low-E (Argonlu 6+14+6+14+6mm)', u: 0.6, shgc: 0.30, E: 70000, t: 8.65, saving: 89 }
     };
     
     let particles = [];
@@ -537,8 +537,8 @@
         if (heatVal) heatVal.innerText = Math.round(netHeatGain);
         if (savingVal) savingVal.innerText = `${props.saving}%`;
         
-        const limitSpan = (b_m * 1000) / 300;
-        const dangerLimit = (b_m * 1000) / 200;
+        const limitSpan = Math.min(15, (b_m * 1000) / 300);
+        const dangerLimit = Math.min(20, (b_m * 1000) / 200);
         
         if (statusBadge && statusText) {
             statusBadge.className = 'sim-status-badge';
@@ -747,15 +747,19 @@
 
         let blockArea = 0.0256;
         let wThickness = 0.19;
+        let mortarFactor = 0.035;
         if (wt === 'brick') {
             blockArea = 0.19 * 0.135;
             wThickness = 0.19;
+            mortarFactor = 0.035;
         } else if (wt === 'ytong') {
             blockArea = 0.60 * 0.25;
             wThickness = 0.15;
+            mortarFactor = 0.012;
         } else if (wt === 'bims') {
             blockArea = 0.39 * 0.19;
             wThickness = 0.19;
+            mortarFactor = 0.028;
         }
 
         const wallVol = wallArea * wThickness;
@@ -764,13 +768,13 @@
         const blocks = Math.ceil((wallArea / blockArea) * 1.05);
         setEl('outBlockCount', blocks.toLocaleString('tr-TR'));
 
-        const mortarVol = wallVol * 0.22;
+        const mortarVol = wallArea * mortarFactor;
         setEl('outMortarVol', mortarVol.toFixed(2).toLocaleString('tr-TR'));
 
         const mortarCement = (mortarVol * 250) / 25;
         setEl('outMortarCement', Math.ceil(mortarCement).toLocaleString('tr-TR'));
 
-        const mortarSand = mortarVol * 0.9;
+        const mortarSand = mortarVol * 1.1;
         setEl('outMortarSand', mortarSand.toFixed(2).toLocaleString('tr-TR'));
 
         const lintelConc = openings * 0.05;
@@ -782,7 +786,7 @@
         const plasterCement = (plasterVol * 300) / 25;
         setEl('outPlasterCement', Math.ceil(plasterCement).toLocaleString('tr-TR'));
 
-        const plasterSand = plasterVol * 0.95;
+        const plasterSand = plasterVol * 1.15;
         setEl('outPlasterSand', plasterSand.toFixed(2).toLocaleString('tr-TR'));
 
         const plasterBead = (openings * 5.0) + (wl * 0.25 * wh);
@@ -829,16 +833,16 @@
         const screedCement = (screedVol * scGrade) / 25;
         setEl('outScreedCement', Math.ceil(screedCement).toLocaleString('tr-TR'));
 
-        const screedSand = screedVol * 1.6;
+        const screedSand = screedVol * 1.5;
         setEl('outScreedSand', screedSand.toFixed(1).toLocaleString('tr-TR'));
 
-        const screedWater = (screedVol * scGrade) * 0.5;
+        const screedWater = (screedVol * scGrade) * 0.45;
         setEl('outScreedWater', Math.round(screedWater).toLocaleString('tr-TR'));
 
-        const screedFiber = screedVol * 0.9;
+        const screedFiber = screedVol * 0.90;
         setEl('outScreedFiber', screedFiber.toFixed(2).toLocaleString('tr-TR'));
 
-        const screedAdditive = (screedVol * scGrade) * 0.012;
+        const screedAdditive = (screedVol * scGrade) * 0.010;
         setEl('outScreedAdditive', screedAdditive.toFixed(1).toLocaleString('tr-TR'));
 
         const screedMesh = wa * 1.10;
@@ -851,10 +855,10 @@
         setEl('outWaterproofArea', waterproofArea.toFixed(1).toLocaleString('tr-TR'));
 
         const totalWaterproofWeight = waterproofArea * 1.2 * coats;
-        const waterproofLiquid = totalWaterproofWeight * 0.33;
+        const waterproofLiquid = totalWaterproofWeight * 0.30;
         setEl('outWaterproofLiquid', waterproofLiquid.toFixed(1).toLocaleString('tr-TR'));
 
-        const waterproofPowder = totalWaterproofWeight * 0.67;
+        const waterproofPowder = totalWaterproofWeight * 0.70;
         setEl('outWaterproofPowder', waterproofPowder.toFixed(1).toLocaleString('tr-TR'));
 
         const waterproofMesh = wp * 0.2;
@@ -872,10 +876,10 @@
         const tileBoxes = Math.ceil(tilesArea / 1.44);
         setEl('outTileBoxes', tileBoxes.toLocaleString('tr-TR'));
 
-        const tileAdhesive = (tilesArea * 5) / 25;
+        const tileAdhesive = (tilesArea * 4.5) / 25;
         setEl('outTileAdhesive', Math.ceil(tileAdhesive).toLocaleString('tr-TR'));
 
-        const tileGrout = (tilesArea * 0.5) / 5;
+        const tileGrout = (tilesArea * 0.4) / 5;
         setEl('outTileGrout', Math.ceil(tileGrout).toLocaleString('tr-TR'));
 
         let tSizeM2 = 0.36;
