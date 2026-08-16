@@ -1,0 +1,165 @@
+---
+// TabDonatiHesap.astro - Hızlı Donatı, Profil & Fire Optimizasyonu Cep Aracı
+---
+
+<div id="tab-donati-hesap" class="sim-tab-pane" role="tabpanel" aria-labelledby="tab-donati-hesap-btn">
+    <div class="sim-grid-container">
+        <!-- Sol Panel: Donatı ve Profil Hesap Formları -->
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <!-- 1. Donatı (Nervürlü Çelik) Metraj Hesabı -->
+            <div class="sim-panel sim-glass-card">
+                <div class="panel-header">
+                    <span class="panel-tag">Betonarme İmalat</span>
+                    <h4 class="panel-title">1. İnşaat Demiri Metraj &amp; Tonaj Hesabı</h4>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
+                    <div>
+                        <label for="inpRebarDia" class="sim-label">Donatı Çapı (Φ)</label>
+                        <select id="inpRebarDia" class="sim-select">
+                            <option value="8">Φ 8 mm (0.395 kg/m)</option>
+                            <option value="10">Φ 10 mm (0.617 kg/m)</option>
+                            <option value="12" selected>Φ 12 mm (0.888 kg/m)</option>
+                            <option value="14">Φ 14 mm (1.208 kg/m)</option>
+                            <option value="16">Φ 16 mm (1.578 kg/m)</option>
+                            <option value="18">Φ 18 mm (1.998 kg/m)</option>
+                            <option value="20">Φ 20 mm (2.466 kg/m)</option>
+                            <option value="22">Φ 22 mm (2.984 kg/m)</option>
+                            <option value="25">Φ 25 mm (3.853 kg/m)</option>
+                            <option value="28">Φ 28 mm (4.834 kg/m)</option>
+                            <option value="32">Φ 32 mm (6.313 kg/m)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="inpRebarLen" class="sim-label">Parça Boyu (m)</label>
+                        <input type="number" id="inpRebarLen" value="3.5" min="0.1" max="12" step="0.05" class="sim-number-input" />
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label for="inpRebarQty" class="sim-label">Donatı Adedi (Adet)</label>
+                    <input type="number" id="inpRebarQty" value="40" min="1" max="10000" step="1" class="sim-number-input" />
+                </div>
+
+                <div class="summary-metric-box">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                        <span style="font-size: 0.85rem; color: var(--text-muted);">Birim Ağırlık:</span>
+                        <strong id="outRebarUnitWt" style="color: var(--text-primary);">0.888 kg/m</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                        <span style="font-size: 0.85rem; color: var(--text-muted);">Toplam Metraj:</span>
+                        <strong id="outRebarTotalLen" style="color: var(--text-primary);">140.0 m</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                        <span style="font-size: 0.85rem; color: var(--text-muted);">Toplam Ağırlık:</span>
+                        <strong id="outRebarTotalKg" style="color: var(--accent-color); font-size: 1.1rem;">124.3 kg (0.12 Ton)</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="font-size: 0.85rem; color: var(--text-muted);">Eşdeğer 12m Çubuk:</span>
+                        <strong id="outRebarBars" style="color: var(--text-primary);">12 Çubuk (Bağ)</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Kutu Profil (Alüminyum & Çelik) Ağırlık Hesabı -->
+            <div class="sim-panel sim-glass-card">
+                <div class="panel-header">
+                    <span class="panel-tag">Metal Konstrüksiyon</span>
+                    <h4 class="panel-title">2. Kutu Profil Ağırlık Hesabı</h4>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
+                    <div>
+                        <label for="inpProfMat" class="sim-label">Malzeme Türü</label>
+                        <select id="inpProfMat" class="sim-select">
+                            <option value="steel" selected>Yapı Çeliği (7.85 kg/dm³)</option>
+                            <option value="aluminum">Alüminyum (2.70 kg/dm³)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="inpProfThk" class="sim-label">Et Kalınlığı t (mm)</label>
+                        <input type="number" id="inpProfThk" value="3.0" min="0.5" max="20" step="0.5" class="sim-number-input" />
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
+                    <div>
+                        <label for="inpProfW" class="sim-label">Genişlik A (mm)</label>
+                        <input type="number" id="inpProfW" value="60" min="10" max="500" step="5" class="sim-number-input" />
+                    </div>
+                    <div>
+                        <label for="inpProfH" class="sim-label">Yükseklik B (mm)</label>
+                        <input type="number" id="inpProfH" value="120" min="10" max="500" step="5" class="sim-number-input" />
+                    </div>
+                    <div>
+                        <label for="inpProfLen" class="sim-label">Toplam Boy (m)</label>
+                        <input type="number" id="inpProfLen" value="24" min="1" max="1000" step="1" class="sim-number-input" />
+                    </div>
+                </div>
+
+                <div class="summary-metric-box">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                        <span style="font-size: 0.85rem; color: var(--text-muted);">Metretül Ağırlığı:</span>
+                        <strong id="outProfUnitWt" style="color: var(--text-primary);">8.05 kg/m</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="font-size: 0.85rem; color: var(--text-muted);">Toplam Profil Ağırlığı:</span>
+                        <strong id="outProfTotalWt" style="color: var(--accent-color); font-size: 1.1rem;">193.3 kg</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sağ Panel: 12 Metre Donatı Kesim & Fire Optimizasyonu -->
+        <div class="sim-panel sim-glass-card">
+            <div class="panel-header">
+                <span class="panel-tag">Şantiye Fire Azaltma</span>
+                <h4 class="panel-title">3. 12m Donatı Kesim &amp; Fire Optimizasyonu</h4>
+            </div>
+
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                Standart 12.00 metre boy inşaat demirinden kesilecek parça boylarını girerek en az fireli yerleşimi hesaplayın:
+            </p>
+
+            <div style="margin-bottom: 1rem;">
+                <label for="inpOptPieces" class="sim-label">Kesilecek Parça Boyları (Virgülle veya boşlukla ayırın, metre cinsinden)</label>
+                <input type="text" id="inpOptPieces" value="3.40, 2.80, 5.20" class="sim-number-input" style="font-family: monospace;" />
+                <span class="field-hint">Örnek: 3.40, 2.80, 5.20 (Toplam: 11.40 m)</span>
+            </div>
+
+            <button type="button" class="btn btn-primary" id="btnRunOptimizer" style="width: 100%; margin-bottom: 1.5rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                ⚡ Kesim Planını ve Fireyi Hesapla
+            </button>
+
+            <!-- Görsel 12m Çubuk Şeması -->
+            <div style="margin-bottom: 1.5rem;">
+                <span style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.5rem; font-weight: 600;">12 Metre Çubuk Kesim Şeması:</span>
+                <div id="optVisualBar" style="height: 36px; width: 100%; background: var(--bg-tertiary); border-radius: 6px; display: flex; overflow: hidden; border: 1px solid var(--border-color);">
+                    <!-- Dinamik segmentler -->
+                </div>
+            </div>
+
+            <!-- Sonuç Detayı -->
+            <div class="summary-metric-box" style="margin-bottom: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">Kullanılan Net Boy:</span>
+                    <strong id="outOptUsedLen" style="color: var(--text-primary);">11.40 m</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">Kalan Parça (Artık / Fire):</span>
+                    <strong id="outOptWasteLen" style="color: var(--accent-color); font-size: 1.1rem;">0.60 m (60 cm)</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">Fire Yüzdesi:</span>
+                    <strong id="outOptWastePct" style="color: #2ecc71;">% 5.0 (Mükemmel Yerleşim)</strong>
+                </div>
+            </div>
+
+            <!-- WhatsApp Şantiye Notu Kopyalama -->
+            <button type="button" class="btn btn-secondary" id="btnCopyRebarPlan" style="width: 100%; justify-content: center; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.85rem;">
+                📋 Şantiye Kesim Notunu Kopyala (WhatsApp / Rapor)
+            </button>
+        </div>
+    </div>
+</div>

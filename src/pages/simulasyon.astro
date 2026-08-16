@@ -2,6 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 import SimulationTabsNav from '../components/simulation/SimulationTabsNav.astro';
 import TabFem from '../components/simulation/TabFem.astro';
+import TabRadar from '../components/simulation/TabRadar.astro';
+import TabKarsilastirma from '../components/simulation/TabKarsilastirma.astro';
+import TabDonatiHesap from '../components/simulation/TabDonatiHesap.astro';
 import TabCephe from '../components/simulation/TabCephe.astro';
 import TabBeton from '../components/simulation/TabBeton.astro';
 import TabDuvar from '../components/simulation/TabDuvar.astro';
@@ -10,18 +13,18 @@ import '../styles/simulation.css';
 ---
 
 <Layout 
-    title="İnşaat & Cephe Simülasyon Laboratuvarı | Ata Yiğit Telli" 
+    title="İnşaat, Cephe & Şantiye Simülasyon Laboratuvarı | Ata Yiğit Telli" 
     activePage="simulasyon" 
-    description="3D FEM Giydirme Cephe Sehim ve Rüzgar Yükü Analizörü, Kaba İnşaat Betonarme, Duvar, Sıva, İzolasyon ve Seramik Metraj Cetveli Hesaplama Laboratuvarı."
+    description="3D FEM Giydirme Cephe Sehim Analizörü, Şantiye Hava Radarı & İSG Karar Matrisi, Sistem Karşılaştırıcı ve Hızlı Metraj Motoru."
 >
     <main>
         <section class="section section-padding sim-lab-section" style="margin-top: 5rem;">
             <div class="container">
                 <div class="section-header">
                     <span class="section-tag">İnteraktif Mühendislik Araçları</span>
-                    <h3 class="section-title">İnşaat &amp; Cephe Simülasyon Laboratuvarı</h3>
+                    <h3 class="section-title">İnşaat, Cephe &amp; Şantiye Simülasyon Laboratuvarı</h3>
                     <p class="section-subtitle" style="max-width: 800px; margin: 0 auto; color: var(--text-secondary); text-align: center; font-size: 0.95rem; margin-top: 0.5rem;">
-                        3D FEM Yapısal Cam Sehim Analizörü ve Kaba/İnce İnşaat (Beton, Kalıp, Duvar, Sıva, Şap, İzolasyon, Seramik) Hızlı Metraj Motoru.
+                        3D FEM Yapısal Cam Sehim Analizörü, Şantiye Hava &amp; İSG İmalat Radarı, Malzeme Karşılaştırıcı ve Kaba/İnce İnşaat Hızlı Metraj Motoru.
                     </p>
                     <div class="section-divider"></div>
                 </div>
@@ -32,16 +35,25 @@ import '../styles/simulation.css';
                 <!-- TAB 1: 3D FEM ANALYSIS -->
                 <TabFem />
 
-                <!-- TAB 2: FACADE QUANTITY ESTIMATOR (10 METRICS) -->
+                <!-- TAB 2: ŞANTİYE HAVA RADARI & İSG KARAR MATRİSİ -->
+                <TabRadar />
+
+                <!-- TAB 3: SİSTEM & MALZEME KARŞILAŞTIRICI -->
+                <TabKarsilastirma />
+
+                <!-- TAB 4: DONATI, PROFİL & KESİM OPTİMİZASYONU -->
+                <TabDonatiHesap />
+
+                <!-- TAB 5: FACADE QUANTITY ESTIMATOR (10 METRICS) -->
                 <TabCephe />
 
-                <!-- TAB 3: CONCRETE & FORMWORK ESTIMATOR (10 METRICS) -->
+                <!-- TAB 6: CONCRETE & FORMWORK ESTIMATOR (10 METRICS) -->
                 <TabBeton />
 
-                <!-- TAB 4: MASONRY & PLASTER ESTIMATOR (11 METRICS) -->
+                <!-- TAB 7: MASONRY & PLASTER ESTIMATOR (11 METRICS) -->
                 <TabDuvar />
 
-                <!-- TAB 5: SCREED, WATERPROOFING & TILES (19 METRICS) -->
+                <!-- TAB 8: SCREED, WATERPROOFING & TILES (19 METRICS) -->
                 <TabSap />
             </div>
         </section>

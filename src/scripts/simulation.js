@@ -5,19 +5,22 @@
 (function() {
     // --- TAB SWITCHER LOGIC ---
     const tabBtns = document.querySelectorAll('.sim-tab-btn');
-    const tabPanels = document.querySelectorAll('.sim-tab-panel');
+    const tabPanes = document.querySelectorAll('.sim-tab-pane');
 
     tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const targetTab = btn.getAttribute('data-tab');
 
             tabBtns.forEach(b => b.classList.remove('active'));
-            tabPanels.forEach(p => p.classList.remove('active'));
+            tabPanes.forEach(p => p.classList.remove('active'));
 
             btn.classList.add('active');
             document.getElementById(`tab-${targetTab}`)?.classList.add('active');
 
             if (targetTab === 'fem') updateFEMCalculations();
+            else if (targetTab === 'radar') updateRadarDecisions();
+            else if (targetTab === 'karsilastirma') renderComparison(currentCompareCat);
+            else if (targetTab === 'donati-hesap') { updateRebarCalculator(); updateProfileCalculator(); runRebarOptimizer(); }
             else if (targetTab === 'cephe') updateFacadeCalculations();
             else if (targetTab === 'beton') updateConcreteCalculations();
             else if (targetTab === 'duvar') updateMasonryCalculations();
@@ -883,6 +886,468 @@
         flashTableUpdate('tab-sap', 'Şap & Seramik Metrajı Hesaplandı', '19 adet şap, izolasyon ve seramik malzemesi hesaplandı.');
     });
 
+    // =========================================================================
+    // TAB 6: ŞANTİYE HAVA RADARI & İSG KARAR MOTORU
+    // =========================================================================
+    function updateRadarDecisions() {
+        const temp = parseFloat(document.getElementById('radarTemp')?.value) || 18;
+        const wind = parseFloat(document.getElementById('radarWind')?.value) || 15;
+        const humidity = parseFloat(document.getElementById('radarHumidity')?.value) || 55;
+        const precip = document.getElementById('radarPrecip')?.value || 'clear';
+
+        const setDisplay = (id, val) => {
+            const el = document.getElementById(id);
+            if (el) el.innerText = val;
+        };
+
+        setDisplay('valRadarTemp', `${temp} °C`);
+        setDisplay('valRadarWind', `${wind} km/h`);
+        setDisplay('valRadarHumidity', `${humidity} %`);
+
+        function setBadge(badgeId, descId, status, label, desc) {
+            const badge = document.getElementById(badgeId);
+            const descEl = document.getElementById(descId);
+            if (badge) {
+                badge.className = `radar-badge badge-${status}`;
+                badge.innerText = label;
+            }
+            if (descEl) {
+                descEl.innerText = desc;
+            }
+        }
+
+        // 1. Beton Dökümü Kararı (TS 500 / TS EN 206)
+        if (precip === 'snow' || temp < 0) {
+            setBadge('badgeBeton', 'descBeton', 'danger', 'DÖKÜM YASAK', 'Hava sıcaklığı 0°C altında veya kar yağışı var. Don riski nedeniyle beton dökümü derhal durdurulmalıdır.');
+        } else if (temp < 5) {
+            setBadge('badgeBeton', 'descBeton', 'warn', 'TEDBİRLİ DÖKÜM', 'Sıcaklık +5°C altında. Sıcak karışım betonu, antifriz/hızlandırıcı katkı ve döküm sonrası termal don örtüsü zorunludur.');
+        } else if (temp > 32) {
+            setBadge('badgeBeton', 'descBeton', 'warn', 'AŞIRI SICAK', 'Sıcaklık +32°C üzerinde. Priz geciktirici katkı kullanılmalı, hızlı buharlaşma ve plastik rötreye karşı anlık ıslak kür yapılmalıdır.');
+        } else {
+            setBadge('badgeBeton', 'descBeton', 'ok', 'UYGUN', 'Sıcaklık ve hava koşulları TS 500 normlarına uygundur. Standart vibrasyon ve kürleme ile döküm yapılabilir.');
+        }
+
+        // 2. Kule Vinç & Ağır Kaldırma (İSG Yönetmeliği)
+        if (wind >= 45) {
+            setBadge('badgeCrane', 'descCrane', 'danger', 'OPERASYON YASAK', 'Rüzgar hızı 45 km/h fırtına sınırını aşmıştır. Kule vinç bomu serbest dönüşe (rüzgar moduna) alınmalı ve tüm kaldırmalar durdurulmalıdır.');
+        } else if (wind >= 30) {
+            setBadge('badgeCrane', 'descCrane', 'warn', 'GÖZETİMLİ ÇALIŞMA', 'Rüzgar 30-45 km/h aralığında. Geniş yüzeyli rüzgar tutan kalıp ve cam panellerin kaldırılmasında çift kılavuz halat ve İSG gözetimi şarttır.');
+        } else {
+            setBadge('badgeCrane', 'descCrane', 'ok', 'GÜVENLİ', 'Rüzgar hızı güvenli çalışma sınırları altındadır. Standart işaretçi kontrolünde operasyon sürdürülebilir.');
+        }
+
+        // 3. Dış Cephe Sepeti & İskele
+        if (wind >= 40 || precip === 'heavy_rain' || precip === 'snow') {
+            setBadge('badgeScaffold', 'descScaffold', 'danger', 'YÜKSEKTE ÇALIŞMA YASAK', 'Şiddetli rüzgar (≥40 km/h) veya yoğun yağış nedeniyle asma sepet ve iskelede çalışma hayati risk taşır.');
+        } else if (wind >= 25 || precip === 'light_rain') {
+            setBadge('badgeScaffold', 'descScaffold', 'warn', 'RÜZGAR / KAYMA RİSKİ', 'Hafif yağış ve rüzgar mevcuttur. Çift lanyard ve tam emniyet kemeri ile sınırlı çalışma yapılmalıdır.');
+        } else {
+            setBadge('badgeScaffold', 'descScaffold', 'ok', 'GÜVENLİ', 'İskele ve dış cephe montaj sepetleri için hava koşulları elverişlidir.');
+        }
+
+        // 4. Cephe Silikonu, Mastik & Yalıtım
+        if (precip !== 'clear' && precip !== 'cloudy') {
+            setBadge('badgeSilicone', 'descSilicone', 'danger', 'UYGULAMA YASAK', 'Yağışlı havalarda yüzey nemi nedeniyle sosis silikon, mastik ve sürme izolasyon aderans sağlayamaz.');
+        } else if (humidity > 80 || temp < 5) {
+            setBadge('badgeSilicone', 'descSilicone', 'warn', 'ADERANS RİSKİ', 'Yüksek bağıl nem (>%80) veya düşük sıcaklık (<+5°C) silikonun kürlenmesini bozar; yüzeyin tamamen kuru olduğu teyit edilmelidir.');
+        } else {
+            setBadge('badgeSilicone', 'descSilicone', 'ok', 'UYGUN', 'Yüzey kuru, bağıl nem ve ortam sıcaklığı fitil/silikon uygulaması için idealdir.');
+        }
+
+        // 5. Dış Sıva & Dış Cephe Boyası
+        if (precip !== 'clear' && precip !== 'cloudy') {
+            setBadge('badgePaint', 'descPaint', 'danger', 'UYGULAMA YASAK', 'Yağış esnasında dış cephe sıvası ve boyası akma ve lekelenme yapar.');
+        } else if (temp < 5 || temp > 35) {
+            setBadge('badgePaint', 'descPaint', 'warn', 'RİSKLİ SICAKLIK', 'Sıcaklık sınır dışındadır. Aşırı sıcakta boya erken kurur ve yanar; soğukta ise film oluşturamaz.');
+        } else {
+            setBadge('badgePaint', 'descPaint', 'ok', 'UYGUN', 'Dış cephe boya ve dekoratif sıva uygulamaları için ideal kuruma ortamı.');
+        }
+    }
+
+    ['radarTemp', 'radarWind', 'radarHumidity', 'radarPrecip'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', updateRadarDecisions);
+            el.addEventListener('change', updateRadarDecisions);
+        }
+    });
+
+    document.getElementById('btnPresetNormal')?.addEventListener('click', () => {
+        setVal('radarTemp', 22); setVal('radarWind', 12); setVal('radarHumidity', 50); setVal('radarPrecip', 'clear');
+        updateRadarDecisions();
+    });
+    document.getElementById('btnPresetStorm')?.addEventListener('click', () => {
+        setVal('radarTemp', 14); setVal('radarWind', 52); setVal('radarHumidity', 85); setVal('radarPrecip', 'heavy_rain');
+        updateRadarDecisions();
+    });
+    document.getElementById('btnPresetCold')?.addEventListener('click', () => {
+        setVal('radarTemp', -2); setVal('radarWind', 20); setVal('radarHumidity', 65); setVal('radarPrecip', 'snow');
+        updateRadarDecisions();
+    });
+    document.getElementById('btnPresetRain')?.addEventListener('click', () => {
+        setVal('radarTemp', 15); setVal('radarWind', 28); setVal('radarHumidity', 92); setVal('radarPrecip', 'heavy_rain');
+        updateRadarDecisions();
+    });
+
+    function setVal(id, val) {
+        const el = document.getElementById(id);
+        if (el) el.value = val;
+    }
+
+    // =========================================================================
+    // TAB 7: SİSTEM & MALZEME KARŞILAŞTIRICI (HEAD-TO-HEAD)
+    // =========================================================================
+    let currentCompareCat = 'duvar';
+
+    const COMPARE_DATA = {
+        'duvar': {
+            title: 'Duvar Örgü Sistemleri Karşılaştırması',
+            items: [
+                {
+                    name: 'Gazbeton (Ytong)',
+                    weight: '500 - 600 kg/m³ (Çok Hafif)',
+                    thermal: 'λ = 0.11 W/mK (En Yüksek Yalıtım)',
+                    speed: '35 - 45 m² / gün (Çok Hızlı)',
+                    fire: 'A1 Sınıfı Yanmaz (4 Saate kadar)',
+                    mortar: 'İnce derz yapıştırıcısı (Düşük Harç)',
+                    pros: 'Taşıyıcıya minimum ölü yük bindirir, ısı yalıtımı mükemmeldir, düzgün yüzeyi sayesinde kaba sıva ihtiyacını azaltır.',
+                    cons: 'Su emme kapasitesi yüksektir; dış cephede aderans astarı ve su itici sıva gerektirir.'
+                },
+                {
+                    name: 'Yatay Delikli Tuğla (19x19x13.5)',
+                    weight: '800 - 950 kg/m³ (Orta Ağırlık)',
+                    thermal: 'λ = 0.32 W/mK (Orta Yalıtım)',
+                    speed: '20 - 25 m² / gün (Orta Hız)',
+                    fire: 'A1 Sınıfı Yanmaz',
+                    mortar: 'Geleneksel harç (2.5 cm kalınlık)',
+                    pros: 'Ekonomik birim malzeme fiyatı, yüksek mekanik taşıma gücü ve şantiyede kolay temin.',
+                    cons: 'Harç tüketimi ve sıva payı yüksektir; kırılganlığı nedeniyle elektrik/tesisat kırımında fire oranı fazladır.'
+                },
+                {
+                    name: 'Bims Blok (Pomza Blok)',
+                    weight: '650 - 750 kg/m³ (Hafif)',
+                    thermal: 'λ = 0.18 W/mK (İyi Yalıtım)',
+                    speed: '25 - 30 m² / gün (İyi Hız)',
+                    fire: 'A1 Sınıfı Yanmaz',
+                    mortar: 'Geleneksel veya hazır harç',
+                    pros: 'Gözenekli yapısı sayesinde yüksek ses yutuculuk ve akustik yalıtım sağlar, elastik yapısı depremde çatlamayı azaltır.',
+                    cons: 'Boyutsal toleransları tuğla ve gazbetona göre daha geniştir; sıva sarfiyatı artabilir.'
+                }
+            ],
+            verdict: '<strong>Şantiye Mühendisi Değerlendirmesi:</strong> Deprem yönetmeliği açısından binanın toplam ölü yükünü hafifletmek ve mantolama kalınlığını optimize etmek için iç/dış bölme duvarlarda <em>Gazbeton</em> en verimli çözümdür. Daireler arası akustik ses yalıtımında ise <em>Bims Blok</em> tercih edilmelidir.'
+        },
+        'cephe': {
+            title: 'Giydirme Cephe Sistemleri Karşılaştırması',
+            items: [
+                {
+                    name: 'Unitized (Modüler Panel Cephe)',
+                    weight: '60 - 85 kg/m² (Cam dahil)',
+                    thermal: 'Isı bariyerli profiller (Ucw ≤ 1.2 W/m²K)',
+                    speed: 'Günde 20 - 35 Panel (Vinçle Çok Hızlı)',
+                    fire: 'Katlar arası galvaniz yangın bariyeri (Smoke Seal)',
+                    mortar: 'İskele gerektirmez (İçeriden montaj)',
+                    pros: 'Fabrikada %100 kontrollü montaj ve EPDM fitilleme; şantiyede hava şartlarından bağımsız yıldırım hızında montaj.',
+                    cons: 'Yüksek ilk yatırım maliyeti, hassas 3D ankraj ölçümü ve sahada kule vinç / monoray vinç lojistik koordinasyonu gerektirir.'
+                },
+                {
+                    name: 'Stick (Klasik Çubuklu Cephe)',
+                    weight: '45 - 65 kg/m² (Cam dahil)',
+                    thermal: 'Isı bariyerli profiller (Ucw ≤ 1.6 W/m²K)',
+                    speed: 'Günde 8 - 12 Modül (İskele Üzerinden)',
+                    fire: 'Taşyünü spandrel yalıtımı',
+                    mortar: 'Dış iskele veya asma sepet zorunlu',
+                    pros: 'Düşük ilk imalat maliyeti, küçük ve karmaşık açılı mimari geometrilere sahada kolay uyarlanabilirlik.',
+                    cons: 'Dış ortam hava şartlarına aşırı bağımlıdır; sahada uygulanan silikon ve fitil hataları su sızıntısı riski doğurur.'
+                }
+            ],
+            verdict: '<strong>Şantiye Mühendisi Değerlendirmesi:</strong> 15 kat ve üzeri yüksek kule projelerinde şantiye süresini yarı yarıya kısaltmak ve sıfır su sızıntısı garantisi almak için <em>Unitized Panel Cephe</em> zorunludur. Düşük katlı ve girintili-çıkıntılı mimarilerde ise <em>Stick Cephe</em> maliyet avantajı sağlar.'
+        },
+        'yalitim': {
+            title: 'Islak Hacim & Teras Su Yalıtım Karşılaştırması',
+            items: [
+                {
+                    name: '2 Komponentli Çimento-Akrilik Sürme',
+                    weight: '2.5 - 3.5 kg/m² (Çift kat)',
+                    thermal: 'Nefes alır (Buhar geçirgen)',
+                    speed: '6 - 8 saatte katlar arası kuruma',
+                    fire: 'Yanmaz mineral katman',
+                    mortar: 'Seramik yapıştırıcısı doğrudan tutunur',
+                    pros: 'Seramik ve şap altında en yüksek aderans gücü, eksiz monolitik kaplama, nemli yüzeylere dahi uygulanabilme.',
+                    cons: 'Yüksek genleşmeli yapısal hareket derzlerinde elastik pah filesi olmadan tek başına yırtılabilir.'
+                },
+                {
+                    name: 'Poliüretan Esaslı Likit Membran',
+                    weight: '1.5 - 2.0 kg/m² (Çift kat)',
+                    thermal: 'Yüksek UV ve elastisite direnci',
+                    speed: '12 - 24 saat tam kuruma',
+                    fire: 'B2 Sınıfı',
+                    mortar: 'Açık teras veya üzerine seramik astarı',
+                    pros: '%400 üzerinde kopma uzaması (elastisite), çatlak köprüleme kabiliyeti, açık teraslarda güneş ışığına (UV) tam dayanım.',
+                    cons: 'Uygulama zemininin tamamen kuru (nem <%5) olması şarttır; ıslak zeminde kabarma ve baloncuk yapar.'
+                },
+                {
+                    name: 'Bitümlü Rulo Membran (Şalümolu)',
+                    weight: '3.5 - 4.5 kg/m²',
+                    thermal: 'Buhar kesici bariyer',
+                    speed: 'Şalümo alevi ile hızlı serim',
+                    fire: 'Yanıcı (Açık alev riski)',
+                    mortar: 'Üzerine koruma şapı dökülmelidir',
+                    pros: 'Temel bohçalama ve toprak altı perde duvarlarda yüksek mekanik darbe ve kök dayanımı.',
+                    cons: 'Ek yerlerinde (bindirmelerde) işçilik hatasına açıktır; yangın riski nedeniyle iç mekan ıslak hacimlerde tercih edilmez.'
+                }
+            ],
+            verdict: '<strong>Şantiye Mühendisi Değerlendirmesi:</strong> Banyo, mutfak ve balkon seramik altlarında aderans ve yangın güvenliği için <em>2 Komponentli Çimento Esaslı Sürme Yalıtım</em>; açık gezinilen teras çatılarda ise yüksek UV ve elastisite için <em>Poliüretan Likit Membran</em> uygulanmalıdır.'
+        },
+        'kalip': {
+            title: 'Taşıyıcı Kaba Yapı Kalıp Sistemleri Karşılaştırması',
+            items: [
+                {
+                    name: 'Konvansiyonel Çelik Kuşaklı Ahşap/Plywood',
+                    weight: 'Esnek / Manuel taşınabilir',
+                    thermal: 'Standart betonarme prizi',
+                    speed: 'Kat başına 10 - 14 gün',
+                    fire: 'Standart betonarme güvenliği',
+                    mortar: 'Kolon, kiriş, asmolen, kaset döşeme',
+                    pros: 'Her türlü karmaşık ve değişken mimari plana sahada %100 uyarlanabilme kabiliyeti; düşük ilk kalıp yatırım maliyeti.',
+                    cons: 'Ağır işçilik ve kalıpçı ustası bağımlılığı; kat döküm hızının yavaş olması.'
+                },
+                {
+                    name: 'Endüstriyel Tünel Kalıp Sistemi',
+                    weight: 'Ağır çelik paneller (Kule vinç zorunlu)',
+                    thermal: 'Hızlı priz (Gerektiğinde ısıtma kürü)',
+                    speed: 'Günde 1 Kat (24 saatte kat dökümü)',
+                    fire: 'Monolitik perde-döşeme yüksek rijitlik',
+                    mortar: 'Taşıyıcı perde duvar + döşeme tek döküm',
+                    pros: 'Seri konut projelerinde inanılmaz yapım hızı, yüksek deprem dayanımı (tüm duvarlar taşıyıcı perde), sıfır sıva maliyeti (brüt yüzey).',
+                    cons: 'Mimari plan esnekliği yoktur; daire içi duvarlar yıkılıp revize edilemez, ilk çelik kalıp yatırımı çok yüksektir.'
+                }
+            ],
+            verdict: '<strong>Şantiye Mühendisi Değerlendirmesi:</strong> Tekrarlayan bloklardan oluşan büyük ölçekli toplu konut projelerinde (TOKİ, kentsel dönüşüm) süre ve maliyet avantajı için <em>Tünel Kalıp</em>; ofis, AVM ve özel villalarda ise mimari esneklik için <em>Plywood/Konvansiyonel Kalıp</em> tercih edilmelidir.'
+        }
+    };
+
+    function renderComparison(cat) {
+        currentCompareCat = cat;
+        const container = document.getElementById('compareContentContainer');
+        if (!container) return;
+
+        const data = COMPARE_DATA[cat];
+        if (!data) return;
+
+        // Update active button state
+        document.querySelectorAll('.compare-cat-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-cat') === cat);
+        });
+
+        let cardsHtml = '';
+        data.items.forEach(item => {
+            cardsHtml += `
+                <div class="compare-card">
+                    <h5 class="compare-card-title">${item.name}</h5>
+                    <div>
+                        <div class="compare-metric-row">
+                            <span class="compare-metric-label">Öz Ağırlık / Yük:</span>
+                            <span class="compare-metric-val">${item.weight}</span>
+                        </div>
+                        <div class="compare-metric-row">
+                            <span class="compare-metric-label">Isı &amp; Yalıtım:</span>
+                            <span class="compare-metric-val">${item.thermal}</span>
+                        </div>
+                        <div class="compare-metric-row">
+                            <span class="compare-metric-label">Uygulama Hızı:</span>
+                            <span class="compare-metric-val">${item.speed}</span>
+                        </div>
+                        <div class="compare-metric-row">
+                            <span class="compare-metric-label">Yangın &amp; Standart:</span>
+                            <span class="compare-metric-val">${item.fire}</span>
+                        </div>
+                        <div class="compare-metric-row">
+                            <span class="compare-metric-label">Bağlayıcı / Harç:</span>
+                            <span class="compare-metric-val">${item.mortar}</span>
+                        </div>
+                    </div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4;">
+                        <p style="margin-bottom: 0.35rem;"><strong style="color: #2ecc71;">✓ Avantajlar:</strong> ${item.pros}</p>
+                        <p style="margin: 0;"><strong style="color: #e74c3c;">✗ Dikkat Edilmeli:</strong> ${item.cons}</p>
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = `
+            <div class="panel-header" style="margin-bottom: 1.5rem;">
+                <span class="panel-tag">Detaylı Sistem Karşılaştırması</span>
+                <h4 class="panel-title">${data.title}</h4>
+            </div>
+            <div class="compare-grid">
+                ${cardsHtml}
+            </div>
+            <div class="compare-verdict-box">
+                ${data.verdict}
+            </div>
+        `;
+    }
+
+    document.querySelectorAll('.compare-cat-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const cat = btn.getAttribute('data-cat');
+            if (cat) renderComparison(cat);
+        });
+    });
+
+    // =========================================================================
+    // TAB 8: DONATI, KUTU PROFİL & KESİM OPTİMİZASYONU CEP ARACI
+    // =========================================================================
+    function updateRebarCalculator() {
+        const dia = parseFloat(document.getElementById('inpRebarDia')?.value) || 12;
+        const len = parseFloat(document.getElementById('inpRebarLen')?.value) || 3.5;
+        const qty = parseInt(document.getElementById('inpRebarQty')?.value) || 40;
+
+        // Exact formula: q = dia^2 / 162 (kg/m)
+        const unitWt = (dia * dia) / 162;
+        const totalLen = len * qty;
+        const totalKg = totalLen * unitWt;
+        const totalTons = totalKg / 1000;
+        const bars12m = Math.ceil(totalLen / 12);
+
+        const setDisplay = (id, val) => {
+            const el = document.getElementById(id);
+            if (el) el.innerText = val;
+        };
+
+        setDisplay('outRebarUnitWt', `${unitWt.toFixed(3)} kg/m`);
+        setDisplay('outRebarTotalLen', `${totalLen.toFixed(1)} m`);
+        setDisplay('outRebarTotalKg', `${totalKg.toFixed(1)} kg (${totalTons.toFixed(3)} Ton)`);
+        setDisplay('outRebarBars', `${bars12m} Adet (12m Boy)`);
+    }
+
+    function updateProfileCalculator() {
+        const mat = document.getElementById('inpProfMat')?.value || 'steel';
+        const thk = parseFloat(document.getElementById('inpProfThk')?.value) || 3.0;
+        const w = parseFloat(document.getElementById('inpProfW')?.value) || 60;
+        const h = parseFloat(document.getElementById('inpProfH')?.value) || 120;
+        const len = parseFloat(document.getElementById('inpProfLen')?.value) || 24;
+
+        // Density: Steel = 7.85 kg/dm3, Aluminum = 2.70 kg/dm3
+        const density = (mat === 'steel') ? 7850 : 2700; // kg/m3
+
+        // Cross section area approx: Area = 2*t*(w + h - 2*t) in mm2
+        const tM = thk / 1000;
+        const wM = w / 1000;
+        const hM = h / 1000;
+        const areaM2 = (wM * hM) - ((wM - 2 * tM) * (hM - 2 * tM));
+        const unitWtKgM = areaM2 * density;
+        const totalWtKg = unitWtKgM * len;
+
+        const setDisplay = (id, val) => {
+            const el = document.getElementById(id);
+            if (el) el.innerText = val;
+        };
+
+        setDisplay('outProfUnitWt', `${unitWtKgM.toFixed(2)} kg/m`);
+        setDisplay('outProfTotalWt', `${totalWtKg.toFixed(1)} kg`);
+    }
+
+    function runRebarOptimizer() {
+        const inputStr = document.getElementById('inpOptPieces')?.value || '3.40, 2.80, 5.20';
+        const parts = inputStr.split(/[,;\s]+/).map(s => parseFloat(s.trim())).filter(n => !isNaN(n) && n > 0);
+
+        if (parts.length === 0) return;
+
+        const total12m = 12.00;
+        let usedLen = 0;
+        const segments = [];
+
+        parts.forEach((p, idx) => {
+            if (usedLen + p <= total12m) {
+                usedLen += p;
+                segments.push({ len: p, isWaste: false, idx });
+            }
+        });
+
+        const wasteLen = Math.max(0, total12m - usedLen);
+        const wastePct = (wasteLen / total12m) * 100;
+
+        const setDisplay = (id, val) => {
+            const el = document.getElementById(id);
+            if (el) el.innerText = val;
+        };
+
+        setDisplay('outOptUsedLen', `${usedLen.toFixed(2)} m`);
+        setDisplay('outOptWasteLen', `${wasteLen.toFixed(2)} m (${Math.round(wasteLen * 100)} cm)`);
+        
+        const wastePctEl = document.getElementById('outOptWastePct');
+        if (wastePctEl) {
+            if (wastePct <= 5) {
+                wastePctEl.innerText = `% ${wastePct.toFixed(1)} (Mükemmel Yerleşim)`;
+                wastePctEl.style.color = '#2ecc71';
+            } else if (wastePct <= 15) {
+                wastePctEl.innerText = `% ${wastePct.toFixed(1)} (Kabul Edilebilir Fire)`;
+                wastePctEl.style.color = '#f1c40f';
+            } else {
+                wastePctEl.innerText = `% ${wastePct.toFixed(1)} (Yüksek Fire - Parçaları Birleştirin)`;
+                wastePctEl.style.color = '#e74c3c';
+            }
+        }
+
+        // Render Visual Bar
+        const barContainer = document.getElementById('optVisualBar');
+        if (barContainer) {
+            const colors = ['opt-seg-used', 'opt-seg-used-2', 'opt-seg-used-3'];
+            let html = '';
+            segments.forEach((seg, i) => {
+                const pct = (seg.len / total12m) * 100;
+                const cls = colors[i % colors.length];
+                html += `<div class="opt-seg ${cls}" style="width: ${pct.toFixed(2)}%;" title="Parça ${i+1}: ${seg.len.toFixed(2)}m">${seg.len.toFixed(2)}m</div>`;
+            });
+            if (wasteLen > 0) {
+                const wastePctBar = (wasteLen / total12m) * 100;
+                html += `<div class="opt-seg opt-seg-waste" style="width: ${wastePctBar.toFixed(2)}%;" title="Fire / Artık: ${wasteLen.toFixed(2)}m (${Math.round(wasteLen*100)}cm)">Fire: ${Math.round(wasteLen*100)}cm</div>`;
+            }
+            barContainer.innerHTML = html;
+        }
+    }
+
+    ['inpRebarDia', 'inpRebarLen', 'inpRebarQty'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', updateRebarCalculator);
+            el.addEventListener('change', updateRebarCalculator);
+        }
+    });
+
+    ['inpProfMat', 'inpProfThk', 'inpProfW', 'inpProfH', 'inpProfLen'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', updateProfileCalculator);
+            el.addEventListener('change', updateProfileCalculator);
+        }
+    });
+
+    document.getElementById('btnRunOptimizer')?.addEventListener('click', () => {
+        runRebarOptimizer();
+        if (typeof window.showToast === 'function') {
+            window.showToast("Kesim Planı Güncellendi", "12m donatı yerleşimi ve fire hesabı yapıldı.");
+        }
+    });
+
+    document.getElementById('btnCopyRebarPlan')?.addEventListener('click', () => {
+        const dia = document.getElementById('inpRebarDia')?.value || '12';
+        const used = document.getElementById('outOptUsedLen')?.innerText || '11.40 m';
+        const waste = document.getElementById('outOptWasteLen')?.innerText || '0.60 m';
+        const inputStr = document.getElementById('inpOptPieces')?.value || '';
+
+        const text = `📋 *ŞANTİYE DONATI KESİM PLANI (12M BOY ÇUBUK)*\n• Donatı Çapı: Φ ${dia} mm\n• Kesilecek Parçalar: ${inputStr}\n• Kullanılan Net Boy: ${used}\n• Kalan Fire/Artık: ${waste}\n(Ata Yiğit Telli - Şantiye Asistanı)`;
+
+        navigator.clipboard.writeText(text).then(() => {
+            if (typeof window.showToast === 'function') {
+                window.showToast("Panoya Kopyalandı", "Kesim planı WhatsApp formatında kopyalandı.");
+            } else {
+                alert("Kesim planı panoya kopyalandı!");
+            }
+        });
+    });
+
     // Export Table to CSV & Print Listeners
     function exportTableToCSV(tableId, filename) {
         const table = document.getElementById(tableId);
@@ -934,6 +1399,11 @@
     // Run calculations immediately on script load
     function initAllTakeoffs() {
         updateFEMCalculations();
+        updateRadarDecisions();
+        renderComparison('duvar');
+        updateRebarCalculator();
+        updateProfileCalculator();
+        runRebarOptimizer();
         updateFacadeCalculations();
         updateConcreteCalculations();
         updateMasonryCalculations();

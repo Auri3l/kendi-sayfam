@@ -61,12 +61,12 @@
 }
 
 /* Panel transitions */
-.sim-tab-panel {
+.sim-tab-pane {
     display: none;
-    animation: fadeInTab 0.4s ease forwards;
+    animation: fadeInTab 0.35s ease forwards;
 }
 
-.sim-tab-panel.active {
+.sim-tab-pane.active {
     display: block;
 }
 
@@ -75,7 +75,123 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* 3D FEM Grid layout */
+/* Common Layouts */
+.sim-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 2rem;
+    align-items: stretch;
+}
+
+@media (max-width: 992px) {
+    .sim-grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sim-glass-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
+    box-shadow: var(--card-shadow);
+}
+
+.panel-header {
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+}
+
+.panel-tag {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent-color);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.panel-title {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Form Controls */
+.sim-input-group {
+    margin-bottom: 1.25rem;
+}
+
+.sim-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.4rem;
+}
+
+.label-with-val {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.4rem;
+}
+
+.slider-display-badge {
+    font-size: 0.8rem;
+    font-family: monospace;
+    font-weight: 700;
+    color: var(--accent-color);
+    background: var(--bg-tertiary);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.sim-slider {
+    width: 100%;
+    accent-color: var(--accent-color);
+    cursor: pointer;
+}
+
+.sim-select, .sim-number-input {
+    width: 100%;
+    padding: 0.6rem 0.85rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: var(--border-radius-sm);
+    font-size: 0.9rem;
+    transition: var(--transition-fast);
+}
+
+.sim-select:focus, .sim-number-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.2);
+}
+
+.field-hint {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+}
+
+/* Summary Box */
+.summary-metric-box {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    padding: 1rem;
+}
+
+/* ==========================================================================
+   1. 3D FEM TAB STYLES
+   ========================================================================== */
 .sim-grid-layout {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
@@ -99,284 +215,222 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--card-shadow);
 }
 
-.sim-canvas-container canvas {
-    display: block;
-    width: 100%;
-    height: 100%;
-    cursor: crosshair;
+.sim-canvas {
+    width: 100% !important;
+    height: 100% !important;
+    outline: none;
 }
 
-.sim-panel-overlay {
+.sim-hud-overlay {
     position: absolute;
     top: 1rem;
     left: 1rem;
-    background: rgba(var(--accent-rgb), 0.05);
-    border: 1px solid rgba(var(--accent-rgb), 0.15);
-    backdrop-filter: blur(10px);
-    padding: 0.5rem 1rem;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
     border-radius: var(--border-radius-sm);
+    padding: 0.6rem 0.9rem;
+    font-family: monospace;
+    font-size: 0.75rem;
+    color: #38bdf8;
     pointer-events: none;
 }
 
-.sim-panel-title {
-    font-size: 0.75rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    color: var(--accent-color);
-    letter-spacing: 1.5px;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.sim-panel-title::before {
-    content: '';
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    background-color: var(--accent-color);
-    border-radius: 50%;
-    box-shadow: 0 0 8px var(--accent-color);
-    animation: simPulse 2s infinite;
-}
-
-@keyframes simPulse {
-    0% { opacity: 0.3; }
-    50% { opacity: 1; }
-    100% { opacity: 0.3; }
-}
-
-/* Premium FEM Telemetry HUD overlay */
-.sim-fem-hud {
+.sim-telemetry-panel {
     position: absolute;
     bottom: 1rem;
+    left: 1rem;
     right: 1rem;
-    background: rgba(31, 41, 55, 0.85);
-    border: 1px solid var(--border-color);
-    backdrop-filter: blur(12px);
-    border-radius: var(--border-radius-md);
-    padding: 0.75rem 1rem;
-    width: 220px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    pointer-events: none;
-    font-family: monospace;
-}
-
-.hud-title {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--accent-color);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding-bottom: 0.25rem;
-    margin-bottom: 0.4rem;
-    letter-spacing: 0.5px;
-}
-
-.hud-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.75rem;
-    margin-bottom: 0.25rem;
-}
-
-.hud-label {
-    color: var(--text-muted);
-}
-
-.hud-value {
-    color: var(--text-primary);
-    font-weight: bold;
-}
-
-/* Control Deck & Glass cards */
-.sim-control-deck {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    justify-content: space-between;
-}
-
-.sim-glass-card {
-    background-color: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(12px);
-    border-radius: var(--border-radius-lg);
-    padding: 2rem;
-    box-shadow: var(--card-shadow);
-}
-
-.sim-controls-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-}
-
-.sim-control-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.sim-control-label-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.sim-control-label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.sim-control-value {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--accent-color);
-    font-family: monospace;
-}
-
-.sim-range-input {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: 6px;
-    border-radius: 3px;
-    background: var(--bg-tertiary);
-    outline: none;
-    transition: background 0.3s;
-}
-
-.sim-range-input::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--accent-color);
-    cursor: pointer;
-    border: 2px solid var(--bg-secondary);
-    box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5);
-    transition: transform 0.1s ease;
-}
-
-.sim-range-input::-webkit-slider-thumb:hover {
-    transform: scale(1.2);
-}
-
-.sim-select {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
     border-radius: var(--border-radius-sm);
-    font-weight: 600;
-    outline: none;
-    cursor: pointer;
-    transition: var(--transition-fast);
-}
-
-.sim-select:focus {
-    border-color: var(--accent-color);
-}
-
-.sim-dashboard-grid {
+    padding: 0.75rem 1rem;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    pointer-events: none;
 }
 
-@media (max-width: 480px) {
-    .sim-dashboard-grid {
-        grid-template-columns: 1fr;
+@media (max-width: 600px) {
+    .sim-telemetry-panel {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
-.sim-stat-card {
-    background-color: var(--bg-secondary);
+.telemetry-item {
+    text-align: center;
+}
+
+.telemetry-label {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+.telemetry-value {
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: monospace;
+    color: #f8fafc;
+}
+
+/* ==========================================================================
+   2. SHANTIYE HAVA RADARI STYLES
+   ========================================================================== */
+.radar-card {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    padding: 1rem 1.25rem;
+    transition: var(--transition-fast);
+}
+
+.radar-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.4rem;
+}
+
+.radar-trade-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.radar-badge {
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.radar-badge.badge-ok {
+    background: rgba(46, 204, 113, 0.15);
+    color: #2ecc71;
+    border: 1px solid rgba(46, 204, 113, 0.3);
+}
+
+.radar-badge.badge-warn {
+    background: rgba(241, 196, 15, 0.15);
+    color: #f1c40f;
+    border: 1px solid rgba(241, 196, 15, 0.3);
+}
+
+.radar-badge.badge-danger {
+    background: rgba(231, 76, 60, 0.15);
+    color: #e74c3c;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+}
+
+.radar-desc {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* ==========================================================================
+   3. KARSILASTIRMA TAB STYLES
+   ========================================================================== */
+.compare-cat-btn.active {
+    background: var(--accent-color) !important;
+    color: var(--bg-primary) !important;
+    border-color: var(--accent-color) !important;
+}
+
+.compare-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.compare-card {
+    background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius-md);
-    padding: 1rem 1.25rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
-    position: relative;
-    overflow: hidden;
+    gap: 1rem;
 }
 
-.sim-stat-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.sim-stat-value {
-    font-size: 1.4rem;
+.compare-card-title {
+    font-size: 1.15rem;
     font-weight: 800;
     color: var(--text-primary);
-    font-family: monospace;
+    margin: 0;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
 }
 
-.sim-stat-unit {
+.compare-metric-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--text-secondary);
+    padding: 0.35rem 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
 }
 
-.sim-status-badge {
+.compare-metric-label {
+    color: var(--text-muted);
+}
+
+.compare-metric-val {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.compare-verdict-box {
+    background: var(--bg-tertiary);
+    border-left: 4px solid var(--accent-color);
+    border-radius: 4px;
+    padding: 1.25rem;
+    margin-top: 1rem;
+}
+
+/* ==========================================================================
+   4. DONATI & KESIM OPTIMIZER STYLES
+   ========================================================================== */
+.opt-seg {
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
-    border-radius: var(--border-radius-md);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 0.9rem;
-    transition: var(--transition-fast);
-    border: 1px solid transparent;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+    transition: width 0.3s ease;
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-.sim-status-badge.status-safe {
-    background: rgba(46, 204, 113, 0.08);
-    border-color: rgba(46, 204, 113, 0.25);
-    color: #2ecc71;
+.opt-seg-used {
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
 }
 
-.sim-status-badge.status-warning {
-    background: rgba(241, 196, 15, 0.08);
-    border-color: rgba(241, 196, 15, 0.25);
-    color: #f1c40f;
+.opt-seg-used-2 {
+    background: linear-gradient(135deg, #0d9488, #14b8a6);
 }
 
-.sim-status-badge.status-danger {
-    background: rgba(231, 76, 60, 0.08);
-    border-color: rgba(231, 76, 60, 0.25);
-    color: #e74c3c;
-    animation: simAlertBlink 1s infinite alternate;
+.opt-seg-used-3 {
+    background: linear-gradient(135deg, #7c3aed, #8b5cf6);
 }
 
-@keyframes simAlertBlink {
-    0% { box-shadow: 0 0 5px rgba(231, 76, 60, 0.1); border-color: rgba(231, 76, 60, 0.25); }
-    100% { box-shadow: 0 0 15px rgba(231, 76, 60, 0.4); border-color: rgba(231, 76, 60, 0.6); background: rgba(231, 76, 60, 0.15); }
+.opt-seg-waste {
+    background: repeating-linear-gradient(45deg, #ef4444, #ef4444 8px, #dc2626 8px, #dc2626 16px);
 }
 
-.sim-status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: currentColor;
-    box-shadow: 0 0 8px currentColor;
-}
-
-/* Metraj pages layout grids */
+/* ==========================================================================
+   5. METRAJ TABLES
+   ========================================================================== */
 .metraj-grid {
     display: grid;
     grid-template-columns: 1fr 1.3fr;
@@ -390,16 +444,6 @@
     }
 }
 
-.metraj-panel-title {
-    color: var(--text-primary);
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.75rem;
-}
-
 .metraj-table-panel {
     background-color: var(--bg-secondary);
     border: 1px solid var(--border-color);
@@ -408,7 +452,6 @@
     box-shadow: var(--card-shadow);
 }
 
-/* High-tech summary tables */
 .metraj-table {
     width: 100%;
     border-collapse: collapse;

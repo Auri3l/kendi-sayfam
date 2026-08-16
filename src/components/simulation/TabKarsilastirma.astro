@@ -1,0 +1,27 @@
+---
+// TabKarsilastirma.astro - İnşaat Malzeme & Sistem Karşılaştırıcı (Head-to-Head)
+---
+
+<div id="tab-karsilastirma" class="sim-tab-pane" role="tabpanel" aria-labelledby="tab-karsilastirma-btn">
+    <!-- Üst Kategori Seçim Butonları -->
+    <div class="sim-panel sim-glass-card" style="margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <span class="panel-tag">Karşılaştırma Analizi</span>
+                <h4 class="panel-title" style="margin-bottom: 0;">Şantiye Sistem &amp; Malzeme Karşılaştırıcı</h4>
+            </div>
+            
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button type="button" class="btn btn-secondary btn-sm compare-cat-btn active" data-cat="duvar">🧱 Duvar Malzemeleri</button>
+                <button type="button" class="btn btn-secondary btn-sm compare-cat-btn" data-cat="cephe">🏢 Giydirme Cephe</button>
+                <button type="button" class="btn btn-secondary btn-sm compare-cat-btn" data-cat="yalitim">💧 Su Yalıtımı</button>
+                <button type="button" class="btn btn-secondary btn-sm compare-cat-btn" data-cat="kalip">🏗️ Taşıyıcı Kalıp</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Karşılaştırma İçerik Kartı -->
+    <div class="sim-panel sim-glass-card" id="compareContentContainer">
+        <!-- Dinamik olarak JS tarafından doldurulacak -->
+    </div>
+</div>

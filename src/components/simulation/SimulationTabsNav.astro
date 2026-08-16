@@ -1,10 +1,22 @@
 ---
 ---
 
-<div class="sim-tabs-container" role="tablist" aria-label="Simülasyon ve Metraj Sekmeleri">
+<div class="sim-tabs-container" role="tablist" aria-label="Simülasyon, Analiz ve Karşılaştırma Sekmeleri">
     <button class="sim-tab-btn active" data-tab="fem" role="tab" aria-selected="true" aria-controls="tab-fem">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2 12 22"/><line x1="2" y1="17" x2="12" y2="22"/><line x1="22" y1="17" x2="12" y2="22"/><line x1="2" y1="12" x2="12" y2="17"/><line x1="22" y1="12" x2="12" y2="17"/></svg>
         3D FEM Analiz
+    </button>
+    <button class="sim-tab-btn" data-tab="radar" role="tab" aria-selected="false" aria-controls="tab-radar">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 10 10"/><path d="M12 12l7-7"/><path d="M12 8a4 4 0 0 1 4 4"/></svg>
+        ⚡ Şantiye Hava Radarı
+    </button>
+    <button class="sim-tab-btn" data-tab="karsilastirma" role="tab" aria-selected="false" aria-controls="tab-karsilastirma">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        ⚖️ Malzeme Karşılaştırıcı
+    </button>
+    <button class="sim-tab-btn" data-tab="donati-hesap" role="tab" aria-selected="false" aria-controls="tab-donati-hesap">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="16" y2="18"/></svg>
+        🧮 Donatı &amp; Profil Cep Aracı
     </button>
     <button class="sim-tab-btn" data-tab="cephe" role="tab" aria-selected="false" aria-controls="tab-cephe">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
