@@ -37,7 +37,7 @@ function initLanguage() {
     });
 }
 
-function setSiteLanguage(lang, showNotification = false) {
+function setSiteLanguage(lang) {
     const validLang = lang === 'en' ? 'en' : 'tr';
     document.documentElement.setAttribute('data-lang', validLang);
     document.documentElement.setAttribute('lang', validLang);
@@ -48,14 +48,6 @@ function setSiteLanguage(lang, showNotification = false) {
         const isTarget = btn.getAttribute('data-lang-target') === validLang;
         btn.classList.toggle('active', isTarget);
     });
-
-    if (showNotification && typeof showToast === 'function') {
-        if (validLang === 'en') {
-            showToast('Language Changed', 'Switched to English.');
-        } else {
-            showToast('Dil Değiştirildi', 'Türkçe diline geçildi.');
-        }
-    }
 
     window.dispatchEvent(new CustomEvent('siteLanguageChanged', { detail: { lang: validLang } }));
 }
@@ -82,11 +74,9 @@ function initTheme() {
         if (body.classList.contains('dark-theme')) {
             body.classList.replace('dark-theme', 'light-theme');
             localStorage.setItem('theme', 'light-theme');
-            showToast('Tema Değiştirildi', 'Endüstriyel Açık Tema Aktif.');
         } else {
             body.classList.replace('light-theme', 'dark-theme');
             localStorage.setItem('theme', 'dark-theme');
-            showToast('Tema Değiştirildi', 'Endüstriyel Koyu Tema Aktif.');
         }
     });
 }
@@ -274,37 +264,12 @@ function initContactForm() {
     });
 }
 
-// --- DİNAMİK TOAST BİLDİRİM SİSTEMİ ---
-function showToast(title, message, type = 'success') {
-    const container = document.getElementById('toastContainer');
-    if (!container) return;
-
-    const toast = document.createElement('div');
-    toast.className = `toast ${type === 'error' ? 'error' : ''}`;
-    
-    const icon = type === 'success' 
-        ? `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`
-        : `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
-
-    toast.innerHTML = `
-        <div style="color: var(--accent-color);">${icon}</div>
-        <div style="display: flex; flex-direction: column; gap: 0.15rem;">
-            <strong style="font-size: 0.9rem; font-weight: 700;">${title}</strong>
-            <span style="font-size: 0.8rem; color: var(--text-secondary);">${message}</span>
-        </div>
-    `;
-
-    container.appendChild(toast);
-
-    setTimeout(() => {
-        toast.classList.add('toast-closing');
-        toast.addEventListener('animationend', () => {
-            toast.remove();
-        });
-    }, 4000);
+// --- TOAST BİLDİRİMLERİ (DEVRE DIŞI) ---
+function showToast() {
+    // Toast popupları kullanıcı tercihi doğrultusunda tamamen kaldırıldı.
 }
 
-// Global scope'a açalım
+// Global scope
 window.showToast = showToast;
 
 // --- SCROLL SPY (ÇOKLU SAYFA DESTEKLİ AKTİF MENÜ BAĞLANTISI) ---

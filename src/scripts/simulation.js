@@ -895,8 +895,8 @@
         el.addEventListener('change', updateScreedWetCalculations);
     });
 
-    // Button Click Listeners with feedback
-    function flashTableUpdate(panelId, toastTitle, toastMsg) {
+    // Button Click Listeners with visual table feedback
+    function flashTableUpdate(panelId) {
         const panel = document.getElementById(panelId);
         if (panel) {
             const cells = panel.querySelectorAll('td[id^="out"], .sim-stat-value');
@@ -905,9 +905,6 @@
                 void cell.offsetWidth; // trigger reflow
                 cell.classList.add('table-updated');
             });
-        }
-        if (typeof window.showToast === 'function') {
-            window.showToast(toastTitle, toastMsg);
         }
     }
 

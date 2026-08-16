@@ -2049,50 +2049,13 @@ a.meta-value:hover {
     border-radius: 4px;
 }
 
-/* 14. Toast Bildirimler */
-.toast-container {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    z-index: 9999;
-}
-
+/* 14. Toast Bildirimler - Devre Dışı Bırakıldı */
+.toast-container,
 .toast {
-    background-color: var(--bg-secondary);
-    border-left: 4px solid var(--accent-color);
-    border-top: 1px solid var(--border-color);
-    border-right: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
-    color: var(--text-primary);
-    padding: 1.25rem 2rem;
-    border-radius: var(--border-radius-md);
-    box-shadow: var(--card-shadow);
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    min-width: 300px;
-    animation: slideInToast 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.toast.error {
-    border-left-color: #ef4444;
-}
-
-.toast-closing {
-    animation: slideOutToast 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes slideInToast {
-    from { transform: translate3d(120%, 0, 0); opacity: 0; }
-    to { transform: translate3d(0, 0, 0); opacity: 1; }
-}
-
-@keyframes slideOutToast {
-    from { transform: translate3d(0, 0, 0); opacity: 1; }
-    to { transform: translate3d(120%, 0, 0); opacity: 0; }
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
 }
 
 /* 15. Responsive Ayarlar */
