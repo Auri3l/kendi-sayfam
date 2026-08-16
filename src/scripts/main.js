@@ -3,6 +3,7 @@
 // ==========================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
+    initLanguage();
     initTheme();
     initMobileNav();
     initCustomCursor();
@@ -12,6 +13,52 @@ document.addEventListener('DOMContentLoaded', () => {
     setupAnimationOnScroll();
     initProtectedContact();
 });
+
+// --- BILINGUAL (TR / EN) LANGUAGE SWITCHER ---
+function initLanguage() {
+    const savedLang = localStorage.getItem('user_lang') || 'tr';
+    setSiteLanguage(savedLang, false);
+
+    document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const currentLang = document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'tr';
+            const newLang = currentLang === 'tr' ? 'en' : 'tr';
+            setSiteLanguage(newLang, true);
+        });
+    });
+
+    document.querySelectorAll('.cv-lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetLang = btn.getAttribute('data-lang-target');
+            if (targetLang) {
+                setSiteLanguage(targetLang, true);
+            }
+        });
+    });
+}
+
+function setSiteLanguage(lang, showNotification = false) {
+    const validLang = lang === 'en' ? 'en' : 'tr';
+    document.documentElement.setAttribute('data-lang', validLang);
+    document.documentElement.setAttribute('lang', validLang);
+    localStorage.setItem('user_lang', validLang);
+
+    document.querySelectorAll('.cv-lang-btn').forEach(btn => {
+        const isTarget = btn.getAttribute('data-lang-target') === validLang;
+        btn.classList.toggle('active', isTarget);
+    });
+
+    if (showNotification && typeof showToast === 'function') {
+        if (validLang === 'en') {
+            showToast('Language Changed', 'Switched to English.');
+        } else {
+            showToast('Dil Değiştirildi', 'Türkçe diline geçildi.');
+        }
+    }
+
+    window.dispatchEvent(new CustomEvent('siteLanguageChanged', { detail: { lang: validLang } }));
+}
+window.setSiteLanguage = setSiteLanguage;
 
 // --- KARANLIK/AYDINLIK TEMA GEÇİŞİ ---
 function initTheme() {

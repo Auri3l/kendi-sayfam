@@ -2,20 +2,28 @@
 interface Props {
     title: string;
     location: string;
+    locationEn?: string;
     category: string;
     facadeType: string;
+    facadeTypeEn?: string;
     description: string;
+    descriptionEn?: string;
     tags?: string[];
+    tagsEn?: string[];
     idx?: number;
 }
 
 const {
     title,
     location,
+    locationEn = location,
     category,
     facadeType,
+    facadeTypeEn = facadeType,
     description,
+    descriptionEn = description,
     tags = [],
+    tagsEn = tags,
     idx = 0
 } = Astro.props;
 
@@ -38,16 +46,24 @@ const isUS = category === 'us';
                     </svg>
                 )}
             </div>
-            <span class="project-loc-tag">{location}</span>
+            <span class="project-loc-tag lang-tr">{location}</span>
+            <span class="project-loc-tag lang-en">{locationEn}</span>
         </div>
         <h4 class="project-title">{title}</h4>
-        <p class="project-desc">{description}</p>
+        <p class="project-desc lang-tr">{description}</p>
+        <p class="project-desc lang-en">{descriptionEn}</p>
     </div>
     <div class="project-footer">
-        <span class="project-tech">{facadeType}</span>
+        <span class="project-tech lang-tr">{facadeType}</span>
+        <span class="project-tech lang-en">{facadeTypeEn}</span>
         {tags && tags.length > 0 && (
-            <div class="timeline-tags">
+            <div class="timeline-tags lang-tr">
                 {tags.map(t => <span class="tag">{t}</span>)}
+            </div>
+        )}
+        {tagsEn && tagsEn.length > 0 && (
+            <div class="timeline-tags lang-en">
+                {tagsEn.map(t => <span class="tag">{t}</span>)}
             </div>
         )}
     </div>

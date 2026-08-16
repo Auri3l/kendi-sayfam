@@ -15,18 +15,30 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                             <line x1="19" y1="12" x2="5" y2="12"></line>
                             <polyline points="12 19 5 12 12 5"></polyline>
                         </svg>
-                        Ana Sayfaya Dön
+                        <span class="lang-tr">Ana Sayfaya Dön</span>
+                        <span class="lang-en">Back to Home</span>
                     </a>
 
                     <div class="cv-toolbar-actions">
-                        <span class="cv-format-badge">Tek Sayfa Standart CV</span>
+                        <!-- Language Switcher in CV Toolbar -->
+                        <div class="cv-lang-switch" role="group" aria-label="CV Dili">
+                            <button type="button" class="cv-lang-btn active" data-lang-target="tr">TR</button>
+                            <button type="button" class="cv-lang-btn" data-lang-target="en">EN</button>
+                        </div>
+
+                        <span class="cv-format-badge">
+                            <span class="lang-tr">Tek Sayfa Standart CV</span>
+                            <span class="lang-en">Single-Page Standard Resume</span>
+                        </span>
+
                         <button type="button" class="btn btn-primary btn-sm" id="btnPrintCv" style="display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer;">
                             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                 <polyline points="6 9 6 2 18 2 18 9"></polyline>
                                 <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
                                 <rect x="6" y="14" width="12" height="8"></rect>
                             </svg>
-                            Tek Sayfa PDF Olarak Kaydet / Yazdır
+                            <span class="lang-tr">Tek Sayfa PDF Olarak Kaydet / Yazdır</span>
+                            <span class="lang-en">Save Single-Page PDF / Print</span>
                         </button>
                     </div>
                 </div>
@@ -37,13 +49,16 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                 <!-- Header: Name & Contact Information (Centered) -->
                 <header class="hcv-header">
                     <h1 class="hcv-name">ATA YİĞİT TELLİ</h1>
-                    <p class="hcv-title">İnşaat Mühendisi &amp; Proje Yöneticisi</p>
+                    <p class="hcv-title">
+                        <span class="lang-tr">İnşaat Mühendisi &amp; Proje Yöneticisi</span>
+                        <span class="lang-en">Civil Engineer &amp; Project Manager</span>
+                    </p>
                     <div class="hcv-contact-line">
-                        <span>İstanbul, Türkiye</span>
+                        <span><span class="lang-tr">İstanbul, Türkiye</span><span class="lang-en">Istanbul, Turkey</span></span>
                         <span class="hcv-sep">•</span>
                         <span id="cvPhoneSlot" class="protected-slot">
                             <button type="button" class="protected-trigger-btn hcv-link" data-action="unlockContact" title="Telefon Numarasını Aç">
-                                🔒 •••••••••• (Şifreli)
+                                🔒 •••••••••• (<span class="lang-tr">Şifreli</span><span class="lang-en">Protected</span>)
                             </button>
                         </span>
                         <span class="hcv-sep">•</span>
@@ -55,64 +70,113 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
 
                 <!-- 1. EDUCATION (EĞİTİM) -->
                 <section class="hcv-section">
-                    <h2 class="hcv-section-title">EĞİTİM</h2>
+                    <h2 class="hcv-section-title">
+                        <span class="lang-tr">EĞİTİM</span>
+                        <span class="lang-en">EDUCATION</span>
+                    </h2>
                     
                     <div class="hcv-entry">
                         <div class="hcv-entry-row">
-                            <span class="hcv-bold">İSTANBUL GEDİK ÜNİVERSİTESİ</span>
+                            <span class="hcv-bold">
+                                <span class="lang-tr">İSTANBUL GEDİK ÜNİVERSİTESİ</span>
+                                <span class="lang-en">ISTANBUL GEDIK UNIVERSITY</span>
+                            </span>
                             <span class="hcv-right">2017 – 2018</span>
                         </div>
                         <div class="hcv-entry-row">
-                            <span class="hcv-italic">Yüksek Lisans: İş Sağlığı ve Güvenliği</span>
-                            <span class="hcv-right hcv-muted">İstanbul, Türkiye</span>
+                            <span class="hcv-italic">
+                                <span class="lang-tr">Yüksek Lisans: İş Sağlığı ve Güvenliği</span>
+                                <span class="lang-en">M.Sc. in Occupational Health and Safety</span>
+                            </span>
+                            <span class="hcv-right hcv-muted">
+                                <span class="lang-tr">İstanbul, Türkiye</span>
+                                <span class="lang-en">Istanbul, Turkey</span>
+                            </span>
                         </div>
                     </div>
 
                     <div class="hcv-entry">
                         <div class="hcv-entry-row">
-                            <span class="hcv-bold">OKAN ÜNİVERSİTESİ</span>
+                            <span class="hcv-bold">
+                                <span class="lang-tr">OKAN ÜNİVERSİTESİ</span>
+                                <span class="lang-en">OKAN UNIVERSITY</span>
+                            </span>
                             <span class="hcv-right">2011 – 2015</span>
                         </div>
                         <div class="hcv-entry-row">
-                            <span class="hcv-italic">Lisans: İnşaat Mühendisliği (%100 İngilizce)</span>
-                            <span class="hcv-right hcv-muted">İstanbul, Türkiye</span>
+                            <span class="hcv-italic">
+                                <span class="lang-tr">Lisans: İnşaat Mühendisliği (%100 İngilizce)</span>
+                                <span class="lang-en">B.Sc. in Civil Engineering (100% English Curriculum)</span>
+                            </span>
+                            <span class="hcv-right hcv-muted">
+                                <span class="lang-tr">İstanbul, Türkiye</span>
+                                <span class="lang-en">Istanbul, Turkey</span>
+                            </span>
                         </div>
                     </div>
                 </section>
 
                 <!-- 2. PROFESSIONAL EXPERIENCE (MESLEKİ DENEYİM) -->
                 <section class="hcv-section">
-                    <h2 class="hcv-section-title">MESLEKİ DENEYİM</h2>
+                    <h2 class="hcv-section-title">
+                        <span class="lang-tr">MESLEKİ DENEYİM</span>
+                        <span class="lang-en">PROFESSIONAL EXPERIENCE</span>
+                    </h2>
 
                     <!-- Experience 1 -->
                     <div class="hcv-entry">
                         <div class="hcv-entry-row">
-                            <span class="hcv-bold">TRENDWORLD MİMARLIK</span>
-                            <span class="hcv-right">Haziran 2026 – Devam</span>
+                            <span class="hcv-bold">
+                                <span class="lang-tr">TRENDWORLD MİMARLIK</span>
+                                <span class="lang-en">TRENDWORLD ARCHITECTURE</span>
+                            </span>
+                            <span class="hcv-right">
+                                <span class="lang-tr">Haziran 2026 – Devam</span>
+                                <span class="lang-en">June 2026 – Present</span>
+                            </span>
                         </div>
                         <div class="hcv-entry-row">
-                            <span class="hcv-italic">İnşaat Mühendisi / Saha Sorumlusu</span>
-                            <span class="hcv-right hcv-muted">İstanbul, Türkiye</span>
+                            <span class="hcv-italic">
+                                <span class="lang-tr">İnşaat Mühendisi / Saha Sorumlusu</span>
+                                <span class="lang-en">Civil Engineer / Site Supervisor</span>
+                            </span>
+                            <span class="hcv-right hcv-muted">
+                                <span class="lang-tr">İstanbul, Türkiye</span>
+                                <span class="lang-en">Istanbul, Turkey</span>
+                            </span>
                         </div>
                         <ul class="hcv-bullets">
-                            <li>Ana müteahhit şantiye standartları doğrultusunda taşeron saha operasyonları ve ekiplerin sevk-idaresinin yürütülmesi.</li>
-                            <li>İş programı entegrasyonu, İSG kuralları, kalite kontrol ve taşeron hakediş-sözleşme süreçlerinin takibi.</li>
+                            <li class="lang-tr">Ana müteahhit şantiye standartları doğrultusunda taşeron saha operasyonları ve ekiplerin sevk-idaresinin yürütülmesi.</li>
+                            <li class="lang-en">Leading subcontractor field operations, trade crew supervision, and execution in compliance with main contractor site standards.</li>
+                            <li class="lang-tr">İş programı entegrasyonu, İSG kuralları, kalite kontrol ve taşeron hakediş-sözleşme süreçlerinin takibi.</li>
+                            <li class="lang-en">Coordinating master schedule integration, HSE protocols, quality assurance, and subcontractor progress billing/contracts.</li>
                         </ul>
                     </div>
 
                     <!-- Experience 2 -->
                     <div class="hcv-entry">
                         <div class="hcv-entry-row">
-                            <span class="hcv-bold">AA&amp;TD BUILDING SOLUTIONS (NCC PROJESİ)</span>
-                            <span class="hcv-right">Aralık 2023 – Mart 2026</span>
+                            <span class="hcv-bold">AA&amp;TD BUILDING SOLUTIONS (NCC PROJECT)</span>
+                            <span class="hcv-right">
+                                <span class="lang-tr">Aralık 2023 – Mart 2026</span>
+                                <span class="lang-en">Dec 2023 – Mar 2026</span>
+                            </span>
                         </div>
                         <div class="hcv-entry-row">
-                            <span class="hcv-italic">İnşaat Mühendisi / Teknik Ofis &amp; Proje Şefi</span>
-                            <span class="hcv-right hcv-muted">İstanbul, Türkiye</span>
+                            <span class="hcv-italic">
+                                <span class="lang-tr">İnşaat Mühendisi / Teknik Ofis &amp; Proje Şefi</span>
+                                <span class="lang-en">Civil Engineer / Technical Office &amp; Site Manager</span>
+                            </span>
+                            <span class="hcv-right hcv-muted">
+                                <span class="lang-tr">İstanbul, Türkiye</span>
+                                <span class="lang-en">Istanbul, Turkey</span>
+                            </span>
                         </div>
                         <ul class="hcv-bullets">
-                            <li>Üstyapı projelerinde taşeron sözleşme yönetimi, teknik ofis süreçleri, hakediş-metraj analizleri ve saha koordinasyonu.</li>
-                            <li>Mimari uygulama detaylarının denetimi, revizyon yönetimi, bütçe takibi ve periyodik ilerleme raporlaması.</li>
+                            <li class="lang-tr">Üstyapı projelerinde taşeron sözleşme yönetimi, teknik ofis süreçleri, hakediş-metraj analizleri ve saha koordinasyonu.</li>
+                            <li class="lang-en">Managing subcontractor contract administration, technical office deliverables, quantity takeoffs, and on-site coordination.</li>
+                            <li class="lang-tr">Mimari uygulama detaylarının denetimi, revizyon yönetimi, bütçe takibi ve periyodik ilerleme raporlaması.</li>
+                            <li class="lang-en">Auditing architectural details, managing design revisions, tracking project budgets, and delivering executive progress reports.</li>
                         </ul>
                     </div>
 
@@ -120,67 +184,137 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                     <div class="hcv-entry">
                         <div class="hcv-entry-row">
                             <span class="hcv-bold">METAL YAPI</span>
-                            <span class="hcv-right">Ekim 2016 – Temmuz 2023</span>
+                            <span class="hcv-right">
+                                <span class="lang-tr">Ekim 2016 – Temmuz 2023</span>
+                                <span class="lang-en">Oct 2016 – Jul 2023</span>
+                            </span>
                         </div>
                         <div class="hcv-entry-row">
-                            <span class="hcv-italic">Proje Yöneticisi / İnşaat Mühendisi (Associate PM / Assistant PM / Civil Engineer)</span>
-                            <span class="hcv-right hcv-muted">İstanbul &amp; New York, ABD</span>
+                            <span class="hcv-italic">
+                                <span class="lang-tr">Proje Yöneticisi / İnşaat Mühendisi (Associate PM / Assistant PM / Civil Engineer)</span>
+                                <span class="lang-en">Project Manager / Civil Engineer (Associate PM / Assistant PM / Civil Engineer)</span>
+                            </span>
+                            <span class="hcv-right hcv-muted">
+                                <span class="lang-tr">İstanbul &amp; New York, ABD</span>
+                                <span class="lang-en">Istanbul &amp; New York, USA</span>
+                            </span>
                         </div>
                         <ul class="hcv-bullets">
-                            <li>New York kule projelerinde (One Madison Ave., One Willoughby Sq.) cephe imalat ve tasarım koordinasyonunun Türkiye'den yönetimi.</li>
-                            <li>Ana müteahhitler (Turner, Gilbane) ile teknik ve sözleşmesel süreçlerin takibi; BIM platformlarında 3D çakışma koordinasyonu.</li>
+                            <li class="lang-tr">New York kule projelerinde (One Madison Ave., One Willoughby Sq.) cephe imalat ve tasarım koordinasyonunun Türkiye'den yönetimi.</li>
+                            <li class="lang-en">Directing engineering, BIM design, and factory fabrication coordination from Turkey for New York commercial skyscrapers.</li>
+                            <li class="lang-tr">Ana müteahhitler (Turner, Gilbane) ile teknik ve sözleşmesel süreçlerin takibi; BIM platformlarında 3D çakışma koordinasyonu.</li>
+                            <li class="lang-en">Managing contract submittals, RFI/change orders with US general contractors (Turner, Gilbane), and 3D BIM clash coordination.</li>
                         </ul>
                     </div>
 
                     <!-- Experience 4 -->
                     <div class="hcv-entry">
                         <div class="hcv-entry-row">
-                            <span class="hcv-bold">İSTANBUL MCE YAPI DENETİM LTD. ŞTİ.</span>
-                            <span class="hcv-right">Şubat 2016 – Mayıs 2016</span>
+                            <span class="hcv-bold">
+                                <span class="lang-tr">İSTANBUL MCE YAPI DENETİM LTD. ŞTİ.</span>
+                                <span class="lang-en">ISTANBUL MCE BUILDING INSPECTION</span>
+                            </span>
+                            <span class="hcv-right">
+                                <span class="lang-tr">Şubat 2016 – Mayıs 2016</span>
+                                <span class="lang-en">Feb 2016 – May 2016</span>
+                            </span>
                         </div>
                         <div class="hcv-entry-row">
-                            <span class="hcv-italic">Saha Denetçisi / Yapı Denetim Mühendisi</span>
-                            <span class="hcv-right hcv-muted">İstanbul, Türkiye</span>
+                            <span class="hcv-italic">
+                                <span class="lang-tr">Saha Denetçisi / Yapı Denetim Mühendisi</span>
+                                <span class="lang-en">Site Inspector / Civil Engineer</span>
+                            </span>
+                            <span class="hcv-right hcv-muted">
+                                <span class="lang-tr">İstanbul, Türkiye</span>
+                                <span class="lang-en">Istanbul, Turkey</span>
+                            </span>
                         </div>
                         <ul class="hcv-bullets">
-                            <li>5000 m² üzeri taahhütlerde betonarme demir donatı ve beton döküm denetimleri; TS 500 ve resmi yapı denetim raporlaması.</li>
+                            <li class="lang-tr">5000 m² üzeri taahhütlerde betonarme demir donatı ve beton döküm denetimleri; TS 500 ve resmi yapı denetim raporlaması.</li>
+                            <li class="lang-en">Supervising structural rebar placement and concrete pours on 5,000+ m² developments; code compliance auditing per TS 500.</li>
                         </ul>
                     </div>
 
                     <!-- Experience 5 -->
                     <div class="hcv-entry">
                         <div class="hcv-entry-row">
-                            <span class="hcv-bold">ÖMAY YAPI</span>
-                            <span class="hcv-right">Ekim 2015 – Aralık 2015</span>
+                            <span class="hcv-bold">
+                                <span class="lang-tr">ÖMAY YAPI</span>
+                                <span class="lang-en">OMAY CONSTRUCTION</span>
+                            </span>
+                            <span class="hcv-right">
+                                <span class="lang-tr">Ekim 2015 – Aralık 2015</span>
+                                <span class="lang-en">Oct 2015 – Dec 2015</span>
+                            </span>
                         </div>
                         <div class="hcv-entry-row">
-                            <span class="hcv-italic">Şantiye Şefi / Saha Mühendisi</span>
-                            <span class="hcv-right hcv-muted">İstanbul, Türkiye</span>
+                            <span class="hcv-italic">
+                                <span class="lang-tr">Şantiye Şefi / Saha Mühendisi</span>
+                                <span class="lang-en">Site Manager / Field Engineer</span>
+                            </span>
+                            <span class="hcv-right hcv-muted">
+                                <span class="lang-tr">İstanbul, Türkiye</span>
+                                <span class="lang-en">Istanbul, Turkey</span>
+                            </span>
                         </div>
                         <ul class="hcv-bullets">
-                            <li>Ümraniye-Üsküdar metro hattı Çakmak İstasyonu tünel kalıp ve peron betonarmesi kaba işlerinin saha yönetimi.</li>
+                            <li class="lang-tr">Ümraniye-Üsküdar metro hattı Çakmak İstasyonu tünel kalıp ve peron betonarmesi kaba işlerinin saha yönetimi.</li>
+                            <li class="lang-en">Field supervision of reinforced concrete tunnel formwork and station platform structural works on the M5 Metro Line.</li>
                         </ul>
                     </div>
                 </section>
 
                 <!-- 3. SELECTED PROJECTS (SEÇİLMİŞ PROJELER) -->
                 <section class="hcv-section">
-                    <h2 class="hcv-section-title">SEÇİLMİŞ PROJELER</h2>
+                    <h2 class="hcv-section-title">
+                        <span class="lang-tr">SEÇİLMİŞ PROJELER</span>
+                        <span class="lang-en">KEY REFERENCE PROJECTS</span>
+                    </h2>
                     <div class="hcv-projects-compact">
-                        <p><strong class="hcv-bold">One Madison Avenue (New York, ABD):</strong> Unitized Panel Cephe sistemlerinin tasarım ve fabrika imalat koordinasyonu.</p>
-                        <p><strong class="hcv-bold">One Willoughby Square (Brooklyn, NY):</strong> Yüksek yapı panel cephe ve endüstriyel doğrama imalat takibi ve onay süreçleri.</p>
-                        <p><strong class="hcv-bold">Başarı Holding Genel Müdürlük (İstanbul):</strong> Spider cam cephe ve kompozit kaplama imalat-montaj yönetimi.</p>
-                        <p><strong class="hcv-bold">Maltepe Piazza (İstanbul):</strong> AVM ve kule projesinde alüminyum giydirme cephe, skylight ve kanopi imalat koordinasyonu.</p>
+                        <p>
+                            <strong class="hcv-bold">One Madison Avenue (New York, <span class="lang-tr">ABD</span><span class="lang-en">USA</span>):</strong> 
+                            <span class="lang-tr">Unitized Panel Cephe sistemlerinin tasarım ve fabrika imalat koordinasyonu.</span>
+                            <span class="lang-en">Engineering and factory production coordination of custom Unitized Curtain Wall panels.</span>
+                        </p>
+                        <p>
+                            <strong class="hcv-bold">One Willoughby Square (Brooklyn, NY<span class="lang-tr">, ABD</span><span class="lang-en">, USA</span>):</strong> 
+                            <span class="lang-tr">Yüksek yapı panel cephe ve endüstriyel doğrama imalat takibi ve onay süreçleri.</span>
+                            <span class="lang-en">Commercial skyscraper facade manufacturing oversight, BIM coordination, and GC approval workflows.</span>
+                        </p>
+                        <p>
+                            <strong class="hcv-bold">Başarı Holding <span class="lang-tr">Genel Müdürlük (İstanbul)</span><span class="lang-en">HQ (Istanbul)</span>:</strong> 
+                            <span class="lang-tr">Spider cam cephe ve kompozit kaplama imalat-montaj yönetimi.</span>
+                            <span class="lang-en">Design, manufacturing, and turnkey installation management for spider glass and composite facades.</span>
+                        </p>
+                        <p>
+                            <strong class="hcv-bold">Maltepe Piazza (<span class="lang-tr">İstanbul</span><span class="lang-en">Istanbul</span>):</strong> 
+                            <span class="lang-tr">AVM ve kule projesinde alüminyum giydirme cephe, skylight ve kanopi imalat koordinasyonu.</span>
+                            <span class="lang-en">Technical coordination for aluminum unitized curtain wall, skylights, and glass entrance canopies.</span>
+                        </p>
                     </div>
                 </section>
 
                 <!-- 4. SKILLS & COMPETENCIES (YETKİNLİKLER VE DİLLER) -->
                 <section class="hcv-section">
-                    <h2 class="hcv-section-title">YETKİNLİKLER &amp; DİLLER</h2>
+                    <h2 class="hcv-section-title">
+                        <span class="lang-tr">YETKİNLİKLER &amp; DİLLER</span>
+                        <span class="lang-en">SKILLS &amp; LANGUAGES</span>
+                    </h2>
                     <div class="hcv-skills-grid">
-                        <p><strong class="hcv-bold">Teknik Uzmanlık:</strong> Şantiye &amp; Saha Yönetimi, Sözleşme Yönetimi (FIDIC), Hak Ediş &amp; Metraj Analizi, Kalite Kontrol (TS 500, EN 13830), İSG.</p>
-                        <p><strong class="hcv-bold">Yazılım &amp; Araçlar:</strong> BIM (Autodesk Revit, Navisworks), AutoCAD, MS Project, Microsoft Office (İleri Düzey Excel &amp; Raporlama).</p>
-                        <p><strong class="hcv-bold">Diller:</strong> Türkçe (Anadil), İngilizce (Tam Profesyonel / Akıcı), Almanca, Rusça, Fransızca, İspanyolca.</p>
+                        <p>
+                            <strong class="hcv-bold"><span class="lang-tr">Teknik Uzmanlık:</span><span class="lang-en">Technical Expertise:</span></strong> 
+                            <span class="lang-tr">Şantiye &amp; Saha Yönetimi, Sözleşme Yönetimi (FIDIC), Hak Ediş &amp; Metraj Analizi, Kalite Kontrol (TS 500, EN 13830), İSG.</span>
+                            <span class="lang-en">Site &amp; Field Management, Contract Administration (FIDIC), Quantity Takeoffs &amp; Progress Billing, Quality Assurance (TS 500, EN 13830), HSE.</span>
+                        </p>
+                        <p>
+                            <strong class="hcv-bold"><span class="lang-tr">Yazılım &amp; Araçlar:</span><span class="lang-en">Software &amp; Tools:</span></strong> 
+                            <span>BIM (Autodesk Revit, Navisworks), AutoCAD, MS Project, Microsoft Office (<span class="lang-tr">İleri Düzey Excel &amp; Raporlama</span><span class="lang-en">Advanced Excel &amp; Reporting</span>).</span>
+                        </p>
+                        <p>
+                            <strong class="hcv-bold"><span class="lang-tr">Diller:</span><span class="lang-en">Languages:</span></strong> 
+                            <span class="lang-tr">Türkçe (Anadil), İngilizce (Tam Profesyonel / Akıcı), Almanca, Rusça, Fransızca, İspanyolca.</span>
+                            <span class="lang-en">Turkish (Native), English (Full Professional / Fluent), German, Russian, French, Spanish.</span>
+                        </p>
                     </div>
                 </section>
             </div>
@@ -228,6 +362,37 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
         display: flex;
         align-items: center;
         gap: 0.75rem;
+    }
+
+    .cv-lang-switch {
+        display: inline-flex;
+        background: var(--bg-tertiary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius-sm);
+        padding: 2px;
+        gap: 2px;
+    }
+
+    .cv-lang-btn {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 0.25rem 0.55rem;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: var(--transition-fast);
+    }
+
+    .cv-lang-btn:hover {
+        color: var(--text-primary);
+    }
+
+    .cv-lang-btn.active {
+        background: var(--accent-color);
+        color: var(--bg-primary);
+        font-weight: 800;
     }
 
     .cv-format-badge {

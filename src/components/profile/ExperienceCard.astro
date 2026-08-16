@@ -2,6 +2,8 @@
 interface SubRole {
     title: string;
     date: string;
+    titleEn?: string;
+    dateEn?: string;
 }
 
 interface Props {
@@ -14,6 +16,12 @@ interface Props {
     details?: string[];
     subRoles?: SubRole[];
     tags?: string[];
+    roleEn?: string;
+    periodEn?: string;
+    locationEn?: string;
+    descriptionEn?: string;
+    detailsEn?: string[];
+    tagsEn?: string[];
     idx?: number;
 }
 
@@ -27,6 +35,12 @@ const {
     details = [],
     subRoles = [],
     tags = [],
+    roleEn = role,
+    periodEn = period,
+    locationEn = location,
+    descriptionEn = description,
+    detailsEn = details,
+    tagsEn = tags,
     idx = 0
 } = Astro.props;
 
@@ -36,28 +50,39 @@ const categoriesStr = categories.join(' ');
 <div class="timeline-item reveal" data-categories={categoriesStr} style={`animation-delay: ${idx * 0.1}s`}>
     <div class="timeline-node"></div>
     <div class="timeline-meta">
-        <span class="timeline-date">{period}</span>
-        <span class="timeline-location">{location}</span>
+        <span class="timeline-date lang-tr">{period}</span>
+        <span class="timeline-date lang-en">{periodEn}</span>
+        <span class="timeline-location lang-tr">{location}</span>
+        <span class="timeline-location lang-en">{locationEn}</span>
     </div>
     <div class="timeline-card">
-        <h4 class="timeline-role-title">{role}</h4>
+        <h4 class="timeline-role-title lang-tr">{role}</h4>
+        <h4 class="timeline-role-title lang-en">{roleEn}</h4>
         <h5 class="timeline-company">{company}</h5>
-        <p class="timeline-desc">{description}</p>
+        <p class="timeline-desc lang-tr">{description}</p>
+        <p class="timeline-desc lang-en">{descriptionEn}</p>
         
         {details && details.length > 0 && (
-            <ul class="timeline-details">
+            <ul class="timeline-details lang-tr">
                 {details.map(det => <li>{det}</li>)}
+            </ul>
+        )}
+        {detailsEn && detailsEn.length > 0 && (
+            <ul class="timeline-details lang-en">
+                {detailsEn.map(det => <li>{det}</li>)}
             </ul>
         )}
 
         {subRoles && subRoles.length > 0 && (
             <div class="timeline-sub-roles">
-                <span class="sub-role-title">Kariyer Basamakları</span>
+                <span class="sub-role-title lang-tr">Kariyer Basamakları</span>
+                <span class="sub-role-title lang-en">Career Milestones</span>
                 <div class="sub-roles-grid">
                     {subRoles.map(sub => (
                         <div class="sub-role-card">
                             <span class="sub-role-name">{sub.title}</span>
-                            <span class="sub-role-date">{sub.date}</span>
+                            <span class="sub-role-date lang-tr">{sub.date}</span>
+                            <span class="sub-role-date lang-en">{sub.dateEn || sub.date}</span>
                         </div>
                     ))}
                 </div>
@@ -65,8 +90,13 @@ const categoriesStr = categories.join(' ');
         )}
 
         {tags && tags.length > 0 && (
-            <div class="timeline-tags">
+            <div class="timeline-tags lang-tr">
                 {tags.map(tag => <span class="tag">{tag}</span>)}
+            </div>
+        )}
+        {tagsEn && tagsEn.length > 0 && (
+            <div class="timeline-tags lang-en">
+                {tagsEn.map(tag => <span class="tag">{tag}</span>)}
             </div>
         )}
     </div>

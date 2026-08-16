@@ -2875,5 +2875,58 @@ a.meta-value:hover {
     font-weight: 600;
 }
 
+/* ==========================================================================
+   BILINGUAL TR / EN SYSTEM STYLES
+   ========================================================================== */
+html:not([data-lang="en"]) .lang-en,
+html:not([data-lang="en"]) [data-lang-en-only] {
+    display: none !important;
+}
+
+html[data-lang="en"] .lang-tr,
+html[data-lang="en"] [data-lang-tr-only] {
+    display: none !important;
+}
+
+/* Language Toggle Button in Header & Toolbars */
+.lang-toggle-btn {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.35rem 0.65rem;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: var(--transition-fast);
+    line-height: 1;
+    user-select: none;
+}
+
+.lang-toggle-btn:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.lang-toggle-btn .lang-code {
+    opacity: 0.45;
+    transition: var(--transition-fast);
+}
+
+.lang-toggle-btn .lang-sep {
+    opacity: 0.25;
+    font-size: 0.7rem;
+}
+
+html:not([data-lang="en"]) .lang-toggle-btn .lang-code.lang-tr,
+html[data-lang="en"] .lang-toggle-btn .lang-code.lang-en {
+    opacity: 1;
+    color: var(--accent-color);
+    font-weight: 800;
+}
+
 
 
