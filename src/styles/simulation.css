@@ -16,11 +16,88 @@
     overflow: hidden;
 }
 
-/* Glassmorphic Navigation Tabs selector */
-.sim-tabs-container {
+/* ==========================================================================
+   NAVIGATION & CATEGORY SWITCHER
+   ========================================================================== */
+.sim-nav-wrapper {
+    margin-bottom: 2.5rem;
+}
+
+.sim-category-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+@media (max-width: 768px) {
+    .sim-category-nav {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sim-cat-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    text-align: left;
+    transition: var(--transition-normal);
+}
+
+.sim-cat-btn:hover {
+    border-color: rgba(var(--accent-rgb), 0.4);
+    background: rgba(var(--accent-rgb), 0.04);
+}
+
+.sim-cat-btn.active {
+    background: var(--bg-tertiary);
+    border-color: var(--accent-color);
+    box-shadow: 0 4px 20px rgba(var(--accent-rgb), 0.15);
+}
+
+.cat-icon {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+}
+
+.cat-text-group {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.cat-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.cat-sub {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.cat-count {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    background: var(--bg-primary);
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    white-space: nowrap;
+}
+
+/* Tool Pill Buttons */
+.sim-tabs-group {
     display: flex;
     gap: 0.75rem;
-    margin-bottom: 2rem;
     overflow-x: auto;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid var(--border-color);
@@ -30,13 +107,13 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.75rem 1.25rem;
+    padding: 0.65rem 1.2rem;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(10px);
     color: var(--text-muted);
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     border-radius: var(--border-radius-md);
     cursor: pointer;
     transition: var(--transition-fast);
@@ -60,14 +137,16 @@
     color: currentColor;
 }
 
-/* Panel transitions */
+/* Panel transitions: Strictly hide all inactive panels */
+.sim-tab-panel,
 .sim-tab-pane {
-    display: none;
+    display: none !important;
     animation: fadeInTab 0.35s ease forwards;
 }
 
+.sim-tab-panel.active,
 .sim-tab-pane.active {
-    display: block;
+    display: block !important;
 }
 
 @keyframes fadeInTab {

@@ -3,28 +3,57 @@
 // ==========================================================================
 
 (function() {
-    // --- TAB SWITCHER LOGIC ---
+    // --- CATEGORY & TAB SWITCHER LOGIC ---
+    const catBtns = document.querySelectorAll('.sim-cat-btn');
+    const groupTools = document.getElementById('group-tools');
+    const groupMetraj = document.getElementById('group-metraj');
     const tabBtns = document.querySelectorAll('.sim-tab-btn');
-    const tabPanes = document.querySelectorAll('.sim-tab-pane');
+
+    function switchTab(targetTab) {
+        tabBtns.forEach(b => {
+            const isMatch = b.getAttribute('data-tab') === targetTab;
+            b.classList.toggle('active', isMatch);
+            b.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+        });
+
+        const allPanels = document.querySelectorAll('.sim-tab-panel, .sim-tab-pane');
+        allPanels.forEach(p => p.classList.remove('active'));
+
+        const activePanel = document.getElementById(`tab-${targetTab}`);
+        if (activePanel) activePanel.classList.add('active');
+
+        if (targetTab === 'fem') updateFEMCalculations();
+        else if (targetTab === 'radar') updateRadarDecisions();
+        else if (targetTab === 'karsilastirma') renderComparison(currentCompareCat);
+        else if (targetTab === 'donati-hesap') { updateRebarCalculator(); updateProfileCalculator(); runRebarOptimizer(); }
+        else if (targetTab === 'cephe') updateFacadeCalculations();
+        else if (targetTab === 'beton') updateConcreteCalculations();
+        else if (targetTab === 'duvar') updateMasonryCalculations();
+        else if (targetTab === 'sap') updateScreedWetCalculations();
+    }
+
+    catBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const cat = btn.getAttribute('data-category');
+            catBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            if (cat === 'tools') {
+                if (groupTools) groupTools.style.display = 'flex';
+                if (groupMetraj) groupMetraj.style.display = 'none';
+                switchTab('fem');
+            } else if (cat === 'metraj') {
+                if (groupTools) groupTools.style.display = 'none';
+                if (groupMetraj) groupMetraj.style.display = 'flex';
+                switchTab('cephe');
+            }
+        });
+    });
 
     tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const targetTab = btn.getAttribute('data-tab');
-
-            tabBtns.forEach(b => b.classList.remove('active'));
-            tabPanes.forEach(p => p.classList.remove('active'));
-
-            btn.classList.add('active');
-            document.getElementById(`tab-${targetTab}`)?.classList.add('active');
-
-            if (targetTab === 'fem') updateFEMCalculations();
-            else if (targetTab === 'radar') updateRadarDecisions();
-            else if (targetTab === 'karsilastirma') renderComparison(currentCompareCat);
-            else if (targetTab === 'donati-hesap') { updateRebarCalculator(); updateProfileCalculator(); runRebarOptimizer(); }
-            else if (targetTab === 'cephe') updateFacadeCalculations();
-            else if (targetTab === 'beton') updateConcreteCalculations();
-            else if (targetTab === 'duvar') updateMasonryCalculations();
-            else if (targetTab === 'sap') updateScreedWetCalculations();
+            if (targetTab) switchTab(targetTab);
         });
     });
 
