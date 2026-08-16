@@ -19,20 +19,20 @@ function initLanguage() {
     const savedLang = localStorage.getItem('user_lang') || 'tr';
     setSiteLanguage(savedLang, false);
 
-    document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const currentLang = document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'tr';
-            const newLang = currentLang === 'tr' ? 'en' : 'tr';
-            setSiteLanguage(newLang, true);
-        });
-    });
-
-    document.querySelectorAll('.cv-lang-btn').forEach(btn => {
+    document.querySelectorAll('.lang-btn, .cv-lang-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const targetLang = btn.getAttribute('data-lang-target');
             if (targetLang) {
                 setSiteLanguage(targetLang, true);
             }
+        });
+    });
+
+    document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const currentLang = document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'tr';
+            const newLang = currentLang === 'tr' ? 'en' : 'tr';
+            setSiteLanguage(newLang, true);
         });
     });
 }
@@ -43,7 +43,8 @@ function setSiteLanguage(lang, showNotification = false) {
     document.documentElement.setAttribute('lang', validLang);
     localStorage.setItem('user_lang', validLang);
 
-    document.querySelectorAll('.cv-lang-btn').forEach(btn => {
+    // Update active class on all segmented buttons (Header & CV)
+    document.querySelectorAll('.lang-btn, .cv-lang-btn').forEach(btn => {
         const isTarget = btn.getAttribute('data-lang-target') === validLang;
         btn.classList.toggle('active', isTarget);
     });

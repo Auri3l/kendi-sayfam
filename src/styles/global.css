@@ -2888,44 +2888,106 @@ html[data-lang="en"] [data-lang-tr-only] {
     display: none !important;
 }
 
-/* Language Toggle Button in Header & Toolbars */
-.lang-toggle-btn {
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    padding: 0.35rem 0.65rem;
-    border-radius: var(--border-radius-sm);
-    cursor: pointer;
-    font-size: 0.78rem;
-    font-weight: 700;
+/* ==========================================================================
+   PROMINENT LANGUAGE SWITCHER STYLES
+   ========================================================================== */
+.header-lang-switch {
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem;
+    background: var(--bg-tertiary);
+    border: 1.5px solid var(--border-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--border-radius-sm, 6px);
+    gap: 0.35rem;
+    transition: var(--transition-fast);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-lang-switch:hover {
+    border-color: var(--accent-color);
+}
+
+.lang-globe-icon {
+    color: var(--accent-color);
+    flex-shrink: 0;
+}
+
+.lang-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    cursor: pointer;
     transition: var(--transition-fast);
     line-height: 1;
+}
+
+.lang-btn:hover {
+    color: var(--text-primary);
+}
+
+.lang-btn.active {
+    background: var(--accent-color);
+    color: var(--bg-primary) !important;
+    font-weight: 800;
+    box-shadow: 0 2px 6px rgba(var(--accent-rgb), 0.3);
+}
+
+.lang-divider {
+    color: var(--border-color);
+    font-size: 0.75rem;
     user-select: none;
 }
 
-.lang-toggle-btn:hover {
-    border-color: var(--accent-color);
-    color: var(--accent-color);
+/* CV Toolbar Language Switcher */
+.cv-lang-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.lang-toggle-btn .lang-code {
-    opacity: 0.45;
+.cv-lang-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.cv-lang-switch {
+    display: inline-flex;
+    background: var(--bg-tertiary);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--border-radius-sm, 6px);
+    padding: 3px;
+    gap: 3px;
+}
+
+.cv-lang-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    cursor: pointer;
     transition: var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
 }
 
-.lang-toggle-btn .lang-sep {
-    opacity: 0.25;
-    font-size: 0.7rem;
+.cv-lang-btn:hover {
+    color: var(--text-primary);
 }
 
-html:not([data-lang="en"]) .lang-toggle-btn .lang-code.lang-tr,
-html[data-lang="en"] .lang-toggle-btn .lang-code.lang-en {
-    opacity: 1;
-    color: var(--accent-color);
+.cv-lang-btn.active {
+    background: var(--accent-color) !important;
+    color: var(--bg-primary) !important;
     font-weight: 800;
+    box-shadow: 0 2px 8px rgba(var(--accent-rgb), 0.35);
 }
 
 
