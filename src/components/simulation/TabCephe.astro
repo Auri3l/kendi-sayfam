@@ -56,46 +56,48 @@
                     </select>
                 </div>
 
-                <button type="button" class="btn btn-primary calc-btn" id="btnCalcCephe" style="width: 100%; margin-top: 0.5rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M16 2v4M8 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
-                    ⚡ Cephe Metrajını Hesapla
+                <button type="button" class="btn btn-primary calc-btn btn-full" id="btnCalcCephe">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 2v4M8 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+                    <span>Cephe Metrajını Hesapla</span>
                 </button>
             </div>
         </div>
         <div class="metraj-table-panel sim-glass-card">
-            <div class="metraj-table-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
-                <h4 class="metraj-panel-title" style="margin: 0; border: none; padding: 0;">Cephe Malzeme Metraj Tablosu (Poz Listesi)</h4>
+            <div class="metraj-table-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.85rem;">
+                <h4 class="metraj-panel-title" style="margin: 0; border: none; padding: 0;">Cephe Malzeme Metraj Tablosu</h4>
                 <div class="metraj-actions" style="display: flex; gap: 0.5rem;">
-                    <button type="button" class="btn btn-secondary btn-export-csv" data-target="table-cephe" data-filename="Cephe_Metraj_Cetveli" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; cursor: pointer;">
-                        📊 CSV (Excel) İndir
+                    <button type="button" class="btn btn-secondary btn-sm btn-export-csv" data-target="table-cephe" data-filename="Cephe_Metraj_Cetveli">
+                        <span>CSV İndir</span>
                     </button>
-                    <button type="button" class="btn btn-secondary btn-print-pdf" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; cursor: pointer;">
-                        🖨️ Raporu Yazdır
+                    <button type="button" class="btn btn-secondary btn-sm btn-print-pdf">
+                        <span>Yazdır</span>
                     </button>
                 </div>
             </div>
-            <table class="metraj-table" id="table-cephe">
-                <thead>
-                    <tr>
-                        <th scope="col">Poz No</th>
-                        <th scope="col">Açıklama (Material Item)</th>
-                        <th scope="col">Metraj Miktarı</th>
-                        <th scope="col">Birim</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>C-01</td><td>Toplam Modüler Cephe Paneli Sayısı</td><td id="outPanCount">-</td><td>Adet</td></tr>
-                    <tr><td>C-02</td><td>Net Cam Kaplama Alanı</td><td id="outGlassArea">-</td><td>m²</td></tr>
-                    <tr><td>C-03</td><td>Toplam Cam Ağırlığı</td><td id="outGlassWeight">-</td><td>kg</td></tr>
-                    <tr><td>C-04</td><td>Düşey Alüminyum Profil (Mullion) Toplam Metrajı</td><td id="outMullionLen">-</td><td>mt</td></tr>
-                    <tr><td>C-05</td><td>Yatay Alüminyum Profil (Transom) Toplam Metrajı</td><td id="outTransomLen">-</td><td>mt</td></tr>
-                    <tr><td>C-06</td><td>Toplam Alüminyum Profil Ağırlığı</td><td id="outAluWeight">-</td><td>kg</td></tr>
-                    <tr><td>C-07</td><td>Taşıyıcı T-Ankraj Ankraj Braketi Adeti</td><td id="outAnchorCount">-</td><td>Adet</td></tr>
-                    <tr><td>C-08</td><td>Yatay Profil T-Bağlantı Aparatları Sayısı</td><td id="outTConnCount">-</td><td>Adet</td></tr>
-                    <tr><td>C-09</td><td>Sızdırmazlık EPDM Cam Fitil Toplam Metrajı</td><td id="outEPDMLen">-</td><td>mt</td></tr>
-                    <tr><td>C-10</td><td>Panel Birleşim Akustik Sosis Derz Silikonu Adedi (600ml)</td><td id="outSiliconeCount">-</td><td>Adet</td></tr>
-                </tbody>
-            </table>
+            <div class="metraj-table-wrapper">
+                <table class="metraj-table" id="table-cephe">
+                    <thead>
+                        <tr>
+                            <th scope="col">Poz No</th>
+                            <th scope="col">Malzeme Tanımı</th>
+                            <th scope="col">Metraj Miktarı</th>
+                            <th scope="col">Birim</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>C-01</td><td>Toplam Modüler Cephe Paneli Sayısı</td><td id="outPanCount">-</td><td>Adet</td></tr>
+                        <tr><td>C-02</td><td>Net Cam Kaplama Alanı</td><td id="outGlassArea">-</td><td>m²</td></tr>
+                        <tr><td>C-03</td><td>Toplam Cam Ağırlığı</td><td id="outGlassWeight">-</td><td>kg</td></tr>
+                        <tr><td>C-04</td><td>Düşey Alüminyum Profil (Mullion) Toplam Metrajı</td><td id="outMullionLen">-</td><td>mt</td></tr>
+                        <tr><td>C-05</td><td>Yatay Alüminyum Profil (Transom) Toplam Metrajı</td><td id="outTransomLen">-</td><td>mt</td></tr>
+                        <tr><td>C-06</td><td>Toplam Alüminyum Profil Ağırlığı</td><td id="outAluWeight">-</td><td>kg</td></tr>
+                        <tr><td>C-07</td><td>Taşıyıcı T-Ankraj Ankraj Braketi Adeti</td><td id="outAnchorCount">-</td><td>Adet</td></tr>
+                        <tr><td>C-08</td><td>Yatay Profil T-Bağlantı Aparatları Sayısı</td><td id="outTConnCount">-</td><td>Adet</td></tr>
+                        <tr><td>C-09</td><td>Sızdırmazlık EPDM Cam Fitil Toplam Metrajı</td><td id="outEPDMLen">-</td><td>mt</td></tr>
+                        <tr><td>C-10</td><td>Panel Birleşim Sosis Derz Silikonu Adedi (600ml)</td><td id="outSiliconeCount">-</td><td>Adet</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

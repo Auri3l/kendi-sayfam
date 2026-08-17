@@ -43,21 +43,21 @@
                 </div>
 
                 <div class="summary-metric-box">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
                         <span style="font-size: 0.85rem; color: var(--text-muted);">Birim Ağırlık:</span>
-                        <strong id="outRebarUnitWt" style="color: var(--text-primary);">0.888 kg/m</strong>
+                        <strong id="outRebarUnitWt">0.888 kg/m</strong>
                     </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
                         <span style="font-size: 0.85rem; color: var(--text-muted);">Toplam Metraj:</span>
-                        <strong id="outRebarTotalLen" style="color: var(--text-primary);">140.0 m</strong>
+                        <strong id="outRebarTotalLen">140.0 m</strong>
                     </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
-                        <span style="font-size: 0.85rem; color: var(--text-muted);">Toplam Ağırlık:</span>
-                        <strong id="outRebarTotalKg" style="color: var(--accent-color); font-size: 1.1rem;">124.3 kg (0.12 Ton)</strong>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 0.5rem; margin-top: 0.25rem;">
+                        <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Toplam Ağırlık:</span>
+                        <strong id="outRebarTotalKg" style="color: var(--accent-color); font-size: 1.25rem;">124.3 kg (0.12 Ton)</strong>
                     </div>
-                    <div style="display: flex; justify-content: space-between;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
                         <span style="font-size: 0.85rem; color: var(--text-muted);">Eşdeğer 12m Çubuk:</span>
-                        <strong id="outRebarBars" style="color: var(--text-primary);">12 Çubuk (Bağ)</strong>
+                        <strong id="outRebarBars">12 Çubuk (Bağ)</strong>
                     </div>
                 </div>
             </div>
@@ -99,13 +99,13 @@
                 </div>
 
                 <div class="summary-metric-box">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
                         <span style="font-size: 0.85rem; color: var(--text-muted);">Metretül Ağırlığı:</span>
-                        <strong id="outProfUnitWt" style="color: var(--text-primary);">8.05 kg/m</strong>
+                        <strong id="outProfUnitWt">8.05 kg/m</strong>
                     </div>
-                    <div style="display: flex; justify-content: space-between;">
-                        <span style="font-size: 0.85rem; color: var(--text-muted);">Toplam Profil Ağırlığı:</span>
-                        <strong id="outProfTotalWt" style="color: var(--accent-color); font-size: 1.1rem;">193.3 kg</strong>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 0.5rem; margin-top: 0.25rem;">
+                        <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Toplam Profil Ağırlığı:</span>
+                        <strong id="outProfTotalWt" style="color: var(--accent-color); font-size: 1.25rem;">193.3 kg</strong>
                     </div>
                 </div>
             </div>
@@ -128,37 +128,39 @@
                 <span class="field-hint">Örnek: 3.40, 2.80, 5.20 (Toplam: 11.40 m)</span>
             </div>
 
-            <button type="button" class="btn btn-primary" id="btnRunOptimizer" style="width: 100%; margin-bottom: 1.5rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                ⚡ Kesim Planını ve Fireyi Hesapla
+            <button type="button" class="btn btn-primary btn-full" id="btnRunOptimizer" style="margin-bottom: 1.5rem;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+                <span>Kesim Planını ve Fireyi Hesapla</span>
             </button>
 
             <!-- Görsel 12m Çubuk Şeması -->
             <div style="margin-bottom: 1.5rem;">
-                <span style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.5rem; font-weight: 600;">12 Metre Çubuk Kesim Şeması:</span>
-                <div id="optVisualBar" style="height: 36px; width: 100%; background: var(--bg-tertiary); border-radius: 6px; display: flex; overflow: hidden; border: 1px solid var(--border-color);">
+                <span style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.5rem; font-weight: 600; font-family: var(--font-mono);">12 Metre Çubuk Kesim Şeması:</span>
+                <div id="optVisualBar" class="rebar-cut-visual">
                     <!-- Dinamik segmentler -->
                 </div>
             </div>
 
             <!-- Sonuç Detayı -->
             <div class="summary-metric-box" style="margin-bottom: 1.5rem;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span style="font-size: 0.85rem; color: var(--text-muted);">Kullanılan Net Boy:</span>
-                    <strong id="outOptUsedLen" style="color: var(--text-primary);">11.40 m</strong>
+                    <strong id="outOptUsedLen">11.40 m</strong>
                 </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span style="font-size: 0.85rem; color: var(--text-muted);">Kalan Parça (Artık / Fire):</span>
-                    <strong id="outOptWasteLen" style="color: var(--accent-color); font-size: 1.1rem;">0.60 m (60 cm)</strong>
+                    <strong id="outOptWasteLen" style="color: var(--accent-color); font-size: 1.15rem;">0.60 m (60 cm)</strong>
                 </div>
-                <div style="display: flex; justify-content: space-between;">
-                    <span style="font-size: 0.85rem; color: var(--text-muted);">Fire Yüzdesi:</span>
-                    <strong id="outOptWastePct" style="color: #2ecc71;">% 5.0 (Mükemmel Yerleşim)</strong>
+                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 0.5rem; margin-top: 0.25rem;">
+                    <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Fire Yüzdesi:</span>
+                    <strong id="outOptWastePct" style="color: #22c55e; font-size: 1.1rem;">% 5.0 (Mükemmel Yerleşim)</strong>
                 </div>
             </div>
 
             <!-- WhatsApp Şantiye Notu Kopyalama -->
-            <button type="button" class="btn btn-secondary" id="btnCopyRebarPlan" style="width: 100%; justify-content: center; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.85rem;">
-                📋 Şantiye Kesim Notunu Kopyala (WhatsApp / Rapor)
+            <button type="button" class="btn btn-secondary btn-full" id="btnCopyRebarPlan">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>Şantiye Kesim Notunu Kopyala</span>
             </button>
         </div>
     </div>

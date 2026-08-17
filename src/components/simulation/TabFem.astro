@@ -7,7 +7,7 @@
         <div class="sim-canvas-container">
             <canvas id="facadeCanvas"></canvas>
             <div class="sim-panel-overlay">
-                <div class="sim-panel-title">Canlı 3D FEM &amp; Termal Analiz</div>
+                <span>3D FEM &amp; TERMAL ANALİZ</span>
             </div>
             <div class="sim-fem-hud" id="femHUD">
                 <div class="hud-title">FEM DÜĞÜM ANALİZÖRÜ</div>
@@ -21,7 +21,7 @@
         <!-- Right: Control Deck & Telemetry -->
         <div class="sim-control-deck">
             <div class="sim-glass-card">
-                <h4 style="color: var(--text-primary); font-size: 1.2rem; font-weight: 700; margin-top: 0; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">Yük ve Geometri Kontrol Paneli</h4>
+                <h4 class="metraj-panel-title">Yük ve Geometri Kontrol Paneli</h4>
                 
                 <div class="sim-controls-wrapper">
                     <div class="sim-control-group">
@@ -66,9 +66,9 @@
                         </select>
                     </div>
 
-                    <button type="button" class="btn btn-primary calc-btn" id="btnCalcFEM" style="width: 100%; margin-top: 0.5rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2 12 22"/><line x1="2" y1="17" x2="12" y2="22"/><line x1="22" y1="17" x2="12" y2="22"/><line x1="2" y1="12" x2="12" y2="17"/><line x1="22" y1="12" x2="12" y2="17"/></svg>
-                        ⚡ 3D FEM Analizini Yeniden Hesapla
+                    <button type="button" class="btn btn-primary calc-btn btn-full" id="btnCalcFEM">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2 12 22"/><line x1="2" y1="17" x2="12" y2="22"/><line x1="22" y1="17" x2="12" y2="22"/><line x1="2" y1="12" x2="12" y2="17"/><line x1="22" y1="12" x2="12" y2="17"/></svg>
+                        <span>FEM Analizini Yeniden Hesapla</span>
                     </button>
                 </div>
             </div>
@@ -100,7 +100,7 @@
             <!-- Status Alert Indicator -->
             <div class="sim-status-badge status-safe" id="statusBadge">
                 <span class="sim-status-dot"></span>
-                <span id="statusText">Statik Sınır: GÜVENLİ</span>
+                <span id="statusText">Statik Sınır: GÜVENLİ (L/300 Altında)</span>
             </div>
         </div>
     </div>

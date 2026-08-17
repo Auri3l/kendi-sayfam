@@ -15,10 +15,10 @@
             <div class="sim-input-group">
                 <label class="sim-label">Hızlı Senaryo Seçimi</label>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
-                    <button type="button" class="btn btn-secondary btn-sm" id="btnPresetNormal" style="font-size: 0.75rem;">☀️ Normal Bahar/Yaz</button>
-                    <button type="button" class="btn btn-secondary btn-sm" id="btnPresetStorm" style="font-size: 0.75rem;">💨 Fırtınalı Gün</button>
-                    <button type="button" class="btn btn-secondary btn-sm" id="btnPresetCold" style="font-size: 0.75rem;">❄️ Don / Soğuk Kış</button>
-                    <button type="button" class="btn btn-secondary btn-sm" id="btnPresetRain" style="font-size: 0.75rem;">🌧️ Şiddetli Yağmur</button>
+                    <button type="button" class="btn btn-secondary btn-sm" id="btnPresetNormal">Normal Bahar/Yaz</button>
+                    <button type="button" class="btn btn-secondary btn-sm" id="btnPresetStorm">Fırtınalı Gün</button>
+                    <button type="button" class="btn btn-secondary btn-sm" id="btnPresetCold">Don / Soğuk Kış</button>
+                    <button type="button" class="btn btn-secondary btn-sm" id="btnPresetRain">Şiddetli Yağmur</button>
                 </div>
             </div>
 
@@ -72,12 +72,12 @@
                 <h4 class="panel-title">Şantiye İmalat Karar Matrisi</h4>
             </div>
 
-            <div class="radar-results-stack" style="display: flex; flex-direction: column; gap: 0.85rem;">
+            <div class="radar-results-stack">
                 <!-- 1. Beton Dökümü -->
                 <div class="radar-card" id="cardBetonRadar">
                     <div class="radar-card-header">
-                        <span class="radar-trade-name">🏗️ Taşıyıcı Sistem Beton Dökümü</span>
-                        <span class="radar-badge" id="badgeBeton">UYGUN</span>
+                        <span class="radar-trade-name">01. Taşıyıcı Sistem Beton Dökümü</span>
+                        <span class="radar-badge badge-safe" id="badgeBeton">UYGUN</span>
                     </div>
                     <p class="radar-desc" id="descBeton">Sıcaklık standart aralıkta (+5°C / +32°C). Normal döküm yapılabilir.</p>
                 </div>
@@ -85,8 +85,8 @@
                 <!-- 2. Kule Vinç & Ağır Kaldırma -->
                 <div class="radar-card" id="cardCraneRadar">
                     <div class="radar-card-header">
-                        <span class="radar-trade-name">🚜 Kule Vinç &amp; Ağır Kaldırma</span>
-                        <span class="radar-badge" id="badgeCrane">GÜVENLİ</span>
+                        <span class="radar-trade-name">02. Kule Vinç &amp; Ağır Kaldırma</span>
+                        <span class="radar-badge badge-safe" id="badgeCrane">GÜVENLİ</span>
                     </div>
                     <p class="radar-desc" id="descCrane">Rüzgar hızı limit altında (&lt; 45 km/h). Vinç operasyonları güvenlidir.</p>
                 </div>
@@ -94,8 +94,8 @@
                 <!-- 3. Dış Cephe Sepeti & İskele -->
                 <div class="radar-card" id="cardScaffoldRadar">
                     <div class="radar-card-header">
-                        <span class="radar-trade-name">🧗 Asma Sepet &amp; Dış Cephe İskelesi</span>
-                        <span class="radar-badge" id="badgeScaffold">GÜVENLİ</span>
+                        <span class="radar-trade-name">03. Asma Sepet &amp; Dış Cephe İskelesi</span>
+                        <span class="radar-badge badge-safe" id="badgeScaffold">GÜVENLİ</span>
                     </div>
                     <p class="radar-desc" id="descScaffold">Yüksekte çalışma için rüzgar ve zemin koşulları elverişli.</p>
                 </div>
@@ -103,8 +103,8 @@
                 <!-- 4. Cephe Silikonu, Mastik & Su Yalıtımı -->
                 <div class="radar-card" id="cardSiliconeRadar">
                     <div class="radar-card-header">
-                        <span class="radar-trade-name">🧴 Cephe Sosis Silikon &amp; Yalıtım</span>
-                        <span class="radar-badge" id="badgeSilicone">UYGUN</span>
+                        <span class="radar-trade-name">04. Cephe Sosis Silikon &amp; Yalıtım</span>
+                        <span class="radar-badge badge-safe" id="badgeSilicone">UYGUN</span>
                     </div>
                     <p class="radar-desc" id="descSilicone">Yüzey nemi ve sıcaklık fitil/silikon aderansı için uygundur.</p>
                 </div>
@@ -112,8 +112,8 @@
                 <!-- 5. Dış Sıva & Dış Cephe Boyası -->
                 <div class="radar-card" id="cardPaintRadar">
                     <div class="radar-card-header">
-                        <span class="radar-trade-name">🎨 Dış Cephe Boya, Sıva &amp; Kaplama</span>
-                        <span class="radar-badge" id="badgePaint">UYGUN</span>
+                        <span class="radar-trade-name">05. Dış Cephe Boya, Sıva &amp; Kaplama</span>
+                        <span class="radar-badge badge-safe" id="badgePaint">UYGUN</span>
                     </div>
                     <p class="radar-desc" id="descPaint">Kürlenme ve kuruma şartları normal sınırlarda.</p>
                 </div>
