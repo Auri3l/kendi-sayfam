@@ -1,9 +1,53 @@
 ---
 const currentYear = new Date().getFullYear();
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 ---
 
 <footer class="main-footer">
     <div class="container footer-container">
-        <p class="copyright">© {currentYear} Ata Yiğit Telli. Tüm hakları saklıdır.</p>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href={base} class="logo-monogram" aria-label="Ana Sayfa / Home">
+                    <span>AYT</span>
+                </a>
+                <p class="footer-desc">
+                    <span class="lang-tr">İnşaat Mühendisi &amp; Proje Yöneticisi. Üstyapı, cephe mühendisliği ve teknik sözleşme yönetimi.</span>
+                    <span class="lang-en">Civil Engineer &amp; Project Manager. Specializing in superstructure, facade engineering, and contract management.</span>
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <h5 class="footer-col-title">
+                    <span class="lang-tr">Gezinti</span>
+                    <span class="lang-en">Navigation</span>
+                </h5>
+                <ul class="footer-links">
+                    <li><a href={`${base}#hakkimda`}><span class="lang-tr">Hakkımda</span><span class="lang-en">About</span></a></li>
+                    <li><a href={`${base}cv/`}>CV</a></li>
+                    <li><a href={`${base}#projeler`}><span class="lang-tr">Projeler</span><span class="lang-en">Projects</span></a></li>
+                    <li><a href={`${base}simulasyon/`}><span class="lang-tr">Simülatör &amp; Metraj</span><span class="lang-en">Simulator &amp; Takeoff</span></a></li>
+                    <li><a href={`${base}blog/`}>Blog</a></li>
+                    <li><a href={`${base}iletisim/`}><span class="lang-tr">İletişim</span><span class="lang-en">Contact</span></a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h5 class="footer-col-title">
+                    <span class="lang-tr">Mühendislik Standartları</span>
+                    <span class="lang-en">Engineering Standards</span>
+                </h5>
+                <ul class="footer-links">
+                    <li><span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">TS EN 13830 • Giydirme Cepheler</span></li>
+                    <li><span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">TS 500 &amp; TBDY 2018 • Betonarme</span></li>
+                    <li><span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">TS 825 • Binalarda Isı Yalıtımı</span></li>
+                    <li><span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">FIDIC • Sözleşme Yönetimi</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>© {currentYear} Ata Yiğit Telli. <span class="lang-tr">Tüm hakları saklıdır.</span><span class="lang-en">All rights reserved.</span></span>
+            <span style="letter-spacing: 0.08em;">41.0082° N, 28.9784° E • ISTANBUL, TR</span>
+        </div>
     </div>
 </footer>

@@ -1,22 +1,37 @@
 ---
 ---
 
-<div class="passphrase-modal-overlay hidden" id="passphraseModal" role="dialog" aria-modal="true" aria-labelledby="passphraseModalTitle">
-    <div class="passphrase-modal-card">
-        <button type="button" class="passphrase-modal-close" id="closePassphraseModal" aria-label="Kapat">&times;</button>
-        <div class="passphrase-icon" aria-hidden="true">🔑</div>
-        <h3 class="passphrase-modal-title" id="passphraseModalTitle">Korumalı İletişim Bilgisi</h3>
-        <p class="passphrase-modal-desc">
-            Telefon numarası ve adres bilgilerini görüntülemek için lütfen erişim şifresini (passphrase) giriniz.
-        </p>
-        <form id="passphraseForm" class="passphrase-form">
-            <div class="passphrase-input-wrap">
-                <input type="password" id="passphraseInput" placeholder="Erişim şifresi..." autocomplete="off" required aria-label="Erişim şifresi" />
-                <button type="submit" class="btn btn-primary btn-unlock-submit" id="btnUnlockSubmit">
-                    <span>Çöz &amp; Göster</span>
-                </button>
+<div class="modal-overlay hidden" id="passphraseModal" role="dialog" aria-modal="true" aria-labelledby="passphraseModalTitle">
+    <div class="modal-box">
+        <div class="modal-header">
+            <div class="modal-title-row">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <rect x="3" y="11" width="18" height="11" rx="1" ry="1"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <h3 class="modal-title" id="passphraseModalTitle">
+                    <span class="lang-tr">Korumalı İletişim Bilgisi</span>
+                    <span class="lang-en">Protected Contact Data</span>
+                </h3>
             </div>
-        </form>
-        <p class="passphrase-hint">💡 <strong>İpucu:</strong> Erişim Şifresi: <code>ayt2026</code></p>
+            <button type="button" class="modal-close-btn" id="closePassphraseModal" aria-label="Kapat / Close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p class="modal-desc">
+                <span class="lang-tr">Telefon ve adres bilgilerini şifreli depolamadan çözmek için lütfen erişim anahtarını giriniz.</span>
+                <span class="lang-en">Please enter the security passphrase to decrypt contact telephone and location data.</span>
+            </p>
+            <form id="passphraseForm" class="modal-form">
+                <input type="password" id="passphraseInput" class="modal-input" placeholder="Passphrase..." autocomplete="off" required aria-label="Passphrase" />
+                <button type="submit" class="btn btn-primary btn-full" id="btnUnlockSubmit">
+                    <span class="lang-tr">Şifreyi Çöz &amp; Doğrula</span>
+                    <span class="lang-en">Decrypt &amp; Verify</span>
+                </button>
+            </form>
+            <p class="modal-hint">
+                <span class="lang-tr">İpucu: <code>ayt2026</code></span>
+                <span class="lang-en">Hint: <code>ayt2026</code></span>
+            </p>
+        </div>
     </div>
 </div>

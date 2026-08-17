@@ -20,30 +20,30 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                     </a>
 
                     <div class="cv-toolbar-actions">
-                        <!-- Prominent Language Switcher in CV Toolbar -->
+                        <!-- Technical Language Switcher in CV Toolbar -->
                         <div class="cv-lang-wrapper">
                             <span class="cv-lang-label">
-                                <span class="lang-tr">CV Dili:</span>
-                                <span class="lang-en">Resume Lang:</span>
+                                <span class="lang-tr">Dil:</span>
+                                <span class="lang-en">Lang:</span>
                             </span>
                             <div class="cv-lang-switch" role="group" aria-label="CV Dili">
-                                <button type="button" class="cv-lang-btn active" data-lang-target="tr" title="Türkçe Özgeçmiş">🇹🇷 TR</button>
-                                <button type="button" class="cv-lang-btn" data-lang-target="en" title="English Resume">🇬🇧 EN</button>
+                                <button type="button" class="cv-lang-btn active" data-lang-target="tr" title="Türkçe Özgeçmiş">TR</button>
+                                <button type="button" class="cv-lang-btn" data-lang-target="en" title="English Resume">EN</button>
                             </div>
                         </div>
 
                         <span class="cv-format-badge">
-                            <span class="lang-tr">Tek Sayfa Standart CV</span>
-                            <span class="lang-en">Single-Page Standard Resume</span>
+                            <span class="lang-tr">A4 Format</span>
+                            <span class="lang-en">A4 Format</span>
                         </span>
 
                         <button type="button" class="btn btn-primary btn-sm" id="btnPrintCv" style="display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                 <polyline points="6 9 6 2 18 2 18 9"></polyline>
                                 <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
                                 <rect x="6" y="14" width="12" height="8"></rect>
                             </svg>
-                            <span class="lang-tr">Tek Sayfa PDF Olarak Kaydet / Yazdır</span>
+                            <span class="lang-tr">Tek Sayfa PDF Kaydet / Yazdır</span>
                             <span class="lang-en">Save Single-Page PDF / Print</span>
                         </button>
                     </div>
@@ -64,7 +64,8 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                         <span class="hcv-sep">•</span>
                         <span id="cvPhoneSlot" class="protected-slot">
                             <button type="button" class="protected-trigger-btn hcv-link" data-action="unlockContact" title="Telefon Numarasını Aç">
-                                🔒 •••••••••• (<span class="lang-tr">Şifreli</span><span class="lang-en">Protected</span>)
+                                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 2px;" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="1" ry="1"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                <span>•••••••••• (<span class="lang-tr">Şifreli</span><span class="lang-en">Protected</span>)</span>
                             </button>
                         </span>
                         <span class="hcv-sep">•</span>

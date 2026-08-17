@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initLanguage();
     initTheme();
     initMobileNav();
-    initCustomCursor();
     initContactForm();
     initScrollSpy();
     setupFilters();
@@ -17,13 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
 // --- BILINGUAL (TR / EN) LANGUAGE SWITCHER ---
 function initLanguage() {
     const savedLang = localStorage.getItem('user_lang') || 'tr';
-    setSiteLanguage(savedLang, false);
+    setSiteLanguage(savedLang);
 
     document.querySelectorAll('.lang-btn, .cv-lang-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const targetLang = btn.getAttribute('data-lang-target');
             if (targetLang) {
-                setSiteLanguage(targetLang, true);
+                setSiteLanguage(targetLang);
             }
         });
     });
@@ -32,7 +31,7 @@ function initLanguage() {
         btn.addEventListener('click', () => {
             const currentLang = document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'tr';
             const newLang = currentLang === 'tr' ? 'en' : 'tr';
-            setSiteLanguage(newLang, true);
+            setSiteLanguage(newLang);
         });
     });
 }
@@ -109,87 +108,7 @@ function initMobileNav() {
     });
 }
 
-// --- LÜKS ÖZEL İMLEÇ ANİMASYONU ---
-function initCustomCursor() {
-    const cursor = document.querySelector('.custom-cursor');
-    const cursorDot = document.querySelector('.custom-cursor-dot');
-    
-    if (!cursor || !cursorDot) return;
-
-    let mouseX = 0, mouseY = 0;
-    let cursorX = 0, cursorY = 0;
-    let isMoving = false;
-
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        
-        if (!isMoving) {
-            cursor.style.opacity = '1';
-            cursorDot.style.opacity = '1';
-            isMoving = true;
-        }
-
-        cursorDot.style.left = mouseX + 'px';
-        cursorDot.style.top = mouseY + 'px';
-    });
-
-    function animateCursor() {
-        const delay = 8;
-        cursorX += (mouseX - cursorX) / delay;
-        cursorY += (mouseY - cursorY) / delay;
-        
-        cursor.style.left = cursorX + 'px';
-        cursor.style.top = cursorY + 'px';
-        
-        requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-
-    const updateHoverElements = () => {
-        const interactiveElements = document.querySelectorAll('a, button, input, textarea, .project-card, .timeline-card, .filter-btn, .project-filter-btn, .blog-card');
-        
-        interactiveElements.forEach(el => {
-            // Çakışmayı önlemek için önce dinleyicileri kaldırıp tekrar eklemiyoruz, doğrudan tekil ekliyoruz
-            el.removeEventListener('mouseenter', onMouseEnter);
-            el.removeEventListener('mouseleave', onMouseLeave);
-            
-            el.addEventListener('mouseenter', onMouseEnter);
-            el.addEventListener('mouseleave', onMouseLeave);
-        });
-    };
-
-    function onMouseEnter() {
-        cursor.style.width = '40px';
-        cursor.style.height = '40px';
-        cursor.style.backgroundColor = 'rgba(var(--accent-rgb), 0.1)';
-        cursorDot.style.transform = 'translate(-50%, -50%) scale(2)';
-    }
-
-    function onMouseLeave() {
-        cursor.style.width = '24px';
-        cursor.style.height = '24px';
-        cursor.style.backgroundColor = 'transparent';
-        cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
-    }
-
-    updateHoverElements();
-    
-    // DOM değişimlerini izle (yeni eklenen elemanlara imleç efekti eklemek için)
-    const observer = new MutationObserver(updateHoverElements);
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    document.addEventListener('mouseleave', () => {
-        cursor.style.opacity = '0';
-        cursorDot.style.opacity = '0';
-        isMoving = false;
-    });
-}
-
-// Global scope'a imleç tetikleyicisi ekleyelim
-window.initCustomCursor = initCustomCursor;
-
-// --- İLETİŞİM FORMU DOĞRULAMA VE TOAST BİLDİRİMİ ---
+// --- İLETİŞİM FORMU DOĞRULAMA ---
 function initContactForm() {
     const form = document.getElementById('contactForm');
     if (!form) return;
@@ -238,29 +157,24 @@ function initContactForm() {
             }
         });
 
-        if (!isFormValid) {
-            showToast('Form Hatası', 'Lütfen tüm zorunlu (*) alanları doğru şekilde doldurun.', 'error');
-            return;
-        }
+        if (!isFormValid) return;
 
         const submitBtn = document.getElementById('submitBtn');
-        const submitSpan = submitBtn.querySelector('span');
-        const spinner = submitBtn.querySelector('.send-spinner');
+        const submitSpan = submitBtn ? submitBtn.querySelector('span') : null;
+        const spinner = submitBtn ? submitBtn.querySelector('.send-spinner') : null;
         
-        submitBtn.disabled = true;
-        submitSpan.textContent = 'Gönderiliyor...';
-        spinner.classList.remove('hidden');
+        if (submitBtn) submitBtn.disabled = true;
+        if (submitSpan) submitSpan.textContent = '...';
+        if (spinner) spinner.classList.remove('hidden');
 
         setTimeout(() => {
-            submitBtn.disabled = false;
-            submitSpan.textContent = 'Gönder';
-            spinner.classList.add('hidden');
-            
-            showToast('Mesajınız İletildi', `Sayın ${document.getElementById('formName').value}, mesajınız başarıyla gönderildi. En kısa sürede dönüş yapılacaktır.`);
+            if (submitBtn) submitBtn.disabled = false;
+            if (submitSpan) submitSpan.textContent = 'Gönder';
+            if (spinner) spinner.classList.add('hidden');
             
             form.reset();
             inputs.forEach(input => input.parentElement.classList.remove('invalid'));
-        }, 1800);
+        }, 1200);
     });
 }
 
@@ -268,129 +182,114 @@ function initContactForm() {
 function showToast() {
     // Toast popupları kullanıcı tercihi doğrultusunda tamamen kaldırıldı.
 }
-
-// Global scope
 window.showToast = showToast;
 
-// --- SCROLL SPY (ÇOKLU SAYFA DESTEKLİ AKTİF MENÜ BAĞLANTISI) ---
+// --- SCROLL SPY (AKTİF MENÜ BAĞLANTISI) ---
 function initScrollSpy() {
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
     const scrollIndicator = document.querySelector('.scroll-indicator');
     
-    // Normalize path by stripping trailing slashes
     const cleanPath = window.location.pathname.replace(/\/$/, '').toLowerCase();
     const isHomePage = (cleanPath === '' || cleanPath.endsWith('/kendi-sayfam') || cleanPath.endsWith('index.html') || cleanPath.endsWith('/index'));
-    const offset = 100;
+    const offset = 80;
 
     window.addEventListener('scroll', () => {
         const scrollPos = window.scrollY || document.documentElement.scrollTop;
-
-        if (scrollIndicator) {
-            if (scrollPos > 50) {
-                scrollIndicator.classList.add('hidden-indicator');
-            } else {
-                scrollIndicator.classList.remove('hidden-indicator');
-            }
-        }
-
-        if (isHomePage && sections.length > 0) {
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - offset;
-                const sectionHeight = section.offsetHeight;
-                const sectionId = section.getAttribute('id');
-
-                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-                    navLinks.forEach(link => {
-                        const href = link.getAttribute('href') || '';
-                        if (href === `#${sectionId}` || href.endsWith(`#${sectionId}`)) {
-                            navLinks.forEach(l => l.classList.remove('active'));
-                            link.classList.add('active');
-                        }
-                    });
-                }
-            });
-        }
         
-        const header = document.querySelector('.main-header');
-        if (header) {
-            if (scrollPos > 50) {
-                header.classList.add('scrolled');
+        if (scrollIndicator) {
+            if (scrollPos > 100) {
+                scrollIndicator.style.opacity = '0';
+                scrollIndicator.style.pointerEvents = 'none';
             } else {
-                header.classList.remove('scrolled');
+                scrollIndicator.style.opacity = '0.7';
+                scrollIndicator.style.pointerEvents = 'auto';
             }
         }
+
+        if (!isHomePage) return;
+
+        sections.forEach(sec => {
+            const top = sec.offsetTop - offset;
+            const bottom = top + sec.offsetHeight;
+            const id = sec.getAttribute('id');
+
+            if (scrollPos >= top && scrollPos < bottom) {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    const href = link.getAttribute('href');
+                    if (href && (href.endsWith(`#${id}`) || href === `#${id}`)) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
     });
 }
 
-// --- FİLTRE DÜĞMELERİ ÇALIŞMA MANTIĞI (CSS BAZLI HIZLI HİLE) ---
+// --- DENEYİM VE PROJE FİLTRELEME SİSTEMİ ---
 function setupFilters() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
+    // 1. Deneyim Filtreleri (Timeline)
+    const timelineFilterBtns = document.querySelectorAll('.filter-btn');
     const timelineItems = document.querySelectorAll('.timeline-item');
-    
-    filterBtns.forEach(btn => {
+
+    timelineFilterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            filterBtns.forEach(b => b.classList.remove('active'));
+            timelineFilterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
-            const filterVal = btn.getAttribute('data-filter');
+
+            const filterValue = btn.getAttribute('data-filter');
+
             timelineItems.forEach(item => {
-                const categories = (item.getAttribute('data-categories') || '').split(' ');
-                if (filterVal === 'all' || categories.includes(filterVal)) {
-                    item.style.display = 'flex';
+                const categories = item.getAttribute('data-categories') || '';
+                if (filterValue === 'all' || categories.includes(filterValue)) {
+                    item.style.display = 'grid';
+                    item.style.opacity = '1';
                 } else {
                     item.style.display = 'none';
                 }
             });
-            initCustomCursor();
         });
     });
 
-    const projFilterBtns = document.querySelectorAll('.project-filter-btn');
+    // 2. Proje Filtreleri
+    const projectFilterBtns = document.querySelectorAll('.project-filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
-    
-    projFilterBtns.forEach(btn => {
+
+    projectFilterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            projFilterBtns.forEach(b => b.classList.remove('active'));
+            projectFilterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            const filterVal = btn.getAttribute('data-proj-filter');
+            const filterValue = btn.getAttribute('data-proj-filter');
+
             projectCards.forEach(card => {
-                const category = card.getAttribute('data-category');
-                const tags = (card.getAttribute('data-tags') || '').toLowerCase();
+                const category = card.getAttribute('data-category') || '';
+                const tags = card.getAttribute('data-tags') || '';
                 
-                if (filterVal === 'all') {
+                if (filterValue === 'all' || category === filterValue || tags.toLowerCase().includes(filterValue.toLowerCase())) {
                     card.style.display = 'flex';
-                } else if (filterVal === 'facade') {
-                    if (tags.includes('tasarım') || tags.includes('cephe') || tags.includes('facade')) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
+                    card.style.opacity = '1';
                 } else {
-                    if (category === filterVal) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
+                    card.style.display = 'none';
                 }
             });
-            initCustomCursor();
         });
     });
 }
 
-// --- INTERACTION OBSERVER (GİRİŞ ANİMASYONLARI & SKILL BARS) ---
+// --- KAYDIRMA ESNASINDA ORTAYA ÇIKMA (REVEAL) ---
 function setupAnimationOnScroll() {
     const observerOptions = {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px"
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
     };
 
     const revealObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('active-reveal');
+                entry.target.classList.add('active');
                 observer.unobserve(entry.target);
             }
         });
@@ -405,7 +304,7 @@ function setupAnimationOnScroll() {
         });
     };
     
-    setTimeout(checkReveals, 300);
+    setTimeout(checkReveals, 200);
     
     const skillBarObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -422,7 +321,7 @@ function setupAnimationOnScroll() {
         document.querySelectorAll('.skill-bar-fill').forEach(bar => {
             skillBarObserver.observe(bar);
         });
-    }, 500);
+    }, 400);
 }
 
 // --- KORUMALI İLETİŞİM BİLGİLERİ & PASSPHRASE ŞİFRE ÇÖZÜMÜ ---
@@ -448,46 +347,49 @@ async function decryptContactPayload(passphrase) {
 
     const saltBuf = hexToBuf(ENCRYPTED_CONTACT_DATA.salt);
     const ivBuf = hexToBuf(ENCRYPTED_CONTACT_DATA.iv);
-    const ctBuf = hexToBuf(ENCRYPTED_CONTACT_DATA.ciphertext);
     const tagBuf = hexToBuf(ENCRYPTED_CONTACT_DATA.tag);
+    const cipherBuf = hexToBuf(ENCRYPTED_CONTACT_DATA.ciphertext);
 
-    const combined = new Uint8Array(ctBuf.byteLength + tagBuf.byteLength);
-    combined.set(new Uint8Array(ctBuf), 0);
-    combined.set(new Uint8Array(tagBuf), ctBuf.byteLength);
+    const combinedCiphertext = new Uint8Array(cipherBuf.byteLength + tagBuf.byteLength);
+    combinedCiphertext.set(new Uint8Array(cipherBuf), 0);
+    combinedCiphertext.set(new Uint8Array(tagBuf), cipherBuf.byteLength);
 
-    const baseKey = await window.crypto.subtle.importKey(
-        'raw',
+    const keyMaterial = await crypto.subtle.importKey(
+        "raw",
         encoder.encode(norm),
-        'PBKDF2',
+        { name: "PBKDF2" },
         false,
-        ['deriveKey']
+        ["deriveKey"]
     );
 
-    const derivedKey = await window.crypto.subtle.deriveKey(
+    const key = await crypto.subtle.deriveKey(
         {
-            name: 'PBKDF2',
+            name: "PBKDF2",
             salt: saltBuf,
             iterations: 100000,
-            hash: 'SHA-256'
+            hash: "SHA-256"
         },
-        baseKey,
-        { name: 'AES-GCM', length: 256 },
+        keyMaterial,
+        { name: "AES-GCM", length: 256 },
         false,
-        ['decrypt']
+        ["decrypt"]
     );
 
-    const decryptedBuf = await window.crypto.subtle.decrypt(
-        { name: 'AES-GCM', iv: ivBuf },
-        derivedKey,
-        combined
+    const decrypted = await crypto.subtle.decrypt(
+        {
+            name: "AES-GCM",
+            iv: ivBuf
+        },
+        key,
+        combinedCiphertext
     );
 
-    const jsonStr = decoder.decode(decryptedBuf);
+    const jsonStr = decoder.decode(decrypted);
     return JSON.parse(jsonStr);
 }
 
 function updateDOMWithDecryptedContact(data) {
-    // 1. Hero Meta Card Slots (index.astro)
+    // 1. Hero Slots
     const heroPhoneSlot = document.getElementById('heroPhoneSlot');
     if (heroPhoneSlot) {
         heroPhoneSlot.innerHTML = `<a href="${data.phoneTel}" class="meta-value unlocked-link">${data.phone}</a>`;
@@ -513,7 +415,7 @@ function updateDOMWithDecryptedContact(data) {
         `;
         const badgeBtn = contactPhoneCard.querySelector('.btn-unlock-badge, [data-action="unlockContact"]');
         if (badgeBtn) {
-            badgeBtn.outerHTML = `<span class="unlocked-badge" title="Bilgi Doğrulandı">🔓 Doğrulandı</span>`;
+            badgeBtn.outerHTML = `<span class="unlocked-badge" title="Doğrulandı">Doğrulandı</span>`;
         }
     }
 
@@ -531,7 +433,7 @@ function updateDOMWithDecryptedContact(data) {
         `;
         const badgeBtn = contactAddressCard.querySelector('.btn-unlock-badge, [data-action="unlockContact"]');
         if (badgeBtn) {
-            badgeBtn.outerHTML = `<span class="unlocked-badge" title="Bilgi Doğrulandı">🔓 Doğrulandı</span>`;
+            badgeBtn.outerHTML = `<span class="unlocked-badge" title="Doğrulandı">Doğrulandı</span>`;
         }
     }
 
@@ -595,12 +497,10 @@ function initProtectedContact() {
                 sessionStorage.setItem('decryptedContactData', JSON.stringify(decryptedData));
                 updateDOMWithDecryptedContact(decryptedData);
                 closeModal();
-                showToast('Erişim Onaylandı', 'Telefon numarası ve adres başarıyla çözüldü.', 'success');
             } catch (err) {
-                showToast('Hatalı Passphrase', 'Girilen şifre geçersiz. Lütfen tekrar deneyiniz.', 'error');
                 if (input) {
-                    input.classList.add('input-shake');
-                    setTimeout(() => input.classList.remove('input-shake'), 500);
+                    input.style.borderColor = '#ef4444';
+                    setTimeout(() => { input.style.borderColor = ''; }, 1500);
                 }
             } finally {
                 if (submitBtn) submitBtn.disabled = false;
@@ -608,4 +508,3 @@ function initProtectedContact() {
         });
     }
 }
-

@@ -4,11 +4,14 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="İletişim | Ata Yiğit Telli" activePage="iletisim" description="Ata Yiğit Telli ile iletişime geçin. Proje iş teklifleri, sözleşme danışmanlığı veya teknik işbirlikleri.">
     <main>
-        <section class="section section-padding" style="margin-top: 5rem; min-height: 85vh;">
+        <section class="section section-padding" style="margin-top: 4rem; min-height: 85vh;">
             <div class="container">
                 <div class="section-header">
-                    <span class="section-tag">Bağlantı Kur</span>
-                    <h3 class="section-title">İletişime Geçin</h3>
+                    <span class="section-tag">04 / CONTACT</span>
+                    <h3 class="section-title">
+                        <span class="lang-tr">İletişim &amp; İşbirliği</span>
+                        <span class="lang-en">Contact &amp; Collaboration</span>
+                    </h3>
                     <div class="section-divider"></div>
                 </div>
 
@@ -16,36 +19,44 @@ import Layout from '../layouts/Layout.astro';
                     <!-- Left: Contact Details -->
                     <div class="contact-info-panel">
                         <p class="contact-lead-text">
-                            Projeleriniz, danışmanlık talepleriniz veya teknik işbirlikleri için benimle doğrudan iletişime geçebilir ya da iletişim formunu doldurarak mesaj bırakabilirsiniz.
+                            <span class="lang-tr">Üstyapı projeleri, cephe mühendisliği danışmanlığı, taşeron sözleşme yönetimi ve teknik işbirlikleri için doğrudan iletişime geçebilirsiniz.</span>
+                            <span class="lang-en">Feel free to reach out directly regarding superstructure projects, facade engineering consulting, contract administration, or technical collaborations.</span>
                         </p>
 
                         <div class="contact-details-list">
                             <!-- Telefon Card (Protected) -->
                             <div class="contact-card-link protected-contact-card" id="contactPhoneCard" data-action="unlockContact" role="button" tabindex="0" title="Telefon Numarasını Şifre İle Göster">
                                 <div class="contact-detail-icon">
-                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                                     </svg>
                                 </div>
                                 <div class="contact-detail-content" id="contactPhoneSlot">
-                                    <span class="contact-label">Telefon</span>
-                                    <span class="contact-value protected-val-text">🔒 •••••••••• (Şifreli)</span>
+                                    <span class="contact-label">
+                                        <span class="lang-tr">Telefon</span>
+                                        <span class="lang-en">Phone</span>
+                                    </span>
+                                    <span class="contact-value protected-val-text">•••••••••• (<span class="lang-tr">Şifreli</span><span class="lang-en">Protected</span>)</span>
                                 </div>
                                 <button type="button" class="btn-unlock-badge" title="Telefon Numarasını Aç">
-                                    🔑 Şifreyi Gir
+                                    <span class="lang-tr">Şifre Çöz</span>
+                                    <span class="lang-en">Decrypt</span>
                                 </button>
                             </div>
 
                             <!-- E-posta Card -->
                             <a href="mailto:ytelli@gmail.com" class="contact-card-link" id="contactMail">
                                 <div class="contact-detail-icon">
-                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                                         <polyline points="22,6 12,13 2,6" />
                                     </svg>
                                 </div>
                                 <div class="contact-detail-content">
-                                    <span class="contact-label">E-posta</span>
+                                    <span class="contact-label">
+                                        <span class="lang-tr">E-posta</span>
+                                        <span class="lang-en">Email</span>
+                                    </span>
                                     <span class="contact-value">ytelli@gmail.com</span>
                                 </div>
                             </a>
@@ -53,24 +64,28 @@ import Layout from '../layouts/Layout.astro';
                             <!-- Konum/Adres Card (Protected) -->
                             <div class="contact-card-link protected-contact-card" id="contactAddressCard" data-action="unlockContact" role="button" tabindex="0" title="Adres Bilgisini Şifre İle Göster">
                                 <div class="contact-detail-icon">
-                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                                         <circle cx="12" cy="10" r="3" />
                                     </svg>
                                 </div>
                                 <div class="contact-detail-content" id="contactAddressSlot">
-                                    <span class="contact-label">Konum / Adres</span>
-                                    <span class="contact-value protected-val-text">🔒 •••••••••• (Şifreli)</span>
+                                    <span class="contact-label">
+                                        <span class="lang-tr">Konum / Merkez</span>
+                                        <span class="lang-en">Location</span>
+                                    </span>
+                                    <span class="contact-value protected-val-text">•••••••••• (<span class="lang-tr">Şifreli</span><span class="lang-en">Protected</span>)</span>
                                 </div>
                                 <button type="button" class="btn-unlock-badge" title="Adresi Aç">
-                                    🔑 Şifreyi Gir
+                                    <span class="lang-tr">Şifre Çöz</span>
+                                    <span class="lang-en">Decrypt</span>
                                 </button>
                             </div>
 
                             <!-- LinkedIn Card -->
-                            <a href="https://www.linkedin.com/in/ay-t" target="_blank" rel="noopener" class="contact-card-link" id="contactLinkedin">
+                            <a href="https://www.linkedin.com/in/ay-t" target="_blank" rel="noopener noreferrer" class="contact-card-link" id="contactLinkedin">
                                 <div class="contact-detail-icon">
-                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
                                         <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                                     </svg>
                                 </div>
@@ -87,31 +102,28 @@ import Layout from '../layouts/Layout.astro';
                         <form id="contactForm" class="contact-form" novalidate>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="formName">Adınız Soyadınız *</label>
-                                    <input type="text" id="formName" name="name" required placeholder="Adınız Soyadınız" />
-                                    <span class="error-msg">Bu alan zorunludur.</span>
+                                    <label for="formName"><span class="lang-tr">Adınız Soyadınız *</span><span class="lang-en">Full Name *</span></label>
+                                    <input type="text" id="formName" name="name" required placeholder="Ata Telli" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="formEmail">E-posta Adresiniz *</label>
-                                    <input type="email" id="formEmail" name="email" required placeholder="eposta@adresiniz.com" />
-                                    <span class="error-msg">Geçerli bir e-posta adresi girin.</span>
+                                    <label for="formEmail"><span class="lang-tr">E-posta Adresiniz *</span><span class="lang-en">Email Address *</span></label>
+                                    <input type="email" id="formEmail" name="email" required placeholder="name@company.com" />
                                 </div>
                             </div>
                             
-                            <div class="form-group" style="margin-top: 1.5rem;">
-                                <label for="formSubject">Konu *</label>
-                                <input type="text" id="formSubject" name="subject" required placeholder="Mesajınızın Konusu" />
-                                <span class="error-msg">Bu alan zorunludur.</span>
+                            <div class="form-group" style="margin-top: 1.25rem;">
+                                <label for="formSubject"><span class="lang-tr">Konu *</span><span class="lang-en">Subject *</span></label>
+                                <input type="text" id="formSubject" name="subject" required placeholder="Proje İşbirliği / Danışmanlık" />
                             </div>
 
-                            <div class="form-group" style="margin-top: 1.5rem;">
-                                <label for="formMessage">Mesajınız *</label>
-                                <textarea id="formMessage" name="message" required rows="6" placeholder="Mesajınız..."></textarea>
-                                <span class="error-msg">Bu alan zorunludur.</span>
+                            <div class="form-group" style="margin-top: 1.25rem;">
+                                <label for="formMessage"><span class="lang-tr">Mesajınız *</span><span class="lang-en">Message *</span></label>
+                                <textarea id="formMessage" name="message" required rows="5" placeholder="Mesajınızın detayları..."></textarea>
                             </div>
 
-                            <button type="submit" class="btn btn-primary btn-submit" id="submitBtn" style="margin-top: 2rem; width: 100%;">
-                                <span>Gönder</span>
+                            <button type="submit" class="btn btn-primary btn-submit" id="submitBtn" style="margin-top: 1.5rem; width: 100%;">
+                                <span class="lang-tr">Mesajı İlet</span>
+                                <span class="lang-en">Send Message</span>
                                 <div class="send-spinner hidden"></div>
                             </button>
                         </form>
@@ -121,3 +133,151 @@ import Layout from '../layouts/Layout.astro';
         </section>
     </main>
 </Layout>
+
+<style>
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 3.5rem;
+        align-items: start;
+    }
+
+    .contact-lead-text {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        line-height: 1.75;
+        margin-bottom: 2rem;
+    }
+
+    .contact-details-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .contact-card-link {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        background-color: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        padding: 1.25rem 1.5rem;
+        border-radius: var(--border-radius-xs);
+        text-decoration: none;
+        color: inherit;
+        transition: border-color var(--transition-fast), background-color var(--transition-fast);
+    }
+
+    .contact-card-link:hover {
+        border-color: var(--accent-color);
+        background-color: var(--bg-tertiary);
+    }
+
+    .contact-detail-icon {
+        color: var(--accent-color);
+        flex-shrink: 0;
+    }
+
+    .contact-detail-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+        flex-grow: 1;
+    }
+
+    .contact-label {
+        font-family: var(--font-mono);
+        font-size: 0.70rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.10em;
+        color: var(--text-muted);
+    }
+
+    .contact-value {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .protected-val-text {
+        font-family: var(--font-mono);
+        color: var(--text-secondary);
+    }
+
+    .btn-unlock-badge {
+        background-color: var(--bg-primary);
+        border: 1px solid var(--border-medium);
+        color: var(--accent-color);
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        font-weight: 600;
+        padding: 0.35rem 0.65rem;
+        border-radius: var(--border-radius-xs);
+        cursor: pointer;
+        transition: var(--transition-fast);
+    }
+
+    .btn-unlock-badge:hover {
+        background-color: var(--accent-color);
+        color: #ffffff;
+        border-color: var(--accent-color);
+    }
+
+    /* Contact Form Panel */
+    .contact-form-panel {
+        background-color: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius-xs);
+        padding: 2rem;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    .form-group label {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-muted);
+    }
+
+    .form-group input,
+    .form-group textarea {
+        background-color: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        padding: 0.75rem 0.9rem;
+        border-radius: var(--border-radius-xs);
+        font-family: var(--font-primary);
+        font-size: 0.88rem;
+        outline: none;
+        transition: border-color var(--transition-fast);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        border-color: var(--accent-color);
+    }
+
+    @media (max-width: 1024px) {
+        .contact-grid {
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+        }
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

@@ -28,15 +28,15 @@ const {
 
 <article 
     class="blog-card reveal" 
-    style={`animation-delay: ${idx * 0.15}s;`}
+    style={`animation-delay: ${idx * 0.1}s;`}
     data-timestamp={timestamp}
     data-month={month}
     data-category={category}
 >
     <div>
         {imageUrl && (
-            <div class="blog-card-cover" style="margin-bottom: 1.5rem; border-radius: var(--border-radius-md); overflow: hidden; height: 180px; border: 1px solid var(--border-color);">
-                <img src={`${base}${imageUrl}`} alt={title} style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" loading="lazy" />
+            <div class="blog-card-cover" style="margin-bottom: 1.25rem; border-radius: var(--border-radius-xs); overflow: hidden; height: 180px; border: 1px solid var(--border-color);">
+                <img src={`${base}${imageUrl}`} alt={title} style="width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-smooth);" loading="lazy" />
             </div>
         )}
         <div class="blog-card-meta">
@@ -46,13 +46,93 @@ const {
         <h4 class="blog-card-title">{title}</h4>
         <p class="blog-card-excerpt">{excerpt}</p>
     </div>
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 1.25rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
         <a href={`${base}makale/${id}/`} class="blog-read-more-btn" style="text-decoration: none;" id={`readMore_${id}`}>
-            Yazıyı Oku
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <span class="lang-tr">Yazıyı İncele</span>
+            <span class="lang-en">Read Article</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
         </a>
     </div>
 </article>
+
+<style>
+    .blog-card {
+        background-color: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius-xs);
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: border-color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .blog-card:hover {
+        border-color: var(--accent-color);
+        transform: translateY(-2px);
+    }
+
+    .blog-card:hover img {
+        transform: scale(1.03);
+    }
+
+    .blog-card-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+    }
+
+    .blog-card-date {
+        color: var(--text-muted);
+    }
+
+    .blog-card-category {
+        color: var(--accent-color);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+
+    .blog-card-title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        line-height: 1.35;
+        margin-bottom: 0.75rem;
+        letter-spacing: -0.01em;
+    }
+
+    .blog-card-excerpt {
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+        line-height: 1.65;
+    }
+
+    .blog-read-more-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--accent-color);
+        transition: var(--transition-fast);
+    }
+
+    .blog-read-more-btn:hover {
+        color: var(--text-primary);
+    }
+
+    .blog-read-more-btn svg {
+        transition: transform var(--transition-fast);
+    }
+
+    .blog-read-more-btn:hover svg {
+        transform: translateX(3px);
+    }
+</style>
