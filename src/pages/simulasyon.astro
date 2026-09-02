@@ -9,13 +9,14 @@ import TabCephe from '../components/simulation/TabCephe.astro';
 import TabBeton from '../components/simulation/TabBeton.astro';
 import TabDuvar from '../components/simulation/TabDuvar.astro';
 import TabSap from '../components/simulation/TabSap.astro';
+import EngineeringReportModal from '../components/simulation/EngineeringReportModal.astro';
 import '../styles/simulation.css';
 ---
 
 <Layout 
     title="İnşaat, Cephe & Şantiye Simülasyon Laboratuvarı | Ata Yiğit Telli" 
     activePage="simulasyon" 
-    description="3D FEM Giydirme Cephe Sehim Analizörü, Şantiye Hava Radarı & İSG Karar Matrisi, Sistem Karşılaştırıcı ve Hızlı Metraj Motoru."
+    description="3D FEM Yapısal Cam Sehim Analizörü, Şantiye Hava Radarı & İSG Karar Matrisi, Sistem Karşılaştırıcı ve Hızlı Metraj Motoru."
 >
     <main>
         <section class="section section-padding sim-lab-section" style="margin-top: 5rem;">
@@ -57,6 +58,9 @@ import '../styles/simulation.css';
                 <TabSap />
             </div>
         </section>
+
+        <!-- Official Blueprint A4 Engineering Report Generator Modal & Print Sheet -->
+        <EngineeringReportModal />
     </main>
 </Layout>
 

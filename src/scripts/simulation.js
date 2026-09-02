@@ -1437,11 +1437,168 @@
         });
     });
 
-    document.querySelectorAll('.btn-print-pdf').forEach(btn => {
-        btn.addEventListener('click', () => {
-            window.print();
+    // =========================================================================
+    // OFFICIAL BLUEPRINT A4 ENGINEERING REPORT GENERATOR
+    // =========================================================================
+    function initEngineeringReportModal() {
+        const modal = document.getElementById('reportConfigModal');
+        const form = document.getElementById('reportConfigForm');
+        const closeBtn = document.getElementById('closeReportModal');
+        const cancelBtn = document.getElementById('btnCancelReport');
+        const repDateInput = document.getElementById('repDate');
+
+        if (!modal || !form) return;
+
+        // Set default date to today YYYY-MM-DD
+        const todayStr = new Date().toISOString().split('T')[0];
+        if (repDateInput) repDateInput.value = todayStr;
+
+        let activeModule = 'cephe';
+        let activeTableId = 'table-cephe';
+
+        const MODULE_CONFIG = {
+            cephe: {
+                title: 'GİYDİRME CEPHE MALZEME METRAJ CETVELİ VE POZ LİSTESİ',
+                name: 'Modüler Giydirme Cephe Metrajı',
+                standards: 'TS EN 13830 / DIN 18008',
+                tableId: 'table-cephe'
+            },
+            beton: {
+                title: 'BETONARME TAŞIYICI SİSTEM METRAJ VE TONAJ CETVELİ',
+                name: 'Kalıp, Hazır Beton & Donatı',
+                standards: 'TS 500 / TBDY 2018 / TS EN 206',
+                tableId: 'table-beton'
+            },
+            duvar: {
+                title: 'DUVAR ÖRGÜ VE SIVA İMALATLARI METRAJ CETVELİ',
+                name: 'Duvar, Blok & Sıva Sarfiyatı',
+                standards: 'TS EN 771 / TS EN 998-1',
+                tableId: 'table-duvar'
+            },
+            sap: {
+                title: 'ŞAP, ISLAK HACİM SU YALITIMI VE SERAMİK METRAJI',
+                name: 'Şap, İzolasyon & Zemin Kaplama',
+                standards: 'TS EN 13813 / TS EN 14411',
+                tableId: 'table-sap'
+            },
+            donati: {
+                title: 'İNŞAAT DEMİRİ, PROFİL & KESİM FİRE ANALİZ RAPORU',
+                name: 'Donatı Metrajı & 12m Fire Optimizasyonu',
+                standards: 'TS 708 / TS EN 10025',
+                tableId: 'summary-donati'
+            }
+        };
+
+        function openModal(moduleKey, tableId) {
+            activeModule = moduleKey || 'cephe';
+            activeTableId = tableId || MODULE_CONFIG[activeModule]?.tableId || 'table-cephe';
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+        }
+
+        document.querySelectorAll('.btn-open-report-modal').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const mod = btn.getAttribute('data-module');
+                const tbl = btn.getAttribute('data-table');
+                openModal(mod, tbl);
+            });
         });
-    });
+
+        // Backward compatibility for any remaining .btn-print-pdf
+        document.querySelectorAll('.btn-print-pdf').forEach(btn => {
+            btn.addEventListener('click', () => {
+                openModal('cephe', 'table-cephe');
+            });
+        });
+
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
+        if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const projName = document.getElementById('repProjectName')?.value || 'Proje';
+            const client = document.getElementById('repClient')?.value || '-';
+            const docNo = document.getElementById('repDocNo')?.value || 'REV-01';
+            const dateVal = document.getElementById('repDate')?.value || todayStr;
+            const notes = document.getElementById('repNotes')?.value || '';
+
+            const cfg = MODULE_CONFIG[activeModule] || MODULE_CONFIG.cephe;
+
+            // Fill Sheet Metadata
+            const setSheetText = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.innerText = val;
+            };
+
+            setSheetText('sheetProjectName', projName);
+            setSheetText('sheetClient', client);
+            setSheetText('sheetDocNo', docNo);
+            setSheetText('sheetDate', dateVal);
+            setSheetText('sheetModuleName', cfg.name);
+            setSheetText('sheetStandardCode', cfg.standards);
+            setSheetText('sheetReportTitle', cfg.title);
+            setSheetText('sheetNotesText', notes);
+
+            // Populate Table Container
+            const container = document.getElementById('sheetTableContainer');
+            if (container) {
+                if (activeModule === 'donati') {
+                    const rebarDia = document.getElementById('inpRebarDia')?.value || '12';
+                    const rebarLen = document.getElementById('inpRebarLen')?.value || '3.5';
+                    const rebarQty = document.getElementById('inpRebarQty')?.value || '40';
+                    const rebarUnit = document.getElementById('outRebarUnitWt')?.innerText || '0.888 kg/m';
+                    const rebarTotalLen = document.getElementById('outRebarTotalLen')?.innerText || '140 m';
+                    const rebarTotalKg = document.getElementById('outRebarTotalKg')?.innerText || '124.3 kg';
+                    const optUsed = document.getElementById('outOptUsedLen')?.innerText || '11.40 m';
+                    const optWaste = document.getElementById('outOptWasteLen')?.innerText || '0.60 m';
+                    const optPct = document.getElementById('outOptWastePct')?.innerText || '% 5.0';
+
+                    container.innerHTML = `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Poz / Sıra</th>
+                                    <th>İmalat &amp; Hesap Kalemi</th>
+                                    <th style="text-align: right;">Hesaplanan Değer</th>
+                                    <th>Birim</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>D-01</td><td>Donatı Çapı (Φ) ve Parça Boyu</td><td style="text-align: right;">Φ ${rebarDia} mm (${rebarLen} m)</td><td>-</td></tr>
+                                <tr><td>D-02</td><td>Donatı Toplam Adedi</td><td style="text-align: right;">${rebarQty}</td><td>Adet</td></tr>
+                                <tr><td>D-03</td><td>Donatı Birim Metretül Ağırlığı</td><td style="text-align: right;">${rebarUnit}</td><td>kg/m</td></tr>
+                                <tr><td>D-04</td><td>Toplam Donatı Boyu</td><td style="text-align: right;">${rebarTotalLen}</td><td>mt</td></tr>
+                                <tr><td>D-05</td><td>Toplam Donatı Ağırlığı</td><td style="text-align: right; font-weight: bold;">${rebarTotalKg}</td><td>Tonaj</td></tr>
+                                <tr><td>D-06</td><td>12m Çubuk Kullanılan Net Boy</td><td style="text-align: right;">${optUsed}</td><td>mt</td></tr>
+                                <tr><td>D-07</td><td>12m Çubuk Artık / Fire Parça Boyu</td><td style="text-align: right;">${optWaste}</td><td>mt</td></tr>
+                                <tr><td>D-08</td><td>12m Çubuk Kesim Fire Oranı</td><td style="text-align: right; font-weight: bold;">${optPct}</td><td>Oran</td></tr>
+                            </tbody>
+                        </table>
+                    `;
+                } else {
+                    const sourceTable = document.getElementById(activeTableId);
+                    if (sourceTable) {
+                        const clone = sourceTable.cloneNode(true);
+                        clone.removeAttribute('id');
+                        container.innerHTML = '';
+                        container.appendChild(clone);
+                    }
+                }
+            }
+
+            closeModal();
+            setTimeout(() => {
+                window.print();
+            }, 250);
+        });
+    }
 
     // Run calculations immediately on script load
     function initAllTakeoffs() {
@@ -1455,6 +1612,7 @@
         updateConcreteCalculations();
         updateMasonryCalculations();
         updateScreedWetCalculations();
+        initEngineeringReportModal();
     }
 
     initAllTakeoffs();
