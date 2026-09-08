@@ -1,6 +1,6 @@
 # Ata Yiğit Telli — Kişisel Portfolyo & Blog Web Sitesi
 
-Ata Yiğit Telli'nin (İnşaat Mühendisi & Proje Yöneticisi) kişisel web sitesi ve blog platformu. Bu proje, **Astro v5+** mimarisi kullanılarak yüksek performanslı ve modüler bir statik site olarak geliştirilmiştir.
+Ata Yiğit Telli'nin (İnşaat Mühendisi & Proje Yöneticisi) kişisel web sitesi ve blog platformu. Bu proje, **Astro v7** mimarisi kullanılarak yüksek performanslı ve modüler bir statik site olarak geliştirilmiştir.
 
 ## 🚀 Öne Çıkan Özellikler
 
@@ -37,7 +37,7 @@ Bütün komutlar kök dizinden çalıştırılır:
 
 | Komut | Açıklama |
 | :--- | :--- |
-| `npm install` | Proje bağımlılıklarını yükler |
+| `npm ci` | Proje bağımlılıklarını yükler |
 | `npm run dev` | Geliştirici sunucusunu yerelde başlatır (`http://localhost:4321/kendi-sayfam/`) |
 | `npm run build` | Üretim derlemesini hazırlar (`./dist/`) |
 | `npm run preview` | Derlenen siteyi yerelde önizler |
@@ -45,3 +45,15 @@ Bütün komutlar kök dizinden çalıştırılır:
 ## 🌐 Yayınlama (Deployment)
 
 Proje `main` dalına push yapıldığında GitHub Actions workflow'u tetiklenir ve site otomatik olarak **GitHub Pages** üzerinde güncellenir.
+
+## Doğrulama ve bakım
+
+Node.js 22.19+ gereklidir. Bağımlılıklar npm ci ile kilit dosyasından kurulur.
+Yayın öncesi npm run check, npm run build ve npm test çalıştırılır.
+Pull request doğrulaması derlemeyi, sayfa bağlantılarını ve temel erişilebilirlik yapısını kontrol eder.
+
+- İletişim formu e-posta uygulamasında taslak açar; kullanıcı kendi uygulamasından gönderir. Sunucuya mesaj kaydetmez ve gönderilmiş gibi göstermez.
+- Telefon ve adres erişim anahtarıyla açılır. Eski sürümde anahtar ipucu herkese açıktı; gizlilik gerekiyorsa şifreli veri yeni bir anahtarla yeniden üretilmelidir. İpucunu kaldırmak geçmişteki erişimi geri almaz.
+- Görseller derleme sırasında WebP ve duyarlı boyutlarla üretilir. Orijinaller sosyal paylaşım bağlantılarının devamlılığı için korunur.
+- GitHub Pages varsayılanı /kendi-sayfam/ yoludur. Alternatif özel önizleme için SITE_BASE=/ desteklenir.
+- Mühendislik hesaplarının formülleri bu arayüz iyileştirmesinde değiştirilmemiştir; sayısal doğrulama ayrı bir mühendislik incelemesi gerektirir.

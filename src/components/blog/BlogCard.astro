@@ -1,4 +1,5 @@
 ---
+import OptimizedImage from '../OptimizedImage.astro';
 interface Props {
     id: string;
     title: string;
@@ -36,14 +37,14 @@ const {
     <div>
         {imageUrl && (
             <div class="blog-card-cover" style="margin-bottom: 1.25rem; border-radius: var(--border-radius-xs); overflow: hidden; height: 180px; border: 1px solid var(--border-color);">
-                <img src={`${base}${imageUrl}`} alt={title} style="width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-smooth);" loading="lazy" />
+                <OptimizedImage src={imageUrl} alt={title} sizes="(max-width: 768px) 100vw, 700px" />
             </div>
         )}
         <div class="blog-card-meta">
             <span class="blog-card-date">{date}</span>
             <span class="blog-card-category">{category}</span>
         </div>
-        <h4 class="blog-card-title">{title}</h4>
+        <h2 class="blog-card-title"><a href={`${base}makale/${id}/`}>{title}</a></h2>
         <p class="blog-card-excerpt">{excerpt}</p>
     </div>
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 1.25rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
@@ -59,6 +60,8 @@ const {
 </article>
 
 <style>
+    .blog-card-title a { color: inherit; text-decoration: none; }
+    .blog-card-title a:hover { color: var(--accent-color); }
     .blog-card {
         background-color: var(--bg-secondary);
         border: 1px solid var(--border-color);
@@ -85,7 +88,7 @@ const {
         align-items: center;
         margin-bottom: 0.75rem;
         font-family: var(--font-mono);
-        font-size: 0.72rem;
+        font-size: 0.8125rem;
     }
 
     .blog-card-date {
@@ -109,7 +112,7 @@ const {
     }
 
     .blog-card-excerpt {
-        font-size: 0.88rem;
+        font-size: 1rem;
         color: var(--text-secondary);
         line-height: 1.65;
     }

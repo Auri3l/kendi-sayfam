@@ -1,3 +1,9 @@
+// Storage is optional: private browsing must not disable the interface.
+const preference = {
+    get(key) { try { return localStorage.getItem(key); } catch { return null; } },
+    set(key, value) { try { localStorage.setItem(key, value); } catch {} }
+};
+
 // ==========================================================================
 // ATA YIĞİT TELLİ - PORTFOLYO VE İNTERAKTİF İŞLEMLER (ASTRO SÜRÜMÜ)
 // ==========================================================================
@@ -15,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // --- BILINGUAL (TR / EN) LANGUAGE SWITCHER ---
 function initLanguage() {
-    const savedLang = localStorage.getItem('user_lang') || 'tr';
+    const savedLang = preference.get('user_lang') || 'tr';
     setSiteLanguage(savedLang);
 
     document.querySelectorAll('.lang-btn, .cv-lang-btn').forEach(btn => {
@@ -40,12 +46,13 @@ function setSiteLanguage(lang) {
     const validLang = lang === 'en' ? 'en' : 'tr';
     document.documentElement.setAttribute('data-lang', validLang);
     document.documentElement.setAttribute('lang', validLang);
-    localStorage.setItem('user_lang', validLang);
+    preference.set('user_lang', validLang);
 
     // Update active class on all segmented buttons (Header & CV)
     document.querySelectorAll('.lang-btn, .cv-lang-btn').forEach(btn => {
         const isTarget = btn.getAttribute('data-lang-target') === validLang;
         btn.classList.toggle('active', isTarget);
+        btn.setAttribute('aria-pressed', String(isTarget));
     });
 
     window.dispatchEvent(new CustomEvent('siteLanguageChanged', { detail: { lang: validLang } }));
@@ -54,127 +61,77 @@ window.setSiteLanguage = setSiteLanguage;
 
 // --- KARANLIK/AYDINLIK TEMA GEÇİŞİ ---
 function initTheme() {
-    const themeToggleBtn = document.getElementById('themeToggle');
-    const body = document.body;
-    if (!themeToggleBtn) return;
-    
-    const savedTheme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    if (savedTheme) {
-        body.className = savedTheme;
-    } else if (systemPrefersDark) {
-        body.className = 'dark-theme';
-    } else {
-        body.className = 'light-theme';
+    const button = document.getElementById('themeToggle');
+    const root = document.documentElement;
+    const system = matchMedia('(prefers-color-scheme: dark)');
+    function apply(dark) {
+        root.classList.toggle('dark-theme', dark);
+        root.classList.toggle('light-theme', !dark);
+        button?.setAttribute('aria-pressed', String(dark));
     }
-
-    themeToggleBtn.addEventListener('click', () => {
-        if (body.classList.contains('dark-theme')) {
-            body.classList.replace('dark-theme', 'light-theme');
-            localStorage.setItem('theme', 'light-theme');
-        } else {
-            body.classList.replace('light-theme', 'dark-theme');
-            localStorage.setItem('theme', 'dark-theme');
-        }
+    apply(root.classList.contains('dark-theme'));
+    button?.addEventListener('click', () => {
+        const dark = !root.classList.contains('dark-theme');
+        apply(dark);
+        preference.set('theme', dark ? 'dark-theme' : 'light-theme');
+    });
+    system.addEventListener('change', event => {
+        if (!preference.get('theme')) apply(event.matches);
     });
 }
 
 // --- MOBİL MENÜ YÖNETİMİ ---
 function initMobileNav() {
-    const mobileNavToggle = document.getElementById('mobileNavToggle');
-    const navMenu = document.getElementById('navMenu');
-    if (!mobileNavToggle || !navMenu) return;
-    
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    mobileNavToggle.addEventListener('click', () => {
-        mobileNavToggle.classList.toggle('open');
-        navMenu.classList.toggle('open');
+    const button = document.getElementById('mobileNavToggle');
+    const menu = document.getElementById('navMenu');
+    if (!button || !menu) return;
+    const mobile = matchMedia('(max-width: 900px)');
+    function setOpen(open, restoreFocus = false) {
+        button.classList.toggle('open', open);
+        menu.classList.toggle('open', open);
+        button.setAttribute('aria-expanded', String(open));
+        menu.inert = mobile.matches && !open;
+        document.body.classList.toggle('nav-open', mobile.matches && open);
+        if (restoreFocus) button.focus();
+    }
+    button.addEventListener('click', () => setOpen(!menu.classList.contains('open')));
+    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setOpen(false)));
+    document.addEventListener('click', event => {
+        if (!menu.contains(event.target) && !button.contains(event.target)) setOpen(false);
     });
-
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            mobileNavToggle.classList.remove('open');
-            navMenu.classList.remove('open');
-        });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && menu.classList.contains('open')) setOpen(false, true);
     });
-
-    document.addEventListener('click', (e) => {
-        if (!navMenu.contains(e.target) && !mobileNavToggle.contains(e.target) && navMenu.classList.contains('open')) {
-            mobileNavToggle.classList.remove('open');
-            navMenu.classList.remove('open');
-        }
+    document.addEventListener('focusin', event => {
+        if (mobile.matches && !menu.contains(event.target) && !button.contains(event.target)) setOpen(false);
     });
+    mobile.addEventListener('change', () => setOpen(false));
+    setOpen(false);
 }
 
 // --- İLETİŞİM FORMU DOĞRULAMA ---
 function initContactForm() {
     const form = document.getElementById('contactForm');
+    const status = document.getElementById('contactFormStatus');
     if (!form) return;
-
-    const inputs = form.querySelectorAll('input[required], textarea[required]');
-
-    inputs.forEach(input => {
-        input.addEventListener('blur', () => {
-            validateField(input);
+    form.addEventListener('submit', event => {
+        event.preventDefault();
+        const fields = [...form.querySelectorAll('input, textarea')];
+        fields.forEach(field => {
+            field.setCustomValidity(field.value.trim() ? '' : (document.documentElement.lang === 'en' ? 'Please complete this field.' : 'Lütfen bu alanı doldurun.'));
         });
-        
-        input.addEventListener('input', () => {
-            if (input.parentElement.classList.contains('invalid')) {
-                validateField(input);
-            }
-        });
+        if (!form.reportValidity()) return;
+        const data = new FormData(form);
+        const subject = String(data.get('subject')).trim();
+        const body = String(data.get('message')).trim() + '\n\n' + String(data.get('name')).trim() + '\n' + String(data.get('email')).trim();
+        const href = 'mailto:ytelli@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+        window.location.href = href;
+        if (status) status.textContent = document.documentElement.lang === 'en'
+            ? 'Your email app was requested. Send the message there. If it did not open, email ytelli@gmail.com directly; your message is still here.'
+            : 'E-posta uygulamanız açılmak üzere çağrıldı. Gönderimi oradan tamamlayın. Açılmadıysa ytelli@gmail.com adresine yazabilirsiniz; mesajınız burada korunuyor.';
     });
-
-    function validateField(field) {
-        let isValid = true;
-        const parent = field.parentElement;
-        
-        if (!field.value.trim()) {
-            isValid = false;
-        } else if (field.type === 'email') {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            isValid = emailRegex.test(field.value.trim());
-        }
-
-        if (isValid) {
-            parent.classList.remove('invalid');
-        } else {
-            parent.classList.add('invalid');
-        }
-        
-        return isValid;
-    }
-
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        let isFormValid = true;
-        inputs.forEach(input => {
-            if (!validateField(input)) {
-                isFormValid = false;
-            }
-        });
-
-        if (!isFormValid) return;
-
-        const submitBtn = document.getElementById('submitBtn');
-        const submitSpan = submitBtn ? submitBtn.querySelector('span') : null;
-        const spinner = submitBtn ? submitBtn.querySelector('.send-spinner') : null;
-        
-        if (submitBtn) submitBtn.disabled = true;
-        if (submitSpan) submitSpan.textContent = '...';
-        if (spinner) spinner.classList.remove('hidden');
-
-        setTimeout(() => {
-            if (submitBtn) submitBtn.disabled = false;
-            if (submitSpan) submitSpan.textContent = 'Gönder';
-            if (spinner) spinner.classList.add('hidden');
-            
-            form.reset();
-            inputs.forEach(input => input.parentElement.classList.remove('invalid'));
-        }, 1200);
+    form.addEventListener('input', event => {
+        if ('setCustomValidity' in event.target) event.target.setCustomValidity('');
     });
 }
 
@@ -186,56 +143,34 @@ window.showToast = showToast;
 
 // --- SCROLL SPY (AKTİF MENÜ BAĞLANTISI) ---
 function initScrollSpy() {
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link');
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    
-    const cleanPath = window.location.pathname.replace(/\/$/, '').toLowerCase();
-    const isHomePage = (cleanPath === '' || cleanPath.endsWith('/kendi-sayfam') || cleanPath.endsWith('index.html') || cleanPath.endsWith('/index'));
-    const offset = 80;
-
-    window.addEventListener('scroll', () => {
-        const scrollPos = window.scrollY || document.documentElement.scrollTop;
-        
-        if (scrollIndicator) {
-            if (scrollPos > 100) {
-                scrollIndicator.style.opacity = '0';
-                scrollIndicator.style.pointerEvents = 'none';
-            } else {
-                scrollIndicator.style.opacity = '0.7';
-                scrollIndicator.style.pointerEvents = 'auto';
-            }
-        }
-
-        if (!isHomePage) return;
-
-        sections.forEach(sec => {
-            const top = sec.offsetTop - offset;
-            const bottom = top + sec.offsetHeight;
-            const id = sec.getAttribute('id');
-
-            if (scrollPos >= top && scrollPos < bottom) {
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    const href = link.getAttribute('href');
-                    if (href && (href.endsWith(`#${id}`) || href === `#${id}`)) {
-                        link.classList.add('active');
-                    }
-                });
-            }
+    const sections = document.querySelectorAll('main section[id]');
+    const links = [...document.querySelectorAll('.nav-link')].filter(link => link.hash);
+    if (!sections.length || !('IntersectionObserver' in window)) return;
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            links.forEach(link => {
+                const active = link.hash === '#' + entry.target.id;
+                link.classList.toggle('active', active);
+                if (active) link.setAttribute('aria-current', 'location');
+                else link.removeAttribute('aria-current');
+            });
         });
-    });
+    }, { rootMargin: '-80px 0px -55% 0px' });
+    sections.forEach(section => observer.observe(section));
 }
 
 // --- DENEYİM VE PROJE FİLTRELEME SİSTEMİ ---
 function setupFilters() {
+    document.querySelectorAll('.filter-btn, .project-filter-btn').forEach(button => button.setAttribute('aria-pressed', String(button.classList.contains('active'))));
     // 1. Deneyim Filtreleri (Timeline)
     const timelineFilterBtns = document.querySelectorAll('.filter-btn');
     const timelineItems = document.querySelectorAll('.timeline-item');
 
     timelineFilterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            timelineFilterBtns.forEach(b => b.classList.remove('active'));
+            timelineFilterBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
+            btn.setAttribute('aria-pressed', 'true');
             btn.classList.add('active');
 
             const filterValue = btn.getAttribute('data-filter');
@@ -258,7 +193,8 @@ function setupFilters() {
 
     projectFilterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            projectFilterBtns.forEach(b => b.classList.remove('active'));
+            projectFilterBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
+            btn.setAttribute('aria-pressed', 'true');
             btn.classList.add('active');
 
             const filterValue = btn.getAttribute('data-proj-filter');
@@ -267,7 +203,7 @@ function setupFilters() {
                 const category = card.getAttribute('data-category') || '';
                 const tags = card.getAttribute('data-tags') || '';
                 
-                if (filterValue === 'all' || category === filterValue || tags.toLowerCase().includes(filterValue.toLowerCase())) {
+                if (filterValue === 'all' || category === filterValue || card.dataset.discipline === filterValue || tags.toLowerCase().includes(filterValue.toLowerCase())) {
                     card.style.display = 'flex';
                     card.style.opacity = '1';
                 } else {
@@ -280,6 +216,10 @@ function setupFilters() {
 
 // --- KAYDIRMA ESNASINDA ORTAYA ÇIKMA (REVEAL) ---
 function setupAnimationOnScroll() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+        document.querySelectorAll('.skill-bar-fill').forEach(bar => { bar.style.width = bar.dataset.level + '%'; });
+        return;
+    }
     const observerOptions = {
         root: null,
         rootMargin: '0px',
@@ -448,63 +388,48 @@ function initProtectedContact() {
     const modal = document.getElementById('passphraseModal');
     const form = document.getElementById('passphraseForm');
     const input = document.getElementById('passphraseInput');
-    const closeBtn = document.getElementById('closePassphraseModal');
-
-    // Check if previously decrypted in this session
-    const savedDecrypted = sessionStorage.getItem('decryptedContactData');
-    if (savedDecrypted) {
+    const error = document.getElementById('passphraseError');
+    const submit = document.getElementById('btnUnlockSubmit');
+    if (!modal || !form || !input) return;
+    let opener;
+    let attempt = 0;
+    // Deliberately keep decrypted contact information out of browser storage.
+    document.addEventListener('click', event => {
+        const trigger = event.target.closest('[data-action="unlockContact"]');
+        if (!trigger || modal.open) return;
+        event.preventDefault();
+        opener = trigger.matches('button') ? trigger : trigger.querySelector('button');
+        error.textContent = '';
+        modal.showModal();
+        input.focus();
+    });
+    document.getElementById('closePassphraseModal')?.addEventListener('click', () => modal.close());
+    modal.addEventListener('click', event => { if (event.target === modal) modal.close(); });
+    modal.addEventListener('close', () => {
+        attempt++;
+        input.value = '';
+        input.removeAttribute('aria-invalid');
+        submit.disabled = false;
+        opener?.focus();
+    });
+    form.addEventListener('submit', async event => {
+        event.preventDefault();
+        if (!input.value || submit.disabled) return;
+        const currentAttempt = ++attempt;
+        submit.disabled = true;
+        error.textContent = '';
         try {
-            const data = JSON.parse(savedDecrypted);
+            const data = await decryptContactPayload(input.value);
+            if (!modal.open || currentAttempt !== attempt) return;
             updateDOMWithDecryptedContact(data);
-        } catch (e) {
-            sessionStorage.removeItem('decryptedContactData');
-        }
-    }
-
-    // Open Modal Triggers
-    document.addEventListener('click', (e) => {
-        const trigger = e.target.closest('[data-action="unlockContact"]');
-        if (trigger) {
-            e.preventDefault();
-            if (modal) {
-                modal.classList.remove('hidden');
-                setTimeout(() => input?.focus(), 100);
-            }
+            modal.close();
+        } catch {
+            if (!modal.open || currentAttempt !== attempt) return;
+            input.setAttribute('aria-invalid', 'true');
+            error.textContent = document.documentElement.lang === 'en' ? 'The passphrase could not be verified. Please try again.' : 'Erişim anahtarı doğrulanamadı. Lütfen tekrar deneyin.';
+            input.focus();
+        } finally {
+            if (currentAttempt === attempt) submit.disabled = false;
         }
     });
-
-    const closeModal = () => {
-        if (modal) modal.classList.add('hidden');
-        if (input) input.value = '';
-    };
-
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    modal?.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-    });
-
-    if (form) {
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const val = input ? input.value : '';
-            if (!val) return;
-
-            const submitBtn = document.getElementById('btnUnlockSubmit');
-            if (submitBtn) submitBtn.disabled = true;
-
-            try {
-                const decryptedData = await decryptContactPayload(val);
-                sessionStorage.setItem('decryptedContactData', JSON.stringify(decryptedData));
-                updateDOMWithDecryptedContact(decryptedData);
-                closeModal();
-            } catch (err) {
-                if (input) {
-                    input.style.borderColor = '#ef4444';
-                    setTimeout(() => { input.style.borderColor = ''; }, 1500);
-                }
-            } finally {
-                if (submitBtn) submitBtn.disabled = false;
-            }
-        });
-    }
 }

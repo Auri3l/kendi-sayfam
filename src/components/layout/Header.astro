@@ -21,7 +21,7 @@ const { activePage = 'home', base } = Astro.props;
                         <span class="lang-en">About</span>
                     </a>
                 </li>
-                <li><a href={`${base}cv/`} class={`nav-link ${activePage === 'cv' ? 'active' : ''}`}>CV</a></li>
+                <li><a href={`${base}cv/`} class={`nav-link ${activePage === 'cv' ? 'active' : ''}`} aria-current={activePage === 'cv' ? 'page' : undefined}>CV</a></li>
                 <li>
                     <a href={`${base}#projeler`} class="nav-link">
                         <span class="lang-tr">Projeler</span>
@@ -29,14 +29,14 @@ const { activePage = 'home', base } = Astro.props;
                     </a>
                 </li>
                 <li>
-                    <a href={`${base}simulasyon/`} class={`nav-link ${activePage === 'simulasyon' ? 'active' : ''}`}>
+                    <a href={`${base}simulasyon/`} class={`nav-link ${activePage === 'simulasyon' ? 'active' : ''}`} aria-current={activePage === 'simulasyon' ? 'page' : undefined}>
                         <span class="lang-tr">Simülatör</span>
                         <span class="lang-en">Simulator</span>
                     </a>
                 </li>
-                <li><a href={`${base}blog/`} class={`nav-link ${activePage === 'blog' ? 'active' : ''}`}>Blog</a></li>
+                <li><a href={`${base}blog/`} class={`nav-link ${activePage === 'blog' ? 'active' : ''}`} aria-current={activePage === 'blog' ? 'page' : undefined}>Blog</a></li>
                 <li>
-                    <a href={`${base}iletisim/`} class={`nav-link ${activePage === 'iletisim' ? 'active' : ''}`}>
+                    <a href={`${base}iletisim/`} class={`nav-link ${activePage === 'iletisim' ? 'active' : ''}`} aria-current={activePage === 'iletisim' ? 'page' : undefined}>
                         <span class="lang-tr">İletişim</span>
                         <span class="lang-en">Contact</span>
                     </a>
@@ -52,13 +52,13 @@ const { activePage = 'home', base } = Astro.props;
                     <line x1="2" y1="12" x2="22" y2="12"></line>
                     <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
                 </svg>
-                <button type="button" class="lang-btn active" data-lang-target="tr" title="Türkçe">TR</button>
+                <button type="button" class="lang-btn active" aria-pressed="true" data-lang-target="tr" title="Türkçe">TR</button>
                 <span class="lang-divider">|</span>
-                <button type="button" class="lang-btn" data-lang-target="en" title="English">EN</button>
+                <button type="button" class="lang-btn" aria-pressed="false" data-lang-target="en" title="English">EN</button>
             </div>
 
             <!-- Theme Switcher Button -->
-            <button id="themeToggle" class="theme-toggle-btn" aria-label="Temayı Değiştir" title="Endüstriyel Açık / Endüstriyel Koyu Temalar Arasında Geçiş Yap">
+            <button id="themeToggle" aria-pressed="false" class="theme-toggle-btn" aria-label="Temayı Değiştir" title="Endüstriyel Açık / Endüstriyel Koyu Temalar Arasında Geçiş Yap">
                 <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
                     <circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/>
                     <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>

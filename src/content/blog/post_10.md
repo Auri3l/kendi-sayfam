@@ -88,26 +88,26 @@ excerpt: "Alçı sıva, brüt beton ve alçıpan yüzeylerde doğru astar ve boy
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
 <div>
-<label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Oda / Alan Uzunluğu (m)</label>
+<label for="inpPaintRoomLen" style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Oda / Alan Uzunluğu (m)</label>
 <input type="number" id="inpPaintRoomLen" value="6.0" min="1" max="50" step="0.5" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;" />
 </div>
 <div>
-<label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Oda / Alan Genişliği (m)</label>
+<label for="inpPaintRoomWidth" style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Oda / Alan Genişliği (m)</label>
 <input type="number" id="inpPaintRoomWidth" value="4.0" min="1" max="50" step="0.5" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;" />
 </div>
 <div>
-<label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Tavan Yüksekliği (m)</label>
+<label for="inpPaintRoomHeight" style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Tavan Yüksekliği (m)</label>
 <input type="number" id="inpPaintRoomHeight" value="2.8" min="2.0" max="6.0" step="0.1" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;" />
 </div>
 <div>
-<label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Kapı/Pencere Düşümü (m²)</label>
+<label for="inpPaintOpenings" style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Kapı/Pencere Düşümü (m²)</label>
 <input type="number" id="inpPaintOpenings" value="6.0" min="0" max="30" step="0.5" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;" />
 </div>
 </div>
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
 <div>
-<label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Alt Yüzey Durumu</label>
+<label for="inpPaintSurfaceType" style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Alt Yüzey Durumu</label>
 <select id="inpPaintSurfaceType" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;">
 <option value="alci" selected>Ham Alçı Sıva / Saten Alçı (Yüksek Emici)</option>
 <option value="brut">Brüt Beton (Düşük Emici / Kuvars Astar)</option>
@@ -115,7 +115,7 @@ excerpt: "Alçı sıva, brüt beton ve alçıpan yüzeylerde doğru astar ve boy
 </select>
 </div>
 <div>
-<label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Boya Kat Sayısı</label>
+<label for="inpPaintCoats" style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Boya Kat Sayısı</label>
 <select id="inpPaintCoats" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;">
 <option value="2" selected>2 Kat (Standart Uygulama)</option>
 <option value="3">3 Kat (Yoğun Renk Değişimi)</option>

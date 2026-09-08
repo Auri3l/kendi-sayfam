@@ -2,28 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 import BlogCard from '../components/blog/BlogCard.astro';
 import { getCollection } from 'astro:content';
+import { parseTurkishDate, MONTH_MAP } from '../utils/dates';
 
 // Get blog posts collection and filter out drafts
 const posts = await getCollection('blog', ({ data }) => {
     return !data.draft;
 });
-
-const MONTH_MAP: Record<string, number> = {
-    'Ocak': 0, 'Şubat': 1, 'Mart': 2, 'Nisan': 3, 'Mayıs': 4, 'Haziran': 5,
-    'Temmuz': 6, 'Ağustos': 7, 'Eylül': 8, 'Ekim': 9, 'Kasım': 10, 'Aralık': 11
-};
-
-function parseTurkishDate(dateStr: string): number {
-    const parts = dateStr.split(' ');
-    if (parts.length >= 3) {
-        const day = parseInt(parts[0], 10);
-        const monthName = parts[1];
-        const year = parseInt(parts[2], 10);
-        const month = MONTH_MAP[monthName] ?? 0;
-        return new Date(year, month, day).getTime();
-    }
-    return 0;
-}
 
 // Sort posts initially by date descending (newer posts first)
 posts.sort((a, b) => parseTurkishDate(b.data.date) - parseTurkishDate(a.data.date));
@@ -57,12 +41,12 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
 ---
 
 <Layout title="Mühendislik & Yapı Blogu | Ata Yiğit Telli" activePage="blog" description="Kaba inşaat denetimi, su yalıtımı ve giydirme cephe sistemleri üzerine mühendislik analizleri, hesaplama araçları ve şantiye tecrübeleri.">
-    <main>
+    <main lang="tr" id="main-content" tabindex="-1">
         <section class="section section-padding" style="margin-top: 5rem;">
             <div class="container">
                 <div class="section-header">
                     <span class="section-tag">Yazılar &amp; Analizler</span>
-                    <h3 class="section-title">Mühendislik &amp; Yapı Blogu</h3>
+                    <h1 class="section-title">Mühendislik &amp; Yapı Blogu</h1>
                     <div class="section-divider"></div>
                 </div>
 
@@ -100,6 +84,8 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                             </div>
                         </div>
 
+                        <p id="blogResults" class="blog-results" role="status" aria-live="polite">{posts.length} yazı</p>
+                        <p id="blogEmpty" class="blog-empty" hidden>Bu filtrelere uygun yazı bulunamadı. Kategori veya ay seçimini değiştirin.</p>
                         <div class="blog-list" id="blogGrid">
                             {posts.map((post, idx) => (
                                 <BlogCard 
@@ -269,6 +255,12 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                     article.style.display = 'none';
                 }
             });
+
+            const count = articles.filter(article => article.style.display !== 'none').length;
+            const result = document.getElementById('blogResults');
+            const empty = document.getElementById('blogEmpty');
+            if (result) result.textContent = count + ' yazı';
+            if (empty) empty.hidden = count > 0;
 
             // 2. Sort visible articles in the DOM
             const sortedArticles = articles.slice().sort((a, b) => {

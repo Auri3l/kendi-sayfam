@@ -5,7 +5,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
 ---
 
 <Layout title="Özgeçmiş (CV) | Ata Yiğit Telli" activePage="cv" description="Ata Yiğit Telli - İnşaat Mühendisi & Proje Yöneticisi Profesyonel Tek Sayfa Özgeçmiş (CV).">
-    <main>
+    <main id="main-content" tabindex="-1">
         <div class="cv-page-wrapper">
             <!-- Top Controls Toolbar (Hidden in Print) -->
             <div class="cv-toolbar no-print">
@@ -556,17 +556,19 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
        PRINT STYLESHEET - STRICT 1-PAGE A4 FIT
        ========================================================================= */
     @media print {
-        body, html {
+        :global(body), :global(html) {
             background: #ffffff !important;
             color: #000000 !important;
             margin: 0 !important;
             padding: 0 !important;
-            height: 100% !important;
+            height: auto !important;
+            color-scheme: light;
         }
 
         .no-print,
-        .main-header,
-        .main-footer,
+        :global(.main-header),
+        :global(.main-footer),
+        :global(dialog),
         .custom-cursor,
         .cursor-follower,
         .toast-container {
@@ -574,6 +576,8 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
         }
 
         .cv-page-wrapper {
+            min-height: 0 !important;
+            display: block;
             padding: 0 !important;
             margin: 0 !important;
             background: transparent !important;
@@ -657,6 +661,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
         }
 
         .protected-trigger-btn {
+            min-height: 0;
             border: none !important;
             background: none !important;
             box-shadow: none !important;
@@ -671,7 +676,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
         }
     }
 
-    @media (max-width: 768px) {
+    @media screen and (max-width: 768px) {
         .standard-cv-paper {
             padding: 22px 18px;
             font-size: 9pt;

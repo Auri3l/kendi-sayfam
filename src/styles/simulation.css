@@ -139,7 +139,7 @@
 
 .sim-tab-btn.active {
     background: var(--accent-color);
-    color: #ffffff !important;
+    color: var(--button-text, #fff) !important;
     border-color: var(--accent-color);
     font-weight: 700;
 }

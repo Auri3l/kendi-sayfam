@@ -14,6 +14,7 @@
             const isMatch = b.getAttribute('data-tab') === targetTab;
             b.classList.toggle('active', isMatch);
             b.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+            b.tabIndex = isMatch ? 0 : -1;
         });
 
         const allPanels = document.querySelectorAll('.sim-tab-panel, .sim-tab-pane');
@@ -21,6 +22,7 @@
 
         const activePanel = document.getElementById(`tab-${targetTab}`);
         if (activePanel) activePanel.classList.add('active');
+        scheduleFrame();
 
         if (targetTab === 'fem') {
             resizeCanvas();
@@ -38,7 +40,8 @@
     catBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const cat = btn.getAttribute('data-category');
-            catBtns.forEach(b => b.classList.remove('active'));
+            catBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
+            btn.setAttribute('aria-pressed', 'true');
             btn.classList.add('active');
 
             if (cat === 'tools') {
@@ -57,6 +60,22 @@
         btn.addEventListener('click', () => {
             const targetTab = btn.getAttribute('data-tab');
             if (targetTab) switchTab(targetTab);
+        });
+    });
+
+    tabBtns.forEach(button => {
+        button.tabIndex = button.classList.contains('active') ? 0 : -1;
+        button.id = 'sim-button-' + button.dataset.tab;
+        const panel = document.getElementById('tab-' + button.dataset.tab);
+        panel?.setAttribute('aria-labelledby', button.id);
+        button.addEventListener('keydown', event => {
+            if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+            event.preventDefault();
+            const siblings = [...button.parentElement.querySelectorAll('[role="tab"]')];
+            const index = siblings.indexOf(button);
+            const next = event.key === 'Home' ? 0 : event.key === 'End' ? siblings.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + siblings.length) % siblings.length;
+            siblings[next].focus();
+            siblings[next].click();
         });
     });
 
@@ -167,8 +186,9 @@
     const yaw = -0.55;
     const scale3d = 95;
     
+    let frameRect = { width: 400, height: 300 };
     function project3D(x3d, y3d, z3d) {
-        const r = canvas ? canvas.getBoundingClientRect() : {width:400,height:300};
+        const r = frameRect;
         const cX = (r.width || 400) * 0.48;
         const cY = (r.height || 300) * 0.52;
         const rx = x3d * Math.cos(yaw) - z3d * Math.sin(yaw);
@@ -180,16 +200,27 @@
         return { x: cX + px * scale3d, y: cY - py * scale3d, depth: pz };
     }
 
+    let animationFrame = 0;
+    let canvasVisible = true;
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    function scheduleFrame() {
+        const active = document.getElementById('tab-fem')?.classList.contains('active');
+        if (document.hidden || !active || !canvasVisible) {
+            cancelAnimationFrame(animationFrame);
+            animationFrame = 0;
+            return;
+        }
+        if (!animationFrame) animationFrame = requestAnimationFrame(drawLoop);
+    }
     const drawLoop = () => {
+        animationFrame = 0;
         if (!canvas || !ctx) return;
         const rect = canvas.getBoundingClientRect();
         const w = rect.width;
         const h = rect.height;
         
-        if (w === 0 || h === 0) {
-            requestAnimationFrame(drawLoop);
-            return;
-        }
+        if (w === 0 || h === 0) return;
+        frameRect = rect;
 
         // Auto-heal resolution and transform if dimensions changed
         const dpr = window.devicePixelRatio || 1;
@@ -495,11 +526,23 @@
         ctx.fillText(`GEOMETRİ: ${glassWidth.toFixed(2)}m x ${glassHeight.toFixed(2)}m`, 20, 20);
         ctx.fillText(`EN/BOY ORANI: 1 : ${(glassHeight/glassWidth).toFixed(1)}`, 20, 32);
         
-        requestAnimationFrame(drawLoop);
+        if (!reducedMotion.matches) scheduleFrame();
     };
 
     if (canvas) {
-        drawLoop();
+        scheduleFrame();
+        document.addEventListener('visibilitychange', scheduleFrame);
+        reducedMotion.addEventListener('change', scheduleFrame);
+        document.addEventListener('input', scheduleFrame);
+        document.addEventListener('change', scheduleFrame);
+        canvas.addEventListener('mousemove', scheduleFrame);
+        canvas.addEventListener('mouseleave', scheduleFrame);
+        window.addEventListener('resize', scheduleFrame);
+        const visibility = new IntersectionObserver(entries => {
+            canvasVisible = entries[0].isIntersecting;
+            scheduleFrame();
+        });
+        visibility.observe(canvas);
     }
 
     function updateFEMCalculations() {
