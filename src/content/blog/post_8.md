@@ -13,10 +13,11 @@ excerpt: "İnşaat sektöründe karbon ayak izini azaltan yeşil bina tasarım k
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">1. LEED Sertifikası Kriter Kategorileri</h4>
 <p>Bir yapının LEED sertifikası alabilmesi için tasarım ve inşaat süreçlerinde şu ana kategorilerdeki şartları sağlaması gerekir:</p>
 <ul>
+    <li><strong>Konum ve Ulaşım (LT):</strong> Toplu taşımaya yakınlık, mevcut altyapının kullanımı ve araç bağımlılığının azaltılması.</li>
     <li><strong>Sürdürülebilir Alanlar (SS):</strong> İnşaatın çevreye olan olumsuz etkilerini azaltma ve biyoçeşitliliği koruma.</li>
     <li><strong>Su Verimliliği (WE):</strong> İç ve dış mekan su kullanımında akıllı armatürler ve peyzaj tasarımı ile tasarruf sağlama.</li>
     <li><strong>Enerji ve Atmosfer (EA):</strong> Yenilenebilir enerji entegrasyonu ve enerji tüketimini optimize etme.</li>
-    <li><strong>Malzemeler ve Kaynaklar (MR):</strong> Geri dönüştürülmüş, yerel ve EPD belgeli sürdürülebilir malzeme kullanımı.</li>
+    <li><strong>Malzemeler ve Kaynaklar (MR):</strong> Yaşam döngüsü etkisinin azaltılması; EPD belgeli, geri dönüştürülmüş içerikli ve sorumlu tedarik edilmiş malzeme kullanımı, inşaat atığı yönetimi.</li>
     <li><strong>İç Mekan Çevresel Kalite (EQ):</strong> İç hava kalitesi, gün ışığı faydalanımı ve akustik konfor.</li>
 </ul>
 
@@ -24,12 +25,12 @@ excerpt: "İnşaat sektöründe karbon ayak izini azaltan yeşil bina tasarım k
 <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: 2rem; margin: 2.5rem 0;">
 <h4 style="color: var(--text-primary); margin-top: 0; margin-bottom: 1.5rem; font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">Dinamik LEED Sertifika Seviye Simülatörü</h4>
 
-<p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Projenizde hedeflediğiniz veya uyguladığınız kategorilerdeki tahmini puanlarınızı girin:</p>
+<p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">LEED v4.1 BD+C puan dağılımına göre (toplam 110 puan) hedeflediğiniz tahmini puanları girin. Ön koşullar puandan bağımsız olarak ayrıca sağlanmalıdır:</p>
 
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
 <div>
-<label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Entegre Tasarım & Konum (Maks: 16)</label>
-<input type="number" id="leedLoc" value="10" min="0" max="16" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;">
+<label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Entegre Süreç, Konum-Ulaşım & Sürdürülebilir Alanlar (Maks: 27)</label>
+<input type="number" id="leedLoc" value="15" min="0" max="27" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;">
 </div>
 <div>
 <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Su Verimliliği (Maks: 11)</label>
@@ -50,7 +51,7 @@ excerpt: "İnşaat sektöründe karbon ayak izini azaltan yeşil bina tasarım k
 
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
 <div>
-<label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">İç Mekan Hava Kalitesi (Maks: 16)</label>
+<label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">İç Mekan Çevresel Kalitesi (Maks: 16)</label>
 <input type="number" id="leedAir" value="11" min="0" max="16" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;">
 </div>
 <div>
@@ -82,7 +83,7 @@ function calculateLEED() {
     var inn = parseFloat(document.getElementById('leedInnov').value) || 0;
     
     // Bounds check
-    loc = Math.min(16, Math.max(0, loc));
+    loc = Math.min(27, Math.max(0, loc));
     wat = Math.min(11, Math.max(0, wat));
     nrg = Math.min(33, Math.max(0, nrg));
     mat = Math.min(13, Math.max(0, mat));
@@ -106,7 +107,7 @@ function calculateLEED() {
         badgeEl.innerText = 'CERTIFIED (Onaylı)';
         badgeEl.style.color = '#d35400'; // Bronze/Orange
     } else {
-        badgeEl.innerText = 'SERTİFİKA ALAMAZ (Maks 40 Puan Altı)';
+        badgeEl.innerText = 'SERTİFİKA ALAMAZ (40 Puanın Altı)';
         badgeEl.style.color = '#e74c3c';
     }
 }
@@ -114,10 +115,10 @@ function calculateLEED() {
 </div>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">2. Yeşil Binaların Finansal ve Çevresel Katkısı</h4>
-<p>Yeşil binaların ilk yatırım maliyetleri, özel otomasyon, yalıtım ve yenilenebilir enerji teknolojileri dolayısıyla %2 ila %5 oranında daha yüksek olabilir. Ancak bu yapılar, standart binalara kıyasla <strong>%30 ila %50 enerji tasarrufu</strong> ve <strong>%40'a varan su tasarrufu</strong> sağlayarak işletme aşamasında kendilerini 3-5 yıl içinde amorti ederler.</p>
+<p>Yeşil binaların ilk yatırım maliyetleri, özel otomasyon, yalıtım ve yenilenebilir enerji teknolojileri dolayısıyla bir miktar daha yüksek olabilir. Buna karşılık enerji ve su tüketimindeki düşüş işletme giderlerini azaltır; ek maliyetin ne kadar sürede geri döneceği iklime, enerji fiyatlarına ve seçilen sistemlere göre projeden projeye büyük farklılık gösterir. Bu nedenle geri ödeme süresi, proje özelinde yapılan enerji modellemesi ve maliyet analiziyle hesaplanmalıdır.</p>
 
 <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); padding: 1.5rem; margin: 2rem 0; border-left: 4px solid var(--accent-color);">
 <strong style="color: var(--text-primary); display: block; margin-bottom: 0.5rem; font-size: 1.1rem;">Sürdürülebilirlik Notu:</strong>
-İnşaat atıklarının şantiyede sınıflara ayrılarak geri dönüşüme gönderilmesi ve bunun resmi nakliye fişleriyle raporlanması, LEED Malzemeler ve Kaynaklar (MR) kategorisinde doğrudan puan kazandıran zorunlu bir uygulamadır.
+LEED v4 ve v4.1'de inşaat ve yıkım atığı yönetim planı Malzemeler ve Kaynaklar (MR) kategorisinde bir ön koşuldur. Atıkların şantiyede ayrıştırılıp geri kazanıma gönderilmesi ve bunun nakliye ve bertaraf belgeleriyle raporlanması ise geri kazanım oranına göre ek puan kazandırır. Sertifika için tüm kategorilerdeki ön koşulların da puandan bağımsız olarak sağlanması gerekir.
 </div>
 </div>

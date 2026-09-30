@@ -10,11 +10,11 @@ excerpt: "Alçı sıva, brüt beton ve alçıpan yüzeylerde doğru astar ve boy
 <div class="rich-post-content">
 <p>İnce inşaat ve iç mekan bitirme işlerinde en sık karşılaşılan hatalardan biri, boya seçiminin yalnızca renk ve marka üzerinden yapılmasıdır. Oysa yapı fiziği ve malzeme mühendisliği açısından uzun ömürlü, çatlamayan, kabarıklaşmayan ve silinebilir bir iç cephe kaplaması elde etmenin sırrı: <strong>Doğru Yüzey Hazırlığı + Doğru Astar (Primer) + Doğru Boya Türü</strong> üçlüsünün mükemmel uyumudur.</p>
 
-<p>Bu teknik rehberde; brüt betondan alçı sıpaya, alçıpandan eski boyalı yüzeylere kadar farklı alt katmanlarda uygulanması gereken astar türlerini, boya kimyasını ve şantiye sarfiyat hesaplama yöntemlerini inceliyoruz.</p>
+<p>Bu teknik rehberde; brüt betondan alçı sıvaya, alçıpandan eski boyalı yüzeylere kadar farklı alt katmanlarda uygulanması gereken astar türlerini, boya kimyasını ve şantiye sarfiyat hesaplama yöntemlerini inceliyoruz.</p>
 
 <h4 style="color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1rem;">1. İç Cephe Yüzey Türleri ve Astar (Primer) Gereksinimleri</h4>
 
-<p>Astar, boyanın alt yüzeye tutunmasını (aderans) sağlayan, yüzey emiciliğini dengeleyen ve boya sarfiyatını %25-%40 oranında azaltan hayati bir bağlayıcı katmandır. Yüzey türüne göre astar seçimi şu şekilde yapılmalıdır:</p>
+<p>Astar, boyanın alt yüzeye tutunmasını (aderans) sağlayan, yüzey emiciliğini dengeleyen ve son kat boyanın daha az sarfiyatla homojen örtmesini sağlayan bağlayıcı katmandır. Yüzey türüne göre astar seçimi şu şekilde yapılmalıdır:</p>
 
 <ul>
     <li><strong>Alçı Sıva ve Saten Alçı Yüzeyler:</strong> Yüksek derecede emici ve tozuyabilir karakterdedir. Bu yüzeylerde ham boya direkt uygulanırsa boyanın suyu emilir, boya bağlayıcısını kaybeder ve pul pul dökülür. Buradaki ideal çözüm <em>Şeffaf Penetrasyon Astarı (Binder)</em> veya <em>Alçı Astarı</em> uygulamasıdır.</li>
@@ -74,7 +74,7 @@ excerpt: "Alçı sıva, brüt beton ve alçıpan yüzeylerde doğru astar ve boy
     Net Duvar Alanı (m²) = Çevre (m) × Yükseklik (m) − Kapı/Pencere Alanları (m²)
 </div>
 
-<p>Genel malzeme sarfiyat katsayıları:</p>
+<p>Genel malzeme sarfiyat katsayıları (yaklaşık değerlerdir; kesin sarfiyat için kullanılan ürünün teknik föyüne bakılmalıdır):</p>
 <ul>
     <li><strong>İç Cephe Astarı Sarfiyatı:</strong> Tek katta 1 Litre Astar ile yaklaşık <strong>12 - 15 m²</strong> alan kaplanır.</li>
     <li><strong>İç Cephe Boyası Sarfiyatı (Çift Kat):</strong> Çift kat uygulamada 1 Litre Boya ile yaklaşık <strong>6 - 8 m²</strong> net alan kaplanır (1 kg boya ≈ 6.5 m² çift kat).</li>

@@ -14,7 +14,7 @@ excerpt: "Islak hacimlerde seramik kaplama öncesi doğru su yalıtımı uygulam
 <p>Su yalıtımında aderansı zayıflatacak toz, yağ ve gevşek parçalar yüzeyden temizlenmelidir. Yüzey bozuklukları yapısal tamir harcı ile düzeltilmeli, dik iç ve dış köşelere pah harcı çekilmelidir. Yüzey emiciliğini dengelemek ve tozuma riskini kesmek için akrilik astar uygulanır.</p>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">2. Köşe Pah Bantları ve Kritik Noktalar</h4>
-<p>Yapısal hareketlerin ve çatlamaların en yoğun yaşandığı kolon-duvar ve zemin-duvar birleşim yerlerine (soğuk derzler) mutlaka elastik pah bandı yerleştirilmelidir. Pah bantları birinci kat yalıtım malzemesi henüz yaş iken bastırılarak oturtulmalı, üzerine ikinci kat sürülerek kilitlenmelidir.</p>
+<p>Yapısal hareketlerin ve çatlamaların en yoğun yaşandığı kolon-duvar ve zemin-duvar birleşim yerlerine, ayrıca varsa döküm derzlerine mutlaka elastik pah bandı yerleştirilmelidir. Pah bantları birinci kat yalıtım malzemesi henüz yaş iken bastırılarak oturtulmalı, üzerine ikinci kat sürülerek kilitlenmelidir.</p>
 
 <!-- Mini Interactive Insulation Calculator Widget -->
 <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: 2rem; margin: 2.5rem 0;">
@@ -77,5 +77,5 @@ function calculateInsulation() {
 </div>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">3. İzolasyon Katmanları ve Kuruma Kriterleri</h4>
-<p>Su yalıtımı çift bileşenli çimento veya akrilik esaslı sürme malzemelerle en az iki kat halinde uygulanmalıdır. Katlar birbirine dik doğrultuda sürülmeli ve katlar arasında en az 4-6 saat kuruma süresi beklenmelidir. İmalat sonrasında yüzeyde göllenme testi (24 saat su altında bekletme testi) yapılarak sızdırmazlık raporlanmadan seramik kaplama aşamasına geçilmemelidir.</p>
+<p>Su yalıtımı çift bileşenli çimento veya akrilik esaslı sürme malzemelerle en az iki kat halinde uygulanmalıdır. Katlar birbirine dik doğrultuda sürülmeli; katlar arası bekleme süresi ürünün teknik föyüne göre belirlenmelidir (çoğu üründe birkaç saat). İmalat sonrasında yüzeyde göllenme testi (24 saat su altında bekletme testi) yapılarak sızdırmazlık raporlanmadan seramik kaplama aşamasına geçilmemelidir.</p>
 </div>

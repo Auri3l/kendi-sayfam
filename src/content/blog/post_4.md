@@ -11,7 +11,7 @@ excerpt: "Giydirme cephe sistemlerinin rüzgar, hava, su sızdırmazlığı ve s
 <p>Giydirme cephe sistemlerinin tasarım aşamasındaki statik, sızdırmazlık ve sismik hesaplarının sahada doğrulanması amacıyla <strong>Mock-up (Performans) Testleri</strong> uygulanır. Bu süreç, imalat öncesi sistem hatalarını tespit etmeyi hedefler.</p>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">1. Mock-up Testi Nedir ve Neden Yapılır?</h4>
-<p>Mock-up testi, sahada kurulacak cephe sisteminin tipik bir modülünün (genellikle iki kat yüksekliğinde ve en az üç modül genişliğinde), laboratuvarda test odasına (chamber) kurularak uluslararası standartlara (EN 13830 / AAMA) göre test edilmesidir.</p>
+<p>Mock-up testi, sahada kurulacak cephe sisteminin tipik bir modülünün (genellikle iki kat yüksekliğinde ve en az üç modül genişliğinde), laboratuvarda test odasına (chamber) kurularak ilgili test standartlarına göre (Avrupa'da EN 13830 kapsamındaki EN 12153, EN 12155, EN 12179 vb.; ABD'de AAMA 501 ve ASTM E283/E330/E331) test edilmesidir.</p>
 
 <!-- Mini Interactive Mock-up Simulator Widget -->
 <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: 2rem; margin: 2.5rem 0;">
@@ -51,7 +51,7 @@ excerpt: "Giydirme cephe sistemlerinin rüzgar, hava, su sızdırmazlığı ve s
 <strong id="mockupDeflect" style="color: var(--accent-color);">-</strong>
 </div>
 <div style="display: flex; justify-content: space-between;">
-<span style="color: var(--text-secondary);">İzin Verilen Limit (L/200 veya 15mm):</span>
+<span style="color: var(--text-secondary);">İzin Verilen Limit (basitleştirilmiş: L/200, en fazla 15 mm):</span>
 <strong id="mockupLimit" style="color: var(--accent-color);">-</strong>
 </div>
 <div style="display: flex; justify-content: space-between;">

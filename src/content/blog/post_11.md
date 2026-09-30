@@ -10,7 +10,7 @@ excerpt: "Şantiyede İtalyan boya olarak bilinen mermer efektli macun, kumlu se
 <div class="rich-post-content">
 <p>İnşaat ve mimari dekorasyon uygulamalarında <strong>"İtalyan Boya"</strong> tabiri; klasik düz duvar boyalarından farklı olarak duvara derinlik, desen ve doku kazandıran <strong>özel efektli mineral sıvalar ve dekoratif kaplamaları</strong> ifade eder. Mermer dokulu pürüzsüz macunlardan kumlu-sedefli fırça boyalarına, brüt beton görünümlü kaba sıvalardan traverten damarlı kaplamalara kadar geniş bir ürün yelpazesini kapsar.</p>
 
-<p>Bu teknik rehberde; dokulu ve efekt boyaların ana çeşitlerini, başarının %80'ini belirleyen alt zemin hazırlık kurallarını, çelik mala ve efekt aparatları ile uygulama yöntemlerini ve şantiye sarfiyat hesaplarını ele alıyoruz.</p>
+<p>Bu teknik rehberde; dokulu ve efekt boyaların ana çeşitlerini, sonucu en çok belirleyen alt zemin hazırlık kurallarını, çelik mala ve efekt aparatları ile uygulama yöntemlerini ve şantiye sarfiyat hesaplarını ele alıyoruz.</p>
 
 <h4 style="color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1rem;">1. Dokulu & Efekt (İtalyan) Boya Çeşitleri</h4>
 

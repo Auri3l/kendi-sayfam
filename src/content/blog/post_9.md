@@ -13,16 +13,16 @@ excerpt: "Binalarda Enerji Performansı (EKB) yönetmeliğindeki Neredeyse Sıf�
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">1. Enerji Kimlik Belgesi (EKB) ve Sınıflandırma</h4>
 <p>EKB, bir binanın yıllık metrekare başına tükettiği primer enerji miktarını ve sera gazı salım oranını gösteren resmi belgedir. A (en verimli) ile G (en verimsiz) arasında 7 sınıftan oluşur.</p>
 <ul>
-    <li><strong>Yeni Binalar:</strong> İmar Kanunu ve BEP yönetmeliği uyarınca, yeni inşa edilecek binaların ruhsat alabilmesi için <strong>en az C sınıfı</strong> enerji kimlik belgesine sahip olması zorunludur. C sınıfının altında kalan yeni projelere belediyeler tarafından yapı ruhsatı verilmez.</li>
-    <li><strong>Mevcut (Eski) Binalar:</strong> 2011 yılından önce ruhsat almış binalar "Mevcut Bina" statüsündedir. Bu binalar için asgari bir enerji sınıfı sınırı yoktur (D, E, F veya G sınıfı alabilirler). Ancak, tapuda alım-satım ve kiralama işlemlerinde EKB ibrazı zorunludur. Ayrıca, mevcut bir binada toplam kullanım alanının %25'inden fazlasını kapsayan esaslı tadilatlarda, tadilat yapılan kısımların enerji performansının C sınıfı seviyesine yükseltilmesi şart koşulur.</li>
+    <li><strong>Yeni Binalar:</strong> BEP Yönetmeliği uyarınca yeni binaların enerji performans sınıfı <strong>en az C</strong> olmalıdır. Bu şart ruhsat aşamasında enerji performansı hesaplarıyla, yapı kullanma izin (iskân) aşamasında ise düzenlenen enerji kimlik belgesiyle gösterilir.</li>
+    <li><strong>Mevcut (Eski) Binalar:</strong> Yeni bina şartlarına tabi olmayan mevcut binalar için asgari bir enerji sınıfı aranmaz; D, E, F veya G sınıfı belge alabilirler. Ancak alım-satım ve kiralama işlemlerinde EKB düzenlenmiş olması şarttır. Binanın yıllık birincil enerji ihtiyacını değiştiren bir tadilat yapıldığında EKB'nin yenilenmesi gerekir; esaslı tadilatlarda uygulanacak performans şartları için yönetmeliğin güncel metni kontrol edilmelidir.</li>
 </ul>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">Mevzuat Geçiş Süreci: Ruhsatı Alınmış Ancak Bitmemiş Binaların Durumu</h4>
-<p>İnşaat sektöründe en çok merak edilen konulardan biri de yeni yasa yürürlüğe girdiğinde, <strong>önceden ruhsatı alınmış fakat henüz iskan aşamasına gelmemiş (inşaatı süren)</strong> binaların durumudur. Bu konuda yasal çerçeve oldukça nettir:</p>
+<p>İnşaat sektöründe en çok merak edilen konulardan biri de yeni yasa yürürlüğe girdiğinde, <strong>önceden ruhsatı alınmış fakat henüz iskan aşamasına gelmemiş (inşaatı süren)</strong> binaların durumudur. Genel çerçeve şöyledir; somut projede yönetmeliğin geçiş hükümleri ve ilgili idarenin uygulaması mutlaka kontrol edilmelidir:</p>
 <ul>
-    <li><strong>Kazanılmış Hak İlkesi:</strong> Yeni yönetmelik yürürlüğe girmeden önce belediyeden geçerli bir yapı ruhsatı almış olan projeler, ruhsat tarihindeki BEP yönetmeliğine tabidir. Bu binalar henüz tamamlanmamış olsa bile geriye dönük olarak NZEB (%10 yenilenebilir enerji ve asgari B sınıfı) zorunluluğuna tabi tutulamazlar. Eski mevzuata göre asgari C sınıfı şartını sağlamaları iskan (yapı kullanma izin belgesi) alabilmeleri için yeterlidir.</li>
-    <li><strong>5 Yıllık Ruhsat Süresi ve Yenileme Tehlikesi:</strong> Ancak 3194 sayılı İmar Kanunu'nun 29. maddesi gereğince, alınan bir yapı ruhsatının geçerlilik süresi <strong>5 yıldır</strong>. Ruhsat tarihinden itibaren 5 yıl içinde inşaatı tamamlanarak iskan alınmamış binaların ruhsatı hükümsüz (geçersiz) hale gelir.</li>
-    <li><strong>Yeni Mevzuata Uyum Zorunluluğu:</strong> Süresi dolan ruhsatın yenilenmesi (ruhsat temditi) veya inşaat sürecinde yapılacak köklü bir değişiklik sebebiyle <strong>tadilat ruhsatı</strong> başvurusu yapıldığında, başvuru tarihi itibarıyla yürürlükte olan güncel yönetmelik hükümleri uygulanır. Eğer yenileme tarihi yeni yönetmeliğin yürürlük tarihinden sonraya denk geliyorsa, bitmemiş binanın güncel NZEB kriterlerine (B sınıfı EKB ve %10 yenilenebilir enerji payı) uyum sağlaması zorunlu tutulur. Bu da projede ciddi revizyonlar ve ek maliyetler doğurur.</li>
+    <li><strong>Kazanılmış Hak İlkesi:</strong> Genel kural olarak, yeni hükümler yürürlüğe girmeden önce geçerli yapı ruhsatı almış projeler ruhsat tarihindeki mevzuata göre değerlendirilir. Bu nedenle NSEB şartları (asgari B sınıfı ve %10 yenilenebilir enerji payı) çoğunlukla bu projelere geriye dönük uygulanmaz; ruhsat tarihindeki şartları sağlamaları beklenir.</li>
+    <li><strong>5 Yıllık Ruhsat Süresi ve Yenileme Tehlikesi:</strong> 3194 sayılı İmar Kanunu'nun 29. maddesine göre ruhsat tarihinden itibaren <strong>2 yıl içinde</strong> yapıya başlanmazsa ruhsat hükümsüz sayılır. Yapıya başlama tarihinden itibaren <strong>5 yıl içinde</strong> bitirilmeyen yapılar için ise ruhsat alınması (yenilenmesi) gerekir.</li>
+    <li><strong>Yeni Mevzuata Uyum Zorunluluğu:</strong> Süresi dolan ruhsatın yenilenmesi (ruhsat temditi) veya inşaat sürecinde yapılacak köklü bir değişiklik sebebiyle <strong>tadilat ruhsatı</strong> başvurusu yapıldığında, başvuru tarihi itibarıyla yürürlükte olan güncel yönetmelik hükümleri uygulanır. Yenileme yeni hükümlerin yürürlüğünden sonraya denk gelirse, bitmemiş binadan güncel NSEB kriterlerine (B sınıfı ve %10 yenilenebilir enerji payı) uyum istenebilir. Bu da projede ciddi revizyonlar ve ek maliyetler doğurur.</li>
 </ul>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">kWh/m²-yıl (Birincil Enerji) Değeri Nasıl Hesaplanır ve Tahmin Edilir?</h4>
@@ -32,11 +32,11 @@ excerpt: "Binalarda Enerji Performansı (EKB) yönetmeliğindeki Neredeyse Sıf�
     <li><strong>Mekanik Projenin Rolü:</strong> Isıtma ve soğutma sistemlerinin güçleri, klima ve ısı pompası verimleri (COP/EER), sıcak su cihazlarının kapasiteleri mekanik projelerden alınır.</li>
     <li><strong>Mimari Projenin Rolü:</strong> Binanın cephe mantolama kalınlığı, yönü, pencerelerin ısı geçirgenliği ($U_g$) mimari projelerden alınır.</li>
 </ul>
-<p>Bu veriler, Bakanlığın resmi yazılımı olan <strong>BEP-TR II</strong> simülasyon sistemine yüklenir. Program, yapıyı o ilin iklim verileriyle 365 gün (8760 saat) çalıştırarak yıllık toplam tüketimi hesaplar ve inşaat alanına bölerek nihai kWh/m²-yıl değerini bulur.</p>
+<p>Bu veriler, Bakanlığın resmi yazılımı olan <strong>BEP-TR II</strong> simülasyon sistemine yüklenir. Program, binanın bulunduğu ilin iklim verileriyle yıllık birincil enerji ihtiyacını (kWh/m²-yıl) hesaplar. Enerji sınıfı ise bu değerin mutlak büyüklüğüne göre değil, aynı binanın yönetmelik şartlarına göre tanımlanan <strong>referans bina</strong> haline oranına göre belirlenir: referans bina = 100 kabul edilirse A: 0–39, B: 40–79, C: 80–99, D: 100–119, E: 120–139, F: 140–174, G: 175 ve üzeri.</p>
 
 <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); padding: 1.25rem; margin: 1.5rem 0;">
 <strong style="color: var(--text-primary); display: block; margin-bottom: 0.5rem; font-size: 1rem;">Pratik Tahmin & Benchmarking Tablosu:</strong>
-<p style="font-size: 0.85rem; margin-bottom: 0.5rem;">Resmi simülasyon öncesinde projenizin kabaca hangi sınıfa gireceğini öngörmek için şu tahmini değerler referans alınabilir:</p>
+<p style="font-size: 0.85rem; margin-bottom: 0.5rem;">Aşağıdaki aralıklar yalnızca kaba bir fikir vermek içindir. Sınıf referans binaya göre belirlendiği için aynı kWh/m²-yıl değeri farklı iklim bölgesinde ve bina tipinde farklı sınıfa denk gelebilir:</p>
 <table style="width: 100%; font-size: 0.8rem; border-collapse: collapse; text-align: left;">
     <thead>
         <tr style="border-bottom: 2px solid var(--border-color); color: var(--text-primary);">
@@ -84,20 +84,20 @@ excerpt: "Binalarda Enerji Performansı (EKB) yönetmeliğindeki Neredeyse Sıf�
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">2. Yeni Yüzdelik Dönüşüm Şartı: NZEB (NSEB) Nedir?</h4>
 <p>Yönetmelikte yapılan son güncellemelerle birlikte, Türkiye genelinde <strong>Neredeyse Sıfır Enerjili Binalar (NZEB)</strong> konseptine kademeli geçiş başlamıştır. Güncel mevzuata göre:</p>
 <ul>
-    <li>Toplam inşaat alanı <strong>2.000 m² ve üzerinde</strong> olan tüm yeni binaların enerji performans sınıfının <strong>en az B</strong> olması zorunludur.</li>
-    <li>Bu binaların, kullandıkları birincil enerjinin <strong>en az %10'unu</strong> güneş panelleri (fotovoltaik), rüzgar enerjisi, ısı pompaları veya kojenerasyon gibi kendi ürettikleri <strong>yenilenebilir enerji kaynaklarından</strong> karşılaması yasal bir zorunluluk haline getirilmiştir.</li>
+    <li>1 Ocak 2025 itibarıyla toplam yapı inşaat alanı <strong>2.000 m² ve üzerinde</strong> olan yeni binaların NSEB olarak tasarlanması ve enerji performans sınıfının <strong>en az B</strong> olması zorunludur.</li>
+    <li>Bu binaların, kullandıkları birincil enerjinin <strong>en az %10'unu</strong> güneş panelleri (fotovoltaik), güneş kolektörleri, ısı pompaları veya rüzgar gibi kendi ürettikleri <strong>yenilenebilir enerji kaynaklarından</strong> karşılaması yasal bir zorunluluk haline getirilmiştir.</li>
 </ul>
 
 <!-- Mini Interactive EKB & NZEB Permitting Simulator Widget -->
 <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: 2rem; margin: 2.5rem 0;">
-<h4 style="color: var(--text-primary); margin-top: 0; margin-bottom: 1.5rem; font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">Belediye İmar Ruhsatı & NZEB Uygunluk Testi</h4>
+<h4 style="color: var(--text-primary); margin-top: 0; margin-bottom: 1.5rem; font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">BEP & NZEB Uygunluk Testi</h4>
 
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
 <div>
 <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Bina Durumu / Türü</label>
 <select id="bepStatus" onchange="toggleRenewableInput()" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;">
 <option value="new">Yeni Yapı (Ruhsat Aşamasında)</option>
-<option value="existing">Mevcut Yapı (2011 Öncesi)</option>
+<option value="existing">Mevcut Yapı</option>
 </select>
 </div>
 <div>
@@ -108,8 +108,8 @@ excerpt: "Binalarda Enerji Performansı (EKB) yönetmeliğindeki Neredeyse Sıf�
 
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
 <div>
-<label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Yıllık Tüketim (kWh/m²-yıl)</label>
-<input type="number" id="bepConsumption" value="85" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;">
+<label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Referans Binaya Göre Enerji İhtiyacı (Referans = 100)</label>
+<input type="number" id="bepConsumption" value="70" style="width: 100%; padding: 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;">
 </div>
 <div id="renewableContainer">
 <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Yenilenebilir Enerji Payı (%)</label>
@@ -117,7 +117,7 @@ excerpt: "Binalarda Enerji Performansı (EKB) yönetmeliğindeki Neredeyse Sıf�
 </div>
 </div>
 
-<button onclick="checkBepCompliance()" style="width: 100%; padding: 0.75rem; background: var(--accent-color); color: var(--bg-primary); border: none; border-radius: 4px; font-weight: 700; cursor: pointer; transition: background 0.2s;">Ruhsat Uygunluğunu Sorgula</button>
+<button onclick="checkBepCompliance()" style="width: 100%; padding: 0.75rem; background: var(--accent-color); color: var(--bg-primary); border: none; border-radius: 4px; font-weight: 700; cursor: pointer; transition: background 0.2s;">Enerji Şartlarını Kontrol Et</button>
 
 <div style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;">
 <div style="display: flex; justify-content: space-between;">
@@ -129,7 +129,7 @@ excerpt: "Binalarda Enerji Performansı (EKB) yönetmeliğindeki Neredeyse Sıf�
 <strong id="bepNzebStatus" style="color: var(--accent-color);">-</strong>
 </div>
 <div style="display: flex; justify-content: space-between;">
-<span style="color: var(--text-secondary);">İmar Ruhsatı Onay Durumu:</span>
+<span style="color: var(--text-secondary);">Enerji Şartları (Ön Değerlendirme):</span>
 <strong id="bepPermitResult" style="color: var(--accent-color); font-weight: 800;">-</strong>
 </div>
 <div style="display: flex; flex-direction: column; gap: 0.25rem;">
@@ -155,15 +155,15 @@ function checkBepCompliance() {
     var cons = parseFloat(document.getElementById('bepConsumption').value) || 0;
     var renew = parseFloat(document.getElementById('bepRenewable').value) || 0;
     
-    // Class evaluation based on consumption indexes (approximate BEP scale)
+    // EKB class by ratio to reference building (reference = 100)
     var energyClass = 'G';
     var classColor = '#e74c3c';
-    if (cons < 45) { energyClass = 'A'; classColor = '#2ecc71'; }
+    if (cons < 40) { energyClass = 'A'; classColor = '#2ecc71'; }
     else if (cons < 80) { energyClass = 'B'; classColor = '#27ae60'; }
-    else if (cons < 120) { energyClass = 'C'; classColor = '#f1c40f'; }
-    else if (cons < 170) { energyClass = 'D'; classColor = '#e67e22'; }
-    else if (cons < 220) { energyClass = 'E'; classColor = '#d35400'; }
-    else if (cons < 280) { energyClass = 'F'; classColor = '#c0392b'; }
+    else if (cons < 100) { energyClass = 'C'; classColor = '#f1c40f'; }
+    else if (cons < 120) { energyClass = 'D'; classColor = '#e67e22'; }
+    else if (cons < 140) { energyClass = 'E'; classColor = '#d35400'; }
+    else if (cons < 175) { energyClass = 'F'; classColor = '#c0392b'; }
     
     var nzebApplies = (status === 'new' && area >= 2000);
     
@@ -201,15 +201,15 @@ function checkBepCompliance() {
     var notesEl = document.getElementById('bepNotes');
     
     if (permitApproved) {
-        resultEl.innerText = 'İMAR RUHSATI ONAYLANDI (APPROVED)';
+        resultEl.innerText = 'ENERJİ ŞARTLARI SAĞLANIYOR';
         resultEl.style.color = '#2ecc71';
         if (status === 'new') {
-            notesEl.innerText = 'Projeniz BEP yönetmeliği kriterlerine uygundur. Yapı ruhsatı düzenlenebilir.' + (nzebApplies ? ' (NZEB Uyumlu)' : '');
+            notesEl.innerText = 'Girilen değerlere göre projeniz BEP enerji sınıfı ve yenilenebilir enerji şartlarını karşılıyor görünüyor. Bu bir ön değerlendirmedir; kesin sonuç BEP-TR hesabıyla belirlenir.' + (nzebApplies ? ' (NZEB Uyumlu)' : '');
         } else {
             notesEl.innerText = notes;
         }
     } else {
-        resultEl.innerText = 'İMAR RUHSATI REDDEDİLDİ (REJECTED)';
+        resultEl.innerText = 'ENERJİ ŞARTLARI SAĞLANMIYOR';
         resultEl.style.color = '#e74c3c';
         notesEl.innerText = notes;
     }
@@ -228,6 +228,6 @@ function checkBepCompliance() {
 
 <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); padding: 1.5rem; margin: 2rem 0; border-left: 4px solid var(--accent-color);">
 <strong style="color: var(--text-primary); display: block; margin-bottom: 0.5rem; font-size: 1.1rem;">Uygulama Notu:</strong>
-Çatı üzeri güneş paneli (Fotovoltaik - PV) kurulumlarında belediyeler imar yönetmeliklerine göre panel yüksekliklerini saçak seviyesi/bina yüksekliği sınırlandırmalarından muaf tutmaktadır. Bu durum montaj yerleşiminde mimari açıdan büyük bir esneklik sağlamaktadır.
+Çatı üstü güneş panellerinin (PV) yükseklik, çatı eğimine uyum ve yerleşim kuralları Planlı Alanlar İmar Yönetmeliği ile belediyelerin imar yönetmeliklerine göre değişebilir. Panel yerleşimi avan proje aşamasında ilgili idarenin kurallarıyla kontrol edilmeli, statik projede panel ve rüzgar yükleri hesaba katılmalıdır.
 </div>
 </div>

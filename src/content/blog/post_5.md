@@ -93,8 +93,8 @@ function calculateEOT() {
 </div>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">2. Gecikme Cezaları (Liquidated Damages)</h4>
-<p>Gecikme cezaları (LD), işin gecikmesi durumunda işverenin uğrayacağı gerçek zararı kanıtlama yükümlülüğü olmaksızın tahsil edebileceği, önceden kararlaştırılmış maktu tazminattır. Genellikle haftalık veya günlük olarak hesaplanır ve sözleşme toplam bedelinin %10'u ile sınırlandırılır.</p>
-<p>Yüklenici, işverenden kaynaklı gecikmeleri (proje gecikmesi, yer teslimi gecikmesi, ödemelerin gecikmesi) zamanında raporlayarak EOT alabilirse, bu süreye tekabül eden gecikme cezalarından muaf tutulur ve ek genel gider maliyetlerini (prolongation costs) talep edebilir.</p>
+<p>Gecikme cezaları (LD), işin gecikmesi durumunda işverenin uğrayacağı gerçek zararı kanıtlama yükümlülüğü olmaksızın tahsil edebileceği, önceden kararlaştırılmış maktu tazminattır. Genellikle haftalık veya günlük olarak hesaplanır ve sözleşmede belirlenen bir üst sınırla (uygulamada sıklıkla sözleşme bedelinin %10'u) sınırlandırılır. FIDIC'te bu konu 1999 sürümünde Alt-Madde 8.7, 2017 sürümünde 8.8 (Delay Damages) altında düzenlenir; oran ve üst sınır Sözleşme Verileri'nde yazar.</p>
+<p>Yüklenici, işverenden kaynaklı gecikmeleri (çizim veya talimatların geç verilmesi, sahanın geç teslimi, işverenin talimatıyla işin durdurulması) zamanında raporlayarak EOT alabilirse, bu süreye tekabül eden gecikme cezalarından muaf tutulur ve ek genel gider maliyetlerini (prolongation costs) talep edebilir.</p>
 
 <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); padding: 1.5rem; margin: 2rem 0; border-left: 4px solid var(--accent-color);">
 <strong style="color: var(--text-primary); display: block; margin-bottom: 0.5rem; font-size: 1.1rem;">Sözleşme Uzmanı İpucu:</strong>

@@ -8,7 +8,7 @@ draft: false
 excerpt: "Çevre, Şehircilik ve İklim Değişikliği Bakanlığı'nın Resmî Gazete'de yayımladığı yeni BIM ve IFC yönetmeliği; e-PYS üzerinden ruhsat teslimi, openBIM (ISO 16739), kademeli geçiş takvimi ve teknik ofis hazırlıkları."
 ---
 <div class="rich-post-content">
-<p>Çevre, Şehircilik ve İklim Değişikliği Bakanlığı tarafından hazırlanan ve <strong>5 Ağustos 2026 tarihli Resmî Gazete</strong>'de yayımlanan iki devrim niteliğindeki yönetmelik, Türk inşaat sektöründe 2 boyutlu CAD çizim dönemini resmi olarak kapatarak <strong>Yapı Bilgi Modellemesi (BIM)</strong> ve <strong>IFC (Industry Foundation Classes)</strong> tabanlı dijital ruhsat çağını başlatmıştır.</p>
+<p>Çevre, Şehircilik ve İklim Değişikliği Bakanlığı tarafından hazırlanan ve <strong>5 Ağustos 2026 tarihli Resmî Gazete</strong>'de yayımlanan iki devrim niteliğindeki yönetmelik, ruhsat projelerinde kademeli olarak PDF/A formatında dijital paftaya, ardından <strong>Yapı Bilgi Modellemesi (BIM)</strong> ve <strong>IFC (Industry Foundation Classes)</strong> tabanlı model teslimine geçişi başlatmıştır.</p>
 
 <p>Bu makalede; yeni mevzuatın yasal çerçevesini, e-PYS (Elektronik Proje Yönetim Sistemi) üzerinden yürütülecek dijital ruhsat onay mekanizmasını, openBIM (ISO 16739) veri standartlarını, 2027–2033 kademeli geçiş takvimini ve şantiye/teknik ofis süreçlerine getireceği yapısal dönüşümü bir şantiye şefi ve proje yöneticisi gözüyle detaylandırıyoruz.</p>
 
@@ -22,15 +22,15 @@ excerpt: "Çevre, Şehircilik ve İklim Değişikliği Bakanlığı'nın Resmî 
 <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-xs); padding: 1.25rem; margin: 1.5rem 0;">
     <strong style="color: var(--accent-color); font-family: var(--font-mono); display: block; margin-bottom: 0.5rem; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.08em;">Temel Amaç &amp; Vizyon:</strong>
     <p style="font-size: 0.90rem; color: var(--text-secondary); margin: 0; line-height: 1.6;">
-        Projelerin kağıt ortamında veya statik 2D CAD formatında incelenmesi yerine; üç boyutlu parametrik nesneler üzerinden hacim, alan, malzeme özellikleri ve çakışma testlerinin algoritmik olarak denetlenmesi; imar kaçaklarının, deprem güvenliğini riske atan statik uyumsuzlukların ve metraj manipülasyonlarının kaynağında sıfırlanması hedeflenmektedir.
+        Projelerin kağıt ortamında veya statik 2D CAD formatında incelenmesi yerine; üç boyutlu parametrik nesneler üzerinden hacim, alan, malzeme özellikleri ve çakışma testlerinin algoritmik olarak denetlenmesi; imar kaçaklarının, deprem güvenliğini riske atan statik uyumsuzlukların ve metraj ihtilaflarının kaynağında azaltılması hedeflenmektedir.
     </p>
 </div>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">2. e-PYS Platformu ve Dijital Ruhsat Onay Mekanizması</h4>
 <p>Geleneksel ruhsat süreçlerinde yaşanan ozalit baskı masrafları, fiziksel imza kuyrukları ve paftalar arası revizyon uyuşmazlıkları e-PYS ile tamamen ortadan kalkmaktadır:</p>
 <ul>
-    <li><strong>Otomatik Kural Kontrolü (Automated Rule Checking):</strong> e-PYS'ye yüklenen IFC modeli; Planlı Alanlar İmar Yönetmeliği, Türkiye Bina Deprem Yönetmeliği (TBDY 2018), Binaların Yangından Korunması Hakkında Yönetmelik ve Binalarda Enerji Performansı (BEP) kurallarına göre otomatik yazılımsal süzgeçlerden geçer. Çekme mesafeleri, emsal (KAKS/TAKS), yangın merdiveni genişlikleri ve kat yükseklikleri anında doğrulanır.</li>
-    <li><strong>Model - Pafta Birebir Eşleşmesi (Model-Drawing Parity):</strong> Proje müellifleri 2D paftalarını PDF/A formatında sunarken, bu çizimlerin doğrudan yüklenen 3D IFC modelinin kesit ve planlarından üretilmiş olması zorunludur. Modelde olmayan veya modelle çelişen hiçbir çizgi ruhsata esas kabul edilmez.</li>
+    <li><strong>Elektronik İnceleme ve Onay:</strong> Projeler e-PYS üzerinden idareye teslim edilir; inceleme, onay, bildirim ve arşivleme işlemleri sistem üzerinden yürütülür. Yönetmelik, imar veya deprem kurallarının yazılımla otomatik denetlenmesini zorunlu tutmaz; ancak IFC modelindeki yapılandırılmış veri, ileride çekme mesafesi ve emsal gibi kontrollerin otomatikleştirilmesine zemin hazırlar.</li>
+    <li><strong>Model - Pafta Birebir Eşleşmesi (Model-Drawing Parity):</strong> Proje müellifleri 2D paftalarını PDF/A formatında sunarken, BIM zorunluluğu kapsamındaki projelerde bu çizimlerin BIM modelinden üretilmesi gerekir; böylece model ile pafta arasındaki tutarsızlıklar kaynağında önlenir.</li>
     <li><strong>Nitelikli Elektronik Sertifika (E-İmza &amp; E-Mühür):</strong> Mimar, inşaat mühendisi, makine mühendisi ve elektrik mühendisi projelerini kendi disiplin modellerine dijital zaman damgalı e-imza atarak teslim eder. Yapı denetim firmaları ve belediye ruhsat birimleri onaylarını yine sistem üzerinden dijital olarak tamamlar.</li>
 </ul>
 
@@ -42,7 +42,7 @@ excerpt: "Çevre, Şehircilik ve İklim Değişikliği Bakanlığı'nın Resmî 
         <tr>
             <th>IFC Varlık Sınıfı (Entity)</th>
             <th>Mühendislik Karşılığı</th>
-            <th>Gerekli Asgari Öznitelik Seti (Property Set - Pset)</th>
+            <th>Örnek Öznitelikler (zorunlu liste yönetmelik ekindedir)</th>
         </tr>
     </thead>
     <tbody>
@@ -69,22 +69,24 @@ excerpt: "Çevre, Şehircilik ve İklim Değişikliği Bakanlığı'nın Resmî 
     </tbody>
 </table>
 
-<p>Ruhsat aşamasında modellerin <strong>LOD 300 / LOIN (Level of Information Need)</strong> seviyesinde olması; geometrik hassasiyetin yanı sıra malzeme yoğunluğu, ısı iletkenliği ($\lambda$), yangın tepki sınıfı ve taşıyıcı karakteristik değerlerini içermesi gerekmektedir.</p>
+<p>Modellerin, yönetmelik ekinde tanımlanan <strong>model gelişim seviyesine</strong> ve <strong>zorunlu proje özniteliklerine</strong> uygun hazırlanması, kalite kontrol formlarıyla da model bütünlüğünün gösterilmesi gerekir. Model, TS EN ISO 19650 bilgi yönetimi ilkelerine ve TS EN ISO 16739-1 (IFC) standardına uygun olmalıdır.</p>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">4. Kademeli Geçiş Takvimi ve Muafiyetler (2027 – 2033)</h4>
-<p>Sektörün yazılım, donanım ve insan kaynağı adaptasyonunu sağlamak amacıyla Bakanlık 6 yıllık kademeli bir geçiş planı ilan etmiştir:</p>
+<p>Sektörün yazılım, donanım ve insan kaynağı adaptasyonunu sağlamak amacıyla yönetmelikler kademeli olarak uygulanır. Aşağıdaki takvim yönetmeliklerin yayımlanmasının ardından aktarılan özettir; kesin eşikler için Resmî Gazete metni esas alınmalıdır:</p>
 
 <ul>
-    <li><strong>1 Eylül 2027:</strong> Mimarlık ve mühendislik projelerinin BIM tabanlı dijital hazırlanmasına yönelik standartlar yürürlüğe girer.</li>
-    <li><strong>1 Eylül 2028:</strong> e-PYS üzerinden teslim zorunluluğu 1. Etap olarak büyükşehir belediyeleri sınırları içerisindeki belirli büyüklükteki konut projelerinde başlar.</li>
-    <li><strong>2028 – 2033 Geçiş Evresi:</strong> Toplam inşaat alanı baremleri kademeli olarak düşürülerek sistem Türkiye geneline yaygınlaştırılır.</li>
-    <li><strong>1 Eylül 2033:</strong> Konut dışı yapılar (Ofis kuleleri, AVM'ler, fabrikalar, hastaneler, oteller ve eğitim tesisleri) için tanınan geçici muafiyet sona erer ve tüm ticari yapılar sisteme dahil olur.</li>
+    <li><strong>1 Eylül 2027:</strong> Dijital hazırlama yönetmeliği yürürlüğe girer. PDF/A zorunluluğu önce büyük nüfuslu belediyelerdeki büyük projelerden (5.000 m² üzeri) başlayarak kademeli devreye girer, ardından tüm yapılara yayılır.</li>
+    <li><strong>1 Eylül 2028:</strong> e-PYS üzerinden elektronik teslim ve yönetim yönetmeliği yürürlüğe girer.</li>
+    <li><strong>1 Eylül 2029 – 1 Eylül 2031:</strong> BIM/IFC zorunluluğu, büyükşehirlerdeki büyük nüfuslu belediyelerde 10.000 m² üzeri konut projelerinden başlar; her yıl nüfus eşiği düşürülerek genişler.</li>
+    <li><strong>1 Eylül 2032:</strong> BIM/IFC zorunluluğu kalan tüm konut projelerini kapsar.</li>
+    <li><strong>1 Eylül 2033:</strong> Konut dışı yapılar (ofis, AVM, fabrika, hastane, otel, okul vb.) da BIM/IFC zorunluluğu kapsamına girer.</li>
 </ul>
 
 <h5 style="color: var(--text-primary); margin-top: 1.5rem; margin-bottom: 0.75rem;">Yönetmelikten Kalıcı Olarak Muaf Tutulan Yapılar:</h5>
 <ol style="margin-left: 1.5rem; color: var(--text-secondary); line-height: 1.7;">
     <li>Bodrum katı hariç en çok <strong>2 katlı</strong> ve toplam yapı inşaat alanı <strong>200 m²'yi geçmeyen</strong> müstakil konut ve yapılar.</li>
-    <li>Entegre tesis niteliğinde olmayan, kırsal yerleşimlerdeki tarım ve hayvancılık amaçlı köy yapıları ve müştemilatlar.</li>
+    <li>Entegre tesis niteliğinde olmayan tarım ve hayvancılık amaçlı yapılar ile köy yerleşik alanlarındaki yapılar.</li>
+    <li>İmar planı bulunmayan alanlardaki yapılar.</li>
 </ol>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">5. Şantiye ve Saha Yönetimine Doğrudan Yansımaları</h4>
@@ -100,20 +102,20 @@ excerpt: "Çevre, Şehircilik ve İklim Değişikliği Bakanlığı'nın Resmî 
     <div style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--border-radius-xs); padding: 1.25rem;">
         <strong style="color: var(--accent-color); font-family: var(--font-mono); font-size: 0.85rem; display: block; margin-bottom: 0.5rem;">02 / ÇAKIŞMA (CLASH) SIFIRLAMA</strong>
         <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0; line-height: 1.6;">
-            Kiriş ve perde duvarlardan geçen havalandırma kanalları ve yangın boruları ruhsat öncesinde sanal olarak çakıştırılacağı için, kaba yapı bittikten sonra betonarme elemanlara karot delinmesi engellenecektir.
+            Kiriş ve perde duvarlardan geçen havalandırma kanalları ve yangın boruları ruhsat öncesinde sanal olarak çakıştırılacağı için, kaba yapı bittikten sonra betonarme elemanlara sonradan karot delme ihtiyacı büyük ölçüde azalacaktır.
         </p>
     </div>
     <div style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--border-radius-xs); padding: 1.25rem;">
         <strong style="color: var(--accent-color); font-family: var(--font-mono); font-size: 0.85rem; display: block; margin-bottom: 0.5rem;">03 / AS-BUILT &amp; İSKAN ENTEGRASYONU</strong>
         <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0; line-height: 1.6;">
-            İnşaat sırasında yapılan revizyonlar IFC modeli üzerinden güncellenecek; yapı kullanım izin belgesi (iskan) aşamasında yapının dijital ikizi (Digital Twin) tapu ve belediye arşivine tescil edilecektir.
+            İnşaat sırasında yapılan revizyonlar IFC modeli üzerinden güncellenecek; yapı kullanma izin belgesi (iskân) aşamasında güncel modelin idarenin dijital arşivinde saklanması, yapının ömrü boyunca kullanılabilecek bir dijital kayıt oluşturacaktır.
         </p>
     </div>
 </div>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">6. Teknik Ofisler ve Proje Ekipleri İçin 5 Maddelik Hazırlık Rehberi</h4>
 <ol style="margin-left: 1.5rem; color: var(--text-secondary); line-height: 1.8;">
-    <li><strong>openBIM ve IFC Export Şablonlarının Oluşturulması:</strong> Kullandığınız BIM yazılımında (Revit, Allplan, ArchiCAD, Tekla, Aecosim vb.) Türkiye koordinat sistemi (ITRF96 / TUREF) ve Bakanlık Pset standartlarına uygun IFC 4.3 export konfigürasyonlarını şimdiden hazırlayın.</li>
+    <li><strong>openBIM ve IFC Export Şablonlarının Oluşturulması:</strong> Kullandığınız BIM yazılımında (Revit, Allplan, ArchiCAD, Tekla, Aecosim vb.) TS EN ISO 16739-1 (IFC) standardına ve yönetmelik ekindeki zorunlu proje özniteliklerine uygun IFC export şablonlarını şimdiden hazırlayın.</li>
     <li><strong>Ortak Veri Ortamı (CDE - Common Data Environment) Kurulumu:</strong> ISO 19650 standardına uygun olarak mimari, statik, mekanik ve elektrik disiplinlerinin modellerini haftalık koordinasyon toplantılarıyla birleştiren çalışma disiplinine geçin.</li>
     <li><strong>Model-Pafta Bütünlüğü Denetimi:</strong> Çizim ofisinizde 2D çizgi çizme alışkanlığını terk ederek, pafta çıktılarının %100 3D model kesit ve planlarından parametrik olarak türetilmesini zorunlu kılın.</li>
     <li><strong>Nitelikli E-İmza Altyapısı:</strong> Proje müellifleri ve teknik ofis çalışanlarının e-PYS sisteminde geçerli 5070 sayılı kanuna uygun elektronik imza ve zaman damgası tedarik süreçlerini tamamlayın.</li>
@@ -126,4 +128,5 @@ excerpt: "Çevre, Şehircilik ve İklim Değişikliği Bakanlığı'nın Resmî 
         5 Ağustos 2026 Resmî Gazete yönetmelikleri, Türkiye'de inşaat mühendisliği ve şantiye yönetimini çağdaş dünya standartlarına taşıyan en kritik yapısal reformdur. 1 Eylül 2027 ve 1 Eylül 2028 tarihlerine bugünden hazırlanan mühendislik ofisleri ve müteahhitlik firmaları; hata maliyetlerini düşürerek, metraj hassasiyetini artırarak ve ruhsat süreçlerini hızlandırarak sektörde belirleyici bir rekabet avantajı elde edecektir.
     </p>
 </div>
+<p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 1.5rem;">Kaynak: Resmî Gazete, 5 Ağustos 2026, Sayı 33331. Geçiş takvimindeki eşikler yönetmelik metninden kontrol edilmelidir.</p>
 </div>

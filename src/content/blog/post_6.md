@@ -88,10 +88,10 @@ function calculateScreedMix() {
 </div>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">2. Lateks Adhezyon Artırıcı ve Elastikiyet Katkıları</h4>
-<p>Polimer esaslı lateks katkılar (örneğin SBR lateks), şapın aderansını (yapışma gücünü) dramatik şekilde artırır. Özellikle eski beton zeminler üzerine dökülecek şapların alt zemine tutunmasını kolaylaştırır, şapın su geçirimsizliğini geliştirir ve rötre büzülmelerine karşı elastikiyet sağlar. Yerden ısıtma tesisatı olan zeminlerde ısı genleşmelerini sönümlemek adına lateks katkı kullanımı zorunludur.</p>
+<p>Polimer esaslı lateks katkılar (örneğin SBR lateks), şapın aderansını (yapışma gücünü) dramatik şekilde artırır. Özellikle eski beton zeminler üzerine dökülecek şapların alt zemine tutunmasını kolaylaştırır, şapın su geçirimsizliğini geliştirir ve rötre büzülmelerine karşı elastikiyet sağlar. Yerden ısıtmalı zeminlerde ise şap kalınlığı, genleşme derzleri ve katkı seçimi sistem üreticisinin talimatlarına ve TS EN 1264'e göre belirlenmelidir.</p>
 
 <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); padding: 1.5rem; margin: 2rem 0; border-left: 4px solid var(--accent-color);">
 <strong style="color: var(--text-primary); display: block; margin-bottom: 0.5rem; font-size: 1.1rem;">Uygulama Uyarısı:</strong>
-Şap dökümünden sonraki ilk 48 saat boyunca yüzeyin doğrudan güneş ışığı alması veya rüzgara maruz kalması engellenmeli, yüzey naylon örtüyle örtülerek veya düzenli nemlendirilerek hidratasyon hızı korunmalıdır.
+Şap dökümünden sonraki ilk 48 saat boyunca yüzeyin doğrudan güneş ışığı alması veya rüzgara maruz kalması engellenmeli, yüzey naylon örtüyle örtülerek veya düzenli nemlendirilerek erken su kaybı önlenmelidir.
 </div>
 </div>

@@ -11,10 +11,10 @@ excerpt: "Modern giydirme cephe projelerinde doğru cam seçimi, binanın enerji
 <p>Giydirme cephe sistemlerinde cam üniteleri; binanın rüzgar yükü dayanımı, ısı geçirgenlik katsayısı ($U_g$), akustik performansı ve güneş kontrolü (SHGC / g-değeri) gereksinimlerini karşılamak üzere projelendirilir.</p>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">1. Isı ve Güneş Kontrol Performansı</h4>
-<p>Güneş kontrol kaplamalı çift veya üç camlı yalıtım üniteleri (IGU), binanın ısıtma ve soğutma yüklerini optimize eder. Dış camda Low-E kaplama kullanılması kızılötesi ışınları yansıtarak ısı iletimini sınırlar. Cam ara boşluğunda kuru hava yerine argon gazı dolgusu yapılması ısı geçirgenlik katsayısını ($U_g$) düşürür.</p>
+<p>Güneş kontrol kaplamalı çift veya üç camlı yalıtım üniteleri (IGU), binanın ısıtma ve soğutma yüklerini optimize eder. Güneş kontrol ve Low-E kaplamalar genellikle dış camın iç yüzeyine (2. yüzey) uygulanır; kızılötesi ışınımı yansıtarak ısı kazancını ve kaybını sınırlar. Cam ara boşluğunda kuru hava yerine argon gazı dolgusu yapılması ısı geçirgenlik katsayısını ($U_g$) düşürür.</p>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">2. Emniyet ve Dayanım: Temperleme ve Laminasyon</h4>
-<p>Yüksek yapılarda cephe camları rüzgar yükü ve termal gerilmelere maruz kalır. Termal kırılmaları önlemek için cam paneller ısıl işleme (temperleme veya yarı temperleme) tabi tutulur. Emniyet ve düşme güvenliği için iç ve dış cam paneller akustik PVB (Polivinil Bütiral) ara katmanı ile lamine edilir.</p>
+<p>Yüksek yapılarda cephe camları rüzgar yükü ve termal gerilmelere maruz kalır. Termal kırılmaları önlemek için cam paneller ısıl işleme (temperleme veya yarı temperleme) tabi tutulur. Kırılma sonrası parçaların yerinde kalması ve düşme güvenliği için camlar PVB (Polivinil Bütiral) ara katmanlı lamine olarak üretilir; akustik performans gereken yerlerde akustik PVB tercih edilir.</p>
 
 <!-- Mini Interactive Glass Calculator Widget -->
 <div style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: 2rem; margin: 2.5rem 0;">
@@ -73,5 +73,5 @@ function calculateGlassWeight() {
 </div>
 
 <h4 style="color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem;">3. Yapısal Ağırlık ve Montaj Planlaması</h4>
-<p>Cam kalınlığı arttıkça panel ağırlıkları katlanarak artar. Hesaplanan bu statik ağırlıklar; ankraj tasarımlarını, döşeme taşıma kapasitelerini, rüzgar sehim sınırlarını ve şantiyede kullanılacak örümcek vinç/vantuz ekipmanlarının kapasite seçimlerini doğrudan belirler. Bu nedenle cam tasarımı yapılmadan hiçbir taşıyıcı ankraj imalatına başlanmamalıdır.</p>
+<p>Cam ağırlığı toplam kalınlıkla doğru orantılı artar (yaklaşık 2,5 kg/m² her 1 mm için). Hesaplanan bu ağırlıklar; ankraj tasarımlarını, döşeme taşıma kapasitelerini ve şantiyede kullanılacak örümcek vinç/vantuz ekipmanlarının kapasite seçimlerini doğrudan belirler. Bu nedenle cam tasarımı yapılmadan hiçbir taşıyıcı ankraj imalatına başlanmamalıdır.</p>
 </div>
