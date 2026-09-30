@@ -29,12 +29,12 @@ export const PROFILE_DATA = {
         },
         {
             role: "İnşaat Mühendisi / Teknik Ofis & Proje Şefi",
-            roleEn: "Civil Engineer / Technical Office & Site Manager",
+            roleEn: "Civil Engineer / Technical Office & Project Lead",
             company: "AA&TD Building Solutions (NCC Projesi)",
             period: "Aralık 2023 - Mart 2026 (2 Yıl 4 Ay)",
             periodEn: "Dec 2023 - Mar 2026 (2 Yrs 4 Mos)",
             location: "Tuzla, İstanbul",
-            locationEn: "Istanbul, Turkey",
+            locationEn: "Tuzla, Istanbul, Turkey",
             categories: ["saha", "yonetim"],
             description: "Üstyapı projelerinde taşeron sözleşme yönetimi, teknik ofis süreçlerinin yürütülmesi, hakediş-metraj analizleri ve saha koordinasyonu.",
             descriptionEn: "Subcontractor contract administration, technical office deliverables, quantity takeoffs, progress billing, and on-site architectural coordination.",
@@ -52,15 +52,15 @@ export const PROFILE_DATA = {
             tagsEn: ["Technical Office Management", "Contract Management", "Quantity Surveying", "Project Coordination"]
         },
         {
-            role: "Proje Yöneticisi / İnşaat Mühendisi",
-            roleEn: "Project Manager / Civil Engineer",
+            role: "Associate Project Manager / İnşaat Mühendisi",
+            roleEn: "Associate Project Manager / Civil Engineer",
             company: "Metal Yapı",
             period: "Ekim 2016 - Temmuz 2023 (6 Yıl 10 Ay)",
             periodEn: "Oct 2016 - Jul 2023 (6 Yrs 10 Mos)",
             location: "İstanbul & ABD (New York)",
             locationEn: "Istanbul, Turkey & New York, USA",
             categories: ["cephe", "yonetim"],
-            description: "Amerika ve Türkiye'deki üstyapı ve cephe projelerinde ana müteahhitlere hizmet veren taşeron firma bünyesinde proje yöneticiliği, imalat planlaması ve sözleşme koordinasyonu.",
+            description: "Amerika ve Türkiye'deki üstyapı ve cephe projelerinde ana müteahhitlere hizmet veren taşeron firma bünyesinde proje yönetimi, imalat planlaması ve sözleşme koordinasyonu.",
             descriptionEn: "Project management, manufacturing planning, and international contract coordination for high-rise commercial facade systems in the US and Turkey.",
             details: [
                 "New York'taki One Madison Ave. ve One Willoughby Sq. kule projelerinde imalat ve tasarım koordinasyonunun Türkiye'den yönetimi",
@@ -76,14 +76,14 @@ export const PROFILE_DATA = {
             ],
             subRoles: [
                 { title: "Associate Project Manager", date: "Şubat 2023 - Temmuz 2023", dateEn: "Feb 2023 - Jul 2023" },
-                { title: "Assistant Project Manager", date: "Kasım 2019 - Temmuz 2023", dateEn: "Nov 2019 - Jul 2023" },
-                { title: "Civil Engineer", date: "Ekim 2016 - Temmuz 2023", dateEn: "Oct 2016 - Jul 2023" }
+                { title: "Assistant Project Manager", date: "Kasım 2019 - Ocak 2023", dateEn: "Nov 2019 - Jan 2023" },
+                { title: "Civil Engineer", date: "Ekim 2016 - Ekim 2019", dateEn: "Oct 2016 - Oct 2019" }
             ],
             tags: ["Proje Yönetimi", "Sözleşme Yönetimi", "Ana Müteahhit İlişkileri", "BIM", "Tasarım & İmalat Koordinasyonu"],
             tagsEn: ["Project Management", "Contract Administration", "GC Relations", "BIM", "Design & Fabrication Coordination"]
         },
         {
-            role: "Building Inspector (Saha Denetçisi)",
+            role: "Yapı Denetim Mühendisi (Saha Denetçisi)",
             roleEn: "Site Inspector / Civil Engineer",
             company: "İstanbul MCE Yapı Denetim Ltd. Şti.",
             period: "Şubat 2016 - Mayıs 2016 (4 Ay)",
@@ -92,7 +92,7 @@ export const PROFILE_DATA = {
             locationEn: "Istanbul, Turkey",
             categories: ["saha"],
             description: "5000 metrekare üzeri taahhütlerde yapı imalat denetimi gerçekleştirilmesi.",
-            descriptionEn: "Independent building inspection and structural quality assurance for commercial projects over 5,000 m².",
+            descriptionEn: "Building inspection and structural quality control on construction projects over 5,000 m².",
             details: [
                 "Demir donatı kontrolü ve beton döküm denetimlerinin yapılması",
                 "Yapı malzemelerinin ve imalatların yönetmeliklere uygunluğunun doğrulanması",
@@ -107,7 +107,7 @@ export const PROFILE_DATA = {
             tagsEn: ["Building Inspection", "Reinforced Concrete", "Rebar Auditing", "Code Compliance"]
         },
         {
-            role: "Site Manager (Şantiye Şefi)",
+            role: "Şantiye Şefi / Saha Mühendisi",
             roleEn: "Site Manager / Field Engineer",
             company: "Ömay Yapı",
             period: "Ekim 2015 - Aralık 2015 (3 Ay)",
@@ -129,28 +129,6 @@ export const PROFILE_DATA = {
             ],
             tags: ["Kaba İşler", "Metro İnşaatı", "Tünel İşleri", "Altyapı Koordinasyonu"],
             tagsEn: ["Structural Works", "Metro Construction", "Tunneling", "Infrastructure"]
-        },
-        {
-            role: "Stajyer Mühendis",
-            roleEn: "Engineering Intern",
-            company: "Ekol Mimarlık",
-            period: "2013 (Yaz Dönemi)",
-            periodEn: "Summer 2013",
-            location: "İstanbul, Türkiye",
-            locationEn: "Istanbul, Turkey",
-            categories: ["saha"],
-            description: "Şantiye süreçleri, mimari detayların incelenmesi ve teknik ofis işleyişi hakkında staj çalışması.",
-            descriptionEn: "Summer engineering internship focusing on on-site inspection, architectural shop drawings, and quantity takeoffs.",
-            details: [
-                "Saha imalatlarının yerinde incelenmesi",
-                "Autocad çizimlerinin ve teknik metrajların kontrollerine destek verilmesi"
-            ],
-            detailsEn: [
-                "On-site monitoring of civil and architectural finishes",
-                "Assisting with AutoCAD drafting checks and material quantity surveys"
-            ],
-            tags: ["Şantiye Stajı", "Metraj", "Autocad"],
-            tagsEn: ["Internship", "Takeoffs", "AutoCAD"]
         }
     ],
 
@@ -238,34 +216,23 @@ export const PROFILE_DATA = {
 
     // 3. MESLEKİ YETKİNLİKLER
     skills: [
-        { name: "Şantiye & Saha Yönetimi", nameEn: "Site & Field Management", level: 93 },
-        { name: "Proje Yönetimi & Planlama", nameEn: "Project Management & Scheduling", level: 90 },
-        { name: "Sözleşme & Hakediş Yönetimi", nameEn: "Contracts & Progress Billing (FIDIC)", level: 92 },
-        { name: "BIM (Yapı Bilgi Modellemesi)", nameEn: "BIM (Building Information Modeling)", level: 80 },
-        { name: "Hak Ediş & Metraj Analizi", nameEn: "Quantity Takeoff & Cost Control", level: 88 },
-        { name: "Microsoft Office & Raporlama", nameEn: "MS Office & Advanced Reporting", level: 92 }
+        { name: "Şantiye & Saha Yönetimi", nameEn: "Site & Field Management" },
+        { name: "Proje Yönetimi & Planlama", nameEn: "Project Management & Scheduling" },
+        { name: "Sözleşme & Hakediş Yönetimi", nameEn: "Contracts & Progress Billing (FIDIC)" },
+        { name: "BIM (Yapı Bilgi Modellemesi)", nameEn: "BIM (Building Information Modeling)" },
+        { name: "Hak Ediş & Metraj Analizi", nameEn: "Quantity Takeoff & Cost Control" },
+        { name: "Microsoft Office & Raporlama", nameEn: "MS Office & Advanced Reporting" }
     ],
 
     // 4. YABANCI DİLLER
     languages: [
         { name: "Türkçe", nameEn: "Turkish", level: "Anadil", levelEn: "Native", percent: 100 },
-        { name: "İngilizce", nameEn: "English", level: "Tam Profesyonel (Full Professional)", levelEn: "Full Professional (Fluent)", percent: 95 },
-        { name: "Almanca", nameEn: "German", level: "Sınırlı Yetkinlik (Limited Working)", levelEn: "Limited Working Proficiency", percent: 50 },
-        { name: "Rusça", nameEn: "Russian", level: "Sınırlı Yetkinlik (Limited Working)", levelEn: "Elementary Proficiency", percent: 45 },
-        { name: "Fransızca", nameEn: "French", level: "Sınırlı Yetkinlik (Limited Working)", levelEn: "Elementary Proficiency", percent: 40 },
-        { name: "İspanyolca", nameEn: "Spanish", level: "Başlangıç Seviyesi (Elementary)", levelEn: "Beginner", percent: 25 }
+        { name: "İngilizce", nameEn: "English", level: "Tam Profesyonel Yeterlilik", levelEn: "Full Professional (Fluent)", percent: 95 },
+        { name: "Almanca", nameEn: "German", level: "Sınırlı Çalışma Yeterliliği", levelEn: "Limited Working Proficiency", percent: 50 }
     ],
 
     // 5. EĞİTİM GEÇMİŞİ
     education: [
-        {
-            degree: "Lise: Sayısal Bölüm",
-            degreeEn: "High School: Science & Mathematics",
-            school: "Behiye Dr. Nevhiz Işıl Anadolu Lisesi",
-            schoolEn: "Behiye Dr. Nevhiz Isil Anatolian High School",
-            date: "2006 - 2011",
-            dateEn: "2006 - 2011"
-        },
         {
             degree: "Lisans: İnşaat Mühendisliği (İngilizce)",
             degreeEn: "B.Sc. in Civil Engineering (100% English Curriculum)",
