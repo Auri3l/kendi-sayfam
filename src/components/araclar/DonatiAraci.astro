@@ -1,0 +1,61 @@
+---
+// Donatı metrajı ve kesim planı — mantık: src/scripts/donati.js, donati-core.js
+---
+
+<section class="tool-panel" id="panel-donati" role="tabpanel" aria-labelledby="tab-donati" hidden>
+    <div class="donati-grid">
+        <div class="tool-card">
+            <div class="tool-card-head">
+                <h2 class="tool-card-title">Donatı listesi</h2>
+                <div class="tool-actions">
+                    <button type="button" class="link-btn" data-act="ornek">Örnek liste</button>
+                    <button type="button" class="link-btn" data-act="temizle">Temizle</button>
+                </div>
+            </div>
+            <div class="table-scroll">
+                <table class="tool-table donati-tablo">
+                    <thead><tr><th>Çap</th><th>Boy (m)</th><th>Adet</th><th>Açıklama</th><th class="num">Ağırlık</th><th><span class="sr-only">Sil</span></th></tr></thead>
+                    <tbody data-liste></tbody>
+                </table>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" data-act="ekle">+ Satır ekle</button>
+            <div class="mal-proje-grid donati-ayar">
+                <label class="tool-field"><span>Stok çubuk boyu</span><span class="tool-input"><input type="number" inputmode="decimal" min="1" step="0.5" data-s="stok"><em>m</em></span></label>
+                <label class="tool-field"><span>Kesim payı</span><span class="tool-input"><input type="number" inputmode="numeric" min="0" step="1" data-s="kesimMm"><em>mm</em></span></label>
+            </div>
+        </div>
+
+        <aside class="tool-card donati-ozet" aria-live="polite">
+            <p class="mal-sonuc-etiket">Toplam donatı</p>
+            <p class="mal-sonuc-toplam" data-k="toplamKg">—</p>
+            <dl class="mal-kpi">
+                <div><dt>Ton</dt><dd data-k="toplamTon">—</dd></div>
+                <div><dt>Gereken çubuk</dt><dd data-k="cubuk">—</dd></div>
+                <div><dt>Sipariş ağırlığı</dt><dd data-k="siparisKg">—</dd></div>
+                <div><dt>Kesim firesi</dt><dd data-k="fire">—</dd></div>
+            </dl>
+            <div class="tool-actions">
+                <button type="button" class="btn btn-secondary btn-sm" data-act="csv">CSV indir</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-act="yazdir">Yazdır / PDF</button>
+            </div>
+        </aside>
+    </div>
+
+    <div class="tool-card">
+        <h2 class="tool-card-title">Çap bazında özet</h2>
+        <div class="table-scroll">
+            <table class="tool-table">
+                <thead><tr><th>Çap</th><th class="num">Net boy</th><th class="num">Net ağırlık</th><th class="num">Çubuk</th><th class="num">Sipariş</th><th class="num">Fire</th></tr></thead>
+                <tbody data-cap-ozet></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="tool-card">
+        <h2 class="tool-card-title">Kesim planı</h2>
+        <p class="tool-hint">Aynı şemayla kesilecek çubuklar gruplanmıştır. Turuncu parçalar kesilecek boyları, çizgili alan artığı gösterir.</p>
+        <div data-planlar></div>
+    </div>
+
+    <p class="tool-note">Birim ağırlık 0,00617 × Ø² kg/m ile hesaplanır. Bindirme, kanca ve büküm payları parça boyuna dahil edilmelidir.</p>
+</section>

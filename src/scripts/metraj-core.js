@@ -361,3 +361,44 @@ export function calcOzet({ araToplamlar, insaatAlani, genelGider, kar, kdv }) {
         m2DogrudanMaliyet: alan > 0 ? dogrudan / alan : 0
     };
 }
+
+// --------------------------------------------------------------------------
+// Proje bilgilerinden varsayılan metraj girdileri
+// Tipik konut oranlarıyla kaba tahmin üretir; kullanıcı her değeri ezebilir.
+// --------------------------------------------------------------------------
+export function estimateInputs(p) {
+    const kat = Math.max(1, Math.round(pos(p.katSayisi, 1)));
+    const A = pos(p.katAlani, 0);
+    const H = pos(p.katYuksekligi, 3);
+    const daire = Math.max(1, Math.round(pos(p.daireSayisi, kat * Math.max(1, Math.round(A / 100)))));
+    const cevre = Math.round(4 * Math.sqrt(A) * 1.15);
+    const r1 = v => Math.round(v * 10) / 10;
+
+    return {
+        beton: {
+            katSayisi: kat, katAlani: A, katYuksekligi: H, dosemeKalinligi: 0.15, dosemeCevresi: cevre,
+            kirisUzunlugu: Math.round(A * 0.35), kirisGenislik: 0.25, kirisYukseklik: 0.5,
+            kolonAdet: Math.max(4, Math.round(A / 20)), kolonB: 0.3, kolonH: 0.6,
+            perdeUzunlugu: Math.round(A * 0.045 * 2) / 2, perdeKalinlik: 0.25,
+            donatiOrani: 110, fireBeton: 2, fireDonati: 4
+        },
+        duvar: {
+            duvarTipi: p.duvarTipi || 'tugla135', duvarUzunlugu: Math.round(kat * A * 0.30), duvarYuksekligi: r1(Math.max(2, H - 0.15) * 100) / 100,
+            kapiAdet: daire * 9, pencereAdet: daire * 6, pencereAlan: 1.8,
+            sivaYuz: 2, sivaKalinlik: 1.5, fireBlok: 5, fireSiva: 5
+        },
+        sap: {
+            sapAlani: Math.round(kat * A * 0.85), sapKalinlik: 5, dozaj: 350, fireSap: 5,
+            islakZemin: daire * 9, islakCevre: daire * 14, yalitimYukseklik: 0.3, dusAdet: daire,
+            yalitimSarfiyat: 1.5, yalitimKat: 2,
+            zeminSeramik: daire * 20, duvarSeramikH: 2.4, islakKapi: daire * 2,
+            fireSeramik: 8, yapistiriciKg: 5, derzKg: 0.3
+        },
+        cephe: {
+            sistem: p.cepheSistemi || 'mantolama', cepheCevre: cevre, binaYukseklik: r1(kat * H),
+            boslukOrani: 20, pencereAdet: daire * 6, binaKose: 4, levhaKalinlik: 5, fireLevha: 5,
+            panelGenislik: 1.5, panelYukseklik: H, camKalinlik: 20, mullionKg: 4.2, transomKg: 3.1, fireAlu: 5
+        },
+        daireSayisi: daire
+    };
+}

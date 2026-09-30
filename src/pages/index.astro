@@ -136,7 +136,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
 
                     <!-- Counter Stats -->
                     <div class="stats-container">
-                        <div class="stat-card full-width">
+                        <div class="stat-card">
                             <span class="stat-number" id="statTotalYrs">10+</span>
                             <span class="stat-label">
                                 <span class="lang-tr">Yıl Proje &amp; Saha Deneyimi</span>
@@ -158,13 +158,6 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                             </span>
                         </div>
                         <div class="stat-card">
-                            <span class="stat-number" id="statAcademic">2</span>
-                            <span class="stat-label">
-                                <span class="lang-tr">Akademik Derece (Lisans + Y.L.)</span>
-                                <span class="lang-en">Academic Degrees (B.Sc. + M.Sc.)</span>
-                            </span>
-                        </div>
-                        <div class="stat-card">
                             <span class="stat-number" id="statCountries">2</span>
                             <span class="stat-label">
                                 <span class="lang-tr">Ülkede Proje (Türkiye &amp; ABD)</span>
@@ -181,26 +174,6 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                         <span class="lang-en">Professional Experience</span>
                     </h4>
                     
-                    <!-- Segmented Filters -->
-                    <div class="timeline-filters" role="group" aria-label="Deneyim Filtreleri">
-                        <button class="filter-btn active" data-filter="all">
-                            <span class="lang-tr">Tüm Deneyim</span>
-                            <span class="lang-en">All Experience</span>
-                        </button>
-                        <button class="filter-btn" data-filter="cephe">
-                            <span class="lang-tr">Cephe İşleri</span>
-                            <span class="lang-en">Facade Engineering</span>
-                        </button>
-                        <button class="filter-btn" data-filter="yonetim">
-                            <span class="lang-tr">Sözleşme &amp; Yönetim</span>
-                            <span class="lang-en">Contracts &amp; PM</span>
-                        </button>
-                        <button class="filter-btn" data-filter="saha">
-                            <span class="lang-tr">Saha &amp; Uygulama</span>
-                            <span class="lang-en">Site &amp; Execution</span>
-                        </button>
-                    </div>
-
                     <!-- Dynamic Timeline Container -->
                     <div class="timeline-container" id="timelineContainer">
                         {PROFILE_DATA.experiences.map((exp, idx) => (
@@ -295,26 +268,6 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
                         <span class="lang-en">Featured Projects</span>
                     </h2>
                     <div class="section-divider"></div>
-                </div>
-
-                <!-- Project Category Filters -->
-                <div class="project-filters" role="group" aria-label="Proje Filtreleri">
-                    <button class="project-filter-btn active" data-proj-filter="all">
-                        <span class="lang-tr">Tüm Projeler</span>
-                        <span class="lang-en">All Projects</span>
-                    </button>
-                    <button class="project-filter-btn" data-proj-filter="us">
-                        <span class="lang-tr">ABD (İmalat &amp; Tasarım)</span>
-                        <span class="lang-en">USA (Fab &amp; Design)</span>
-                    </button>
-                    <button class="project-filter-btn" data-proj-filter="tr">
-                        <span class="lang-tr">Türkiye Projeleri</span>
-                        <span class="lang-en">Turkey Projects</span>
-                    </button>
-                    <button class="project-filter-btn" data-proj-filter="facade">
-                        <span class="lang-tr">Cephe Tasarımı</span>
-                        <span class="lang-en">Facade Systems</span>
-                    </button>
                 </div>
 
                 <!-- Projects Grid -->

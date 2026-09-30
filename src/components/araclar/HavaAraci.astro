@@ -1,0 +1,41 @@
+---
+// Şantiye hava ve iş planı — mantık: src/scripts/hava.js, hava-core.js
+---
+
+<section class="tool-panel" id="panel-hava" role="tabpanel" aria-labelledby="tab-hava" hidden>
+    <div class="hava-ust">
+        <div class="tool-card">
+            <h2 class="tool-card-title">Şantiye konumu</h2>
+            <p class="hava-konum">Seçili: <strong data-k="konum">—</strong></p>
+            <form class="hava-ara" role="search">
+                <input type="search" data-ara placeholder="İlçe veya şehir, ör. Tuzla" aria-label="Konum ara" autocomplete="off" />
+                <button type="submit" class="btn btn-primary btn-sm">Ara</button>
+            </form>
+            <ul class="hava-sonuclar" data-sonuclar></ul>
+            <div class="tool-actions">
+                <button type="button" class="btn btn-secondary btn-sm" data-act="konumum">Konumumu kullan</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-act="yenile">Tahmini yenile</button>
+            </div>
+        </div>
+        <details class="tool-card hava-esikler">
+            <summary>Karar eşikleri</summary>
+            <div class="mal-proje-grid">
+                <label class="tool-field"><span>Vinç rüzgar sınırı (hamle)</span><span class="tool-input"><input type="number" min="10" step="1" data-esik="vincHamle"><em>km/h</em></span></label>
+                <label class="tool-field"><span>İskele / yüksekte çalışma sınırı</span><span class="tool-input"><input type="number" min="10" step="1" data-esik="yuksekHamle"><em>km/h</em></span></label>
+                <label class="tool-field"><span>Beton: soğuk hava sınırı</span><span class="tool-input"><input type="number" step="1" data-esik="betonMin"><em>°C</em></span></label>
+                <label class="tool-field"><span>Beton: sıcak hava sınırı</span><span class="tool-input"><input type="number" step="1" data-esik="betonMax"><em>°C</em></span></label>
+                <label class="tool-field"><span>Mesai başlangıcı</span><span class="tool-input"><input type="number" min="0" max="23" step="1" data-esik="mesaiBas"><em>saat</em></span></label>
+                <label class="tool-field"><span>Mesai bitişi</span><span class="tool-input"><input type="number" min="1" max="24" step="1" data-esik="mesaiBit"><em>saat</em></span></label>
+            </div>
+            <p class="tool-hint">Vinç sınırını kullandığınız vincin üretici talimatına ve yük tablosuna göre girin. Değerlendirme yalnızca mesai saatlerini dikkate alır.</p>
+        </details>
+    </div>
+
+    <p class="hava-durum" data-hava-durum hidden></p>
+    <div class="hava-lejant" aria-hidden="true">
+        <span class="is-uygun">Uygun</span><span class="is-dikkat">Dikkat / önlemle</span><span class="is-uygun-degil">Uygun değil</span>
+    </div>
+    <div class="hava-gunler" data-gunler></div>
+
+    <p class="tool-note">Tahmin verisi <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> kaynaklıdır ve saatlik güncellenir. Bu araç planlama amaçlı bir karar desteğidir; nihai karar şantiye şefi ve iş güvenliği uzmanına aittir.</p>
+</section>

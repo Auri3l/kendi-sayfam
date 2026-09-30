@@ -1,64 +1,43 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import SimulationTabsNav from '../components/simulation/SimulationTabsNav.astro';
-import TabFem from '../components/simulation/TabFem.astro';
-import TabRadar from '../components/simulation/TabRadar.astro';
-import TabKarsilastirma from '../components/simulation/TabKarsilastirma.astro';
-import TabDonatiHesap from '../components/simulation/TabDonatiHesap.astro';
-import TabCephe from '../components/simulation/TabCephe.astro';
-import TabBeton from '../components/simulation/TabBeton.astro';
-import TabDuvar from '../components/simulation/TabDuvar.astro';
-import TabSap from '../components/simulation/TabSap.astro';
-import TabMaliyet from '../components/simulation/TabMaliyet.astro';
-import EngineeringReportModal from '../components/simulation/EngineeringReportModal.astro';
-import '../styles/simulation.css';
+import MaliyetAraci from '../components/araclar/MaliyetAraci.astro';
+import HavaAraci from '../components/araclar/HavaAraci.astro';
+import DonatiAraci from '../components/araclar/DonatiAraci.astro';
+import '../styles/tools.css';
 ---
 
-<Layout 
-    title="İnşaat, Cephe & Şantiye Simülasyon Laboratuvarı | Ata Yiğit Telli" 
-    activePage="simulasyon" 
-    description="Cam sehim analizi, şantiye hava ve İSG radarı, sistem karşılaştırıcı, donatı kesim optimizasyonu ve düzenlenebilir birim fiyatlı metraj-maliyet hesabı."
+<Layout
+    title="Şantiye Araçları | Ata Yiğit Telli"
+    activePage="simulasyon"
+    description="Konut projeleri için yaklaşık maliyet ve metraj hesabı, 7 günlük şantiye hava ve iş planı, donatı metrajı ve 12 m kesim planı."
 >
     <main lang="tr" id="main-content" tabindex="-1">
-        <section class="section section-padding sim-lab-section" style="margin-top: 5rem;">
+        <section class="tools-section">
             <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">İnteraktif Mühendislik Araçları</span>
-                    <h1 class="section-title">İnşaat, Cephe &amp; Şantiye Simülasyon Laboratuvarı</h1>
-                    <p class="section-subtitle" style="max-width: 800px; margin: 0 auto; color: var(--text-secondary); text-align: center; font-size: 0.95rem; margin-top: 0.5rem;">
-                        Cam sehim analizi, şantiye hava ve İSG radarı, malzeme karşılaştırıcı, donatı kesim hesabı ve konut projeleri için düzenlenebilir birim fiyatlı metraj ve maliyet hesabı.
-                    </p>
-                    <div class="section-divider"></div>
+                <header class="tools-head">
+                    <span class="section-tag">Şantiye araçları</span>
+                    <h1 class="tools-title">Şantiyede işe yarayan hesaplar</h1>
+                    <p class="tools-lead">Konut projesinin yaklaşık maliyetini birkaç bilgiyle çıkarın, önümüzdeki haftanın hangi günlerinin beton dökümü ve vinç işine uygun olduğunu görün, donatı listesini en az fireyle 12 metrelik çubuklara yerleştirin.</p>
+                </header>
+
+                <div class="tools-tabs" role="tablist" aria-label="Araçlar">
+                    <button type="button" role="tab" id="tab-maliyet" data-arac-tab="maliyet" aria-controls="panel-maliyet" aria-selected="true">
+                        <strong>Yaklaşık maliyet</strong><small>Metraj ve birim fiyat</small>
+                    </button>
+                    <button type="button" role="tab" id="tab-hava" data-arac-tab="hava" aria-controls="panel-hava" aria-selected="false" tabindex="-1">
+                        <strong>Hava ve iş planı</strong><small>7 günlük uygunluk</small>
+                    </button>
+                    <button type="button" role="tab" id="tab-donati" data-arac-tab="donati" aria-controls="panel-donati" aria-selected="false" tabindex="-1">
+                        <strong>Donatı ve kesim</strong><small>Metraj ve 12 m plan</small>
+                    </button>
                 </div>
 
-                <!-- Glassmorphic Tabs Navigation -->
-                <SimulationTabsNav />
-
-                <!-- TAB 1: 3D FEM ANALYSIS -->
-                <TabFem />
-
-                <!-- TAB 2: ŞANTİYE HAVA RADARI & İSG KARAR MATRİSİ -->
-                <TabRadar />
-
-                <!-- TAB 3: SİSTEM & MALZEME KARŞILAŞTIRICI -->
-                <TabKarsilastirma />
-
-                <!-- TAB 4: DONATI, PROFİL & KESİM OPTİMİZASYONU -->
-                <TabDonatiHesap />
-
-                <!-- METRAJ & MALİYET -->
-                <TabBeton />
-                <TabDuvar />
-                <TabSap />
-                <TabCephe />
-                <TabMaliyet />
+                <MaliyetAraci />
+                <HavaAraci />
+                <DonatiAraci />
             </div>
         </section>
-
-        <!-- Official Blueprint A4 Engineering Report Generator Modal & Print Sheet -->
-        <EngineeringReportModal />
     </main>
 </Layout>
 
-<script src="../scripts/simulation.js"></script>
-<script src="../scripts/metraj.js"></script>
+<script src="../scripts/araclar.js"></script>

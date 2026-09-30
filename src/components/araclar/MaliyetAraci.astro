@@ -1,0 +1,88 @@
+---
+// Yaklaşık maliyet aracı — mantık: src/scripts/maliyet.js, metraj-core.js
+---
+
+<section class="tool-panel" id="panel-maliyet" role="tabpanel" aria-labelledby="tab-maliyet">
+    <div class="mal-ust">
+        <div class="tool-card mal-proje">
+            <h2 class="tool-card-title"><span>1</span> Proje bilgileri</h2>
+            <div class="mal-proje-grid">
+                <label class="tool-field">
+                    <span>Kat sayısı</span>
+                    <span class="tool-input"><input type="number" inputmode="numeric" min="1" step="1" data-p="katSayisi"><em>kat</em></span>
+                </label>
+                <label class="tool-field">
+                    <span>Tipik kat alanı</span>
+                    <span class="tool-input"><input type="number" inputmode="decimal" min="0" step="10" data-p="katAlani"><em>m²</em></span>
+                </label>
+                <label class="tool-field">
+                    <span>Kat yüksekliği</span>
+                    <span class="tool-input"><input type="number" inputmode="decimal" min="2" step="0.05" data-p="katYuksekligi"><em>m</em></span>
+                </label>
+                <label class="tool-field">
+                    <span>Toplam daire sayısı</span>
+                    <span class="tool-input"><input type="number" inputmode="numeric" min="1" step="1" data-p="daireSayisi"><em>adet</em></span>
+                </label>
+                <label class="tool-field">
+                    <span>Duvar malzemesi</span>
+                    <select data-p="duvarTipi">
+                        <option value="tugla135">Yatay delikli tuğla 13,5 cm</option>
+                        <option value="tugla85">Yatay delikli tuğla 8,5 cm</option>
+                        <option value="gazbeton">Gazbeton blok</option>
+                        <option value="bims">Bims blok</option>
+                    </select>
+                </label>
+                <label class="tool-field">
+                    <span>Cephe sistemi</span>
+                    <select data-p="cepheSistemi">
+                        <option value="mantolama">Mantolama (ETICS)</option>
+                        <option value="giydirme">Alüminyum giydirme cephe</option>
+                    </select>
+                </label>
+            </div>
+            <details class="mal-oranlar">
+                <summary>Genel gider, kâr ve KDV oranları</summary>
+                <div class="mal-proje-grid">
+                    <label class="tool-field">
+                        <span>Genel giderler</span>
+                        <span class="tool-input"><input type="number" inputmode="decimal" min="0" step="0.5" data-p="genelGider"><em>%</em></span>
+                    </label>
+                    <label class="tool-field">
+                        <span>Yüklenici kârı</span>
+                        <span class="tool-input"><input type="number" inputmode="decimal" min="0" step="0.5" data-p="kar"><em>%</em></span>
+                    </label>
+                    <label class="tool-field">
+                        <span>KDV</span>
+                        <span class="tool-input"><input type="number" inputmode="decimal" min="0" step="1" data-p="kdv"><em>%</em></span>
+                    </label>
+                </div>
+                <p class="tool-hint">Konut teslimlerinde KDV oranı daire büyüklüğü ve arsa değerine göre değişebilir; mali müşavirinizle teyit edin.</p>
+            </details>
+        </div>
+
+        <aside class="tool-card mal-sonuc" aria-live="polite">
+            <p class="mal-sonuc-etiket">Yaklaşık maliyet (KDV dahil)</p>
+            <p class="mal-sonuc-toplam" data-k="genelToplam">—</p>
+            <dl class="mal-kpi">
+                <div><dt>m² maliyeti</dt><dd data-k="m2">—</dd></div>
+                <div><dt>İnşaat alanı</dt><dd data-k="alan">—</dd></div>
+                <div><dt>Doğrudan maliyet</dt><dd data-k="dogrudan">—</dd></div>
+                <div><dt>Genel gider ve kâr</dt><dd data-k="giderKar">—</dd></div>
+            </dl>
+            <ul class="mal-paylar" data-paylar></ul>
+            <div class="tool-actions">
+                <button type="button" class="btn btn-secondary btn-sm" data-act="csv">CSV indir</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-act="yazdir">Yazdır / PDF</button>
+            </div>
+        </aside>
+    </div>
+
+    <div class="mal-gruplar-bas">
+        <h2 class="tool-card-title"><span>2</span> İş grupları</h2>
+        <button type="button" class="link-btn" data-act="fiyat-sifirla">Birim fiyatları varsayılana döndür</button>
+    </div>
+    <p class="tool-hint">Her grubu açarak metrajı, varsayımları ve birim fiyatları görebilirsiniz. Birim fiyatlar örnek değerdir; kendi tedarikçi fiyatlarınızı girin. Girdiğiniz değerler bu tarayıcıda saklanır.</p>
+    <div class="mal-gruplar" data-gruplar></div>
+
+    <p class="tool-note"><strong>Kapsam:</strong> Hesap yalnızca listelenen kalemleri içerir. Hafriyat ve temel, çatı, mekanik ve elektrik tesisatı, doğrama, kapılar, seramik dışı zemin kaplamaları, boya, asansör, peyzaj, ruhsat ve proje giderleri dahil değildir. m² maliyeti bu nedenle toplam yapı maliyetini değil, kaba ve ince işlerin bir kısmını gösterir.</p>
+</section>
