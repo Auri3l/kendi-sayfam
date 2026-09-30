@@ -1088,3 +1088,352 @@
         margin-top: 2mm !important;
     }
 }
+
+/* ==========================================================================
+   METRAJ & MALİYET (metraj.js)
+   ========================================================================== */
+.metraj-intro {
+    max-width: 880px;
+    margin: 0 0 1.25rem;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.m-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+.m-group {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.m-group[hidden],
+.m-field[hidden] {
+    display: none;
+}
+
+.m-group legend {
+    grid-column: 1 / -1;
+    padding: 0;
+    margin-bottom: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-color);
+}
+
+.m-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 0;
+}
+
+.m-field-full {
+    grid-column: 1 / -1;
+}
+
+.m-label {
+    font-size: 0.76rem;
+    line-height: 1.3;
+    color: var(--text-secondary);
+}
+
+.m-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.m-input-wrap .sim-number-input {
+    padding-right: 3.1rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+}
+
+.m-unit {
+    position: absolute;
+    right: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.metraj-table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.metraj-table-header .metraj-panel-title {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.metraj-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.metraj-cost-table th,
+.metraj-cost-table td,
+.metraj-ozet-table th,
+.metraj-ozet-table td {
+    padding: 0.6rem 0.75rem;
+}
+
+.metraj-cost-table th:nth-child(5),
+.metraj-cost-table th:nth-child(6),
+.metraj-cost-table td:nth-child(6),
+.metraj-ozet-table th:nth-child(2) {
+    text-align: right;
+}
+
+.metraj-cost-table .metraj-value-cell,
+.metraj-ozet-table .metraj-value-cell {
+    font-size: 0.95rem;
+    text-shadow: none;
+}
+
+.metraj-cost-table td.m-tutar {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+.metraj-cost-table td.m-fiyat-cell {
+    width: 8.5rem;
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+}
+
+.metraj-price-input {
+    width: 100%;
+    min-width: 6.5rem;
+    background: var(--bg-primary);
+    border: 1px dashed var(--border-medium, var(--border-color));
+    border-radius: var(--border-radius-xs);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    text-align: right;
+    padding: 0.4rem 0.5rem;
+}
+
+.metraj-price-input:hover,
+.metraj-price-input:focus {
+    border-style: solid;
+    border-color: var(--accent-color);
+    outline: none;
+}
+
+.metraj-cost-table tfoot td,
+.metraj-ozet-table tfoot td {
+    font-weight: 700;
+    color: var(--text-primary);
+    border-top: 2px solid var(--border-color);
+    background: var(--bg-tertiary);
+}
+
+.metraj-cost-table tfoot td:last-child,
+.metraj-ozet-table tfoot td:nth-child(2) {
+    font-family: var(--font-mono);
+    text-align: right;
+    color: var(--accent-color);
+    white-space: nowrap;
+}
+
+.metraj-ozet-table tfoot tr:not(:first-child) td {
+    border-top: 1px solid var(--border-color);
+    font-weight: 500;
+    background: transparent;
+}
+
+.metraj-ozet-table tfoot tr.m-total-row td {
+    font-weight: 800;
+    font-size: 1rem;
+    background: var(--bg-tertiary);
+    border-top: 2px solid var(--accent-color);
+}
+
+.metraj-ozet-table td:first-child {
+    font-family: inherit;
+    font-size: 0.88rem;
+    color: var(--text-primary);
+}
+
+.m-pay {
+    width: 40%;
+}
+
+.m-pay-bar {
+    display: inline-block;
+    vertical-align: middle;
+    width: calc(100% - 4rem);
+    height: 6px;
+    background: var(--bg-tertiary);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.m-pay-bar > span {
+    display: block;
+    height: 100%;
+    background: var(--accent-color);
+}
+
+.m-pay-txt {
+    display: inline-block;
+    width: 3.5rem;
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+}
+
+.metraj-note {
+    margin: 0.85rem 0 0;
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: var(--text-muted);
+}
+
+.metraj-sub-title {
+    margin: 1.5rem 0 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+.metraj-breakdown {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 0.5rem;
+}
+
+.metraj-bd-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.65rem 0.8rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-xs);
+}
+
+.metraj-bd-item span {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+}
+
+.metraj-bd-item strong {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+.metraj-bd-item small {
+    font-size: 0.72rem;
+    color: var(--accent-color);
+}
+
+.m-kpis {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.1rem;
+}
+
+.m-kpi {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.9rem 1rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-xs);
+}
+
+.m-kpi span {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+}
+
+.m-kpi strong {
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    color: var(--text-primary);
+}
+
+.m-kpi-main {
+    border-color: var(--accent-color);
+}
+
+.m-kpi-main strong {
+    font-size: 1.35rem;
+    color: var(--accent-color);
+}
+
+.sim-tab-btn-accent {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+#tab-maliyet .btn-full {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+@media (max-width: 640px) {
+    .m-group,
+    .m-kpis {
+        grid-template-columns: 1fr;
+    }
+    .metraj-actions {
+        width: 100%;
+    }
+    .metraj-actions .btn {
+        flex: 1;
+    }
+}
+
+.metraj-grid > * {
+    min-width: 0;
+}
+
+.m-field {
+    justify-content: flex-end;
+}
+
+@media (max-width: 640px) {
+    .sim-tabs-group {
+        flex-wrap: wrap;
+        overflow-x: visible;
+    }
+    .metraj-controls-panel,
+    .metraj-table-panel {
+        padding: 1.1rem;
+    }
+    .metraj-cost-table {
+        min-width: 640px;
+    }
+}

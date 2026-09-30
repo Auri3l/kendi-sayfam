@@ -1,104 +1,112 @@
 ---
+// Cephe metraj ve maliyet — hesaplar src/scripts/metraj-core.js içinde
 ---
 
-<div class="sim-tab-panel" id="tab-cephe" role="tabpanel" aria-labelledby="tab-cephe-btn">
+<div class="sim-tab-panel" id="tab-cephe" role="tabpanel">
+    <p class="metraj-intro">Konut projelerinde en yaygın çözüm olan mantolama (ETICS) ile giydirme cephe arasında seçim yapın. Mantolamada boşluk oranı kadar alan düşülür ve cephe iskelesi eklenir; giydirme cephede panel modülüne göre profil, cam ve bağlantı elemanı hesaplanır.</p>
     <div class="metraj-grid">
         <div class="metraj-controls-panel sim-glass-card">
-            <h4 class="metraj-panel-title">Cephe Genel Girdileri</h4>
-            <div class="sim-controls-wrapper">
-                <div class="sim-control-group">
-                    <div class="sim-control-label-row">
-                        <span class="sim-control-label">Bina Cephe Genişliği</span>
-                        <span class="sim-control-value" id="inpFacWidthVal">30 m</span>
-                    </div>
-                    <input type="range" id="inpFacWidth" min="10" max="150" value="30" step="5" class="sim-range-input" aria-label="Bina Cephe Genişliği" />
-                </div>
-                <div class="sim-control-group">
-                    <div class="sim-control-label-row">
-                        <span class="sim-control-label">Bina Cephe Yüksekliği</span>
-                        <span class="sim-control-value" id="inpFacHeightVal">45 m</span>
-                    </div>
-                    <input type="range" id="inpFacHeight" min="5" max="120" value="45" step="5" class="sim-range-input" aria-label="Bina Cephe Yüksekliği" />
-                </div>
-                <div class="sim-control-group">
-                    <div class="sim-control-label-row">
-                        <span class="sim-control-label">Tipik Panel Modül Genişliği</span>
-                        <span class="sim-control-value" id="inpPanWidthVal">1.50 m</span>
-                    </div>
-                    <input type="range" id="inpPanWidth" min="1.0" max="2.4" value="1.5" step="0.05" class="sim-range-input" aria-label="Tipik Panel Modül Genişliği" />
-                </div>
-                <div class="sim-control-group">
-                    <div class="sim-control-label-row">
-                        <span class="sim-control-label">Tipik Panel Modül Yüksekliği</span>
-                        <span class="sim-control-value" id="inpPanHeightVal">3.50 m</span>
-                    </div>
-                    <input type="range" id="inpPanHeight" min="2.0" max="4.5" value="3.5" step="0.05" class="sim-range-input" aria-label="Tipik Panel Modül Yüksekliği" />
-                </div>
-                <div class="sim-control-group">
-                    <label class="sim-control-label" for="inpFloorCount">Kat Sayısı (Ankraj Katsayısı İçin)</label>
-                    <input type="number" id="inpFloorCount" value="12" class="sim-select" style="padding:0.5rem;" />
-                </div>
-                <div class="sim-control-group">
-                    <label class="sim-control-label" for="inpMullionWeight">Profil Birim Ağırlığı (Düşey/Mullion - kg/m)</label>
-                    <input type="number" id="inpMullionWeight" value="4.2" step="0.1" class="sim-select" style="padding:0.5rem;" />
-                </div>
-                <div class="sim-control-group">
-                    <label class="sim-control-label" for="inpTransomWeight">Profil Birim Ağırlığı (Yatay/Transom - kg/m)</label>
-                    <input type="number" id="inpTransomWeight" value="3.1" step="0.1" class="sim-select" style="padding:0.5rem;" />
-                </div>
-                <div class="sim-control-group">
-                    <label class="sim-control-label" for="inpGlassThk">Cam Kombinasyonu Eşdeğer Kalınlığı</label>
-                    <select id="inpGlassThk" class="sim-select">
-                        <option value="4">4 mm Tek Kat Cam</option>
-                        <option value="8" selected>6 + 12 + 6 mm Çift Cam (8mm Cam Ağırlığı)</option>
-                        <option value="12">8 + 16 + 8 mm Çift Cam (12mm Cam Ağırlığı)</option>
-                        <option value="16">10 + 16 + 10 mm Çift Cam (16mm Cam Ağırlığı)</option>
-                    </select>
-                </div>
-
-                <button type="button" class="btn btn-primary calc-btn btn-full" id="btnCalcCephe">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 2v4M8 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
-                    <span>Cephe Metrajını Hesapla</span>
-                </button>
+            <h4 class="metraj-panel-title">Girdiler</h4>
+            <div class="m-form">
+                <fieldset class="m-group">
+                    <legend>Cephe</legend>
+                    <label class="m-field m-field-full">
+                        <span class="m-label">Cephe sistemi</span>
+                        <select class="sim-select" data-mmod="cephe" data-mkey="sistem"><option value="mantolama" selected>Mantolama (ETICS)</option><option value="giydirme">Alüminyum giydirme cephe</option></select>
+                    </label>
+                    <label class="m-field">
+                        <span class="m-label">Bina dış çevresi</span>
+                        <span class="m-input-wrap"><input type="number" inputmode="decimal" min="0" step="1" value="85" class="sim-number-input" data-mmod="cephe" data-mkey="cepheCevre" /><span class="m-unit">m</span></span>
+                    </label>
+                    <label class="m-field">
+                        <span class="m-label">Cephe yüksekliği</span>
+                        <span class="m-input-wrap"><input type="number" inputmode="decimal" min="0" step="0.5" value="16" class="sim-number-input" data-mmod="cephe" data-mkey="binaYukseklik" /><span class="m-unit">m</span></span>
+                    </label>
+                </fieldset>
+                <fieldset class="m-group" data-cephe-sistem="mantolama">
+                    <legend>Mantolama</legend>
+                    <label class="m-field">
+                        <span class="m-label">Pencere/boşluk oranı</span>
+                        <span class="m-input-wrap"><input type="number" inputmode="decimal" min="0" step="1" value="20" class="sim-number-input" data-mmod="cephe" data-mkey="boslukOrani" /><span class="m-unit">%</span></span>
+                    </label>
+                    <label class="m-field">
+                        <span class="m-label">Cephedeki pencere adedi</span>
+                        <span class="m-input-wrap"><input type="number" inputmode="decimal" min="0" step="1" value="80" class="sim-number-input" data-mmod="cephe" data-mkey="pencereAdet" /><span class="m-unit">adet</span></span>
+                    </label>
+                    <label class="m-field">
+                        <span class="m-label">Bina köşe sayısı</span>
+                        <span class="m-input-wrap"><input type="number" inputmode="decimal" min="0" step="1" value="4" class="sim-number-input" data-mmod="cephe" data-mkey="binaKose" /><span class="m-unit">adet</span></span>
+                    </label>
+                    <label class="m-field">
+                        <span class="m-label">Levha kalınlığı</span>
+                        <span class="m-input-wrap"><input type="number" inputmode="decimal" min="0" step="1" value="5" class="sim-number-input" data-mmod="cephe" data-mkey="levhaKalinlik" /><span class="m-unit">cm</span></span>
+                    </label>
+                    <label class="m-field">
+                        <span class="m-label">Levha firesi</span>
+                        <span class="m-input-wrap"><input type="number" inputmode="decimal" min="0" step="0.5" value="5" class="sim-number-input" data-mmod="cephe" data-mkey="fireLevha" /><span class="m-unit">%</span></span>
+                    </label>
+                </fieldset>
+                <fieldset class="m-group" data-cephe-sistem="giydirme">
+                    <legend>Giydirme cephe</legend>
+                    <label class="m-field">
+                        <span class="m-label">Panel genişliği</span>
+                        <span class="m-input-wrap"><input type="number" inputmode="decimal" min="0" step="0.05" value="1.5" class="sim-number-input" data-mmod="cephe" data-mkey="panelGenislik" /><span class="m-unit">m</span></span>
+                    </label>
+                    <label class="m-field">
+                        <span class="m-label">Panel yüksekliği</span>
+                        <span class="m-input-wrap"><input type="number" inputmode="decimal" min="0" step="0.05" value="3.2" class="sim-number-input" data-mmod="cephe" data-mkey="panelYukseklik" /><span class="m-unit">m</span></span>
+                    </label>
+                    <label class="m-field">
+                        <span class="m-label">Toplam cam kalınlığı</span>
+                        <span class="m-input-wrap"><input type="number" inputmode="decimal" min="0" step="1" value="20" class="sim-number-input" data-mmod="cephe" data-mkey="camKalinlik" /><span class="m-unit">mm</span></span>
+                    </label>
+                    <label class="m-field">
+                        <span class="m-label">Dikme profil ağırlığı</span>
+                        <span class="m-input-wrap"><input type="number" inputmode="decimal" min="0" step="0.1" value="4.2" class="sim-number-input" data-mmod="cephe" data-mkey="mullionKg" /><span class="m-unit">kg/m</span></span>
+                    </label>
+                    <label class="m-field">
+                        <span class="m-label">Kayıt profil ağırlığı</span>
+                        <span class="m-input-wrap"><input type="number" inputmode="decimal" min="0" step="0.1" value="3.1" class="sim-number-input" data-mmod="cephe" data-mkey="transomKg" /><span class="m-unit">kg/m</span></span>
+                    </label>
+                    <label class="m-field">
+                        <span class="m-label">Alüminyum firesi</span>
+                        <span class="m-input-wrap"><input type="number" inputmode="decimal" min="0" step="0.5" value="5" class="sim-number-input" data-mmod="cephe" data-mkey="fireAlu" /><span class="m-unit">%</span></span>
+                    </label>
+                </fieldset>
             </div>
         </div>
         <div class="metraj-table-panel sim-glass-card">
-            <div class="metraj-table-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.85rem;">
-                <h4 class="metraj-panel-title" style="margin: 0; border: none; padding: 0;">Cephe Malzeme Metraj Tablosu</h4>
-                <div class="metraj-actions" style="display: flex; gap: 0.5rem;">
-                    <button type="button" class="btn btn-secondary btn-sm btn-export-csv" data-target="table-cephe" data-filename="Cephe_Metraj_Cetveli">
-                        <span>CSV İndir</span>
-                    </button>
-                    <button type="button" class="btn btn-primary btn-sm btn-open-report-modal" data-module="cephe" data-table="table-cephe">
-                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-                        <span>Resmi Rapor (PDF)</span>
-                    </button>
+            <div class="metraj-table-header">
+                <h4 class="metraj-panel-title">Cephe metraj ve maliyet cetveli</h4>
+                <div class="metraj-actions">
+                    <button type="button" class="btn btn-secondary btn-sm" data-metraj-csv="cephe">CSV İndir</button>
+                    <button type="button" class="btn btn-primary btn-sm btn-open-report-modal" data-module="cephe" data-table="table-cephe">Rapor (PDF)</button>
                 </div>
             </div>
             <div class="metraj-table-wrapper">
-                <table class="metraj-table" id="table-cephe">
+                <table class="metraj-table metraj-cost-table" id="table-cephe">
                     <thead>
                         <tr>
-                            <th scope="col">Poz No</th>
-                            <th scope="col">Malzeme Tanımı</th>
-                            <th scope="col">Metraj Miktarı</th>
+                            <th scope="col">Poz</th>
+                            <th scope="col">İmalat</th>
+                            <th scope="col">Miktar</th>
                             <th scope="col">Birim</th>
+                            <th scope="col">Birim Fiyat (₺)</th>
+                            <th scope="col">Tutar (₺)</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr><td>C-01</td><td>Toplam Modüler Cephe Paneli Sayısı</td><td id="outPanCount">-</td><td>Adet</td></tr>
-                        <tr><td>C-02</td><td>Net Cam Kaplama Alanı</td><td id="outGlassArea">-</td><td>m²</td></tr>
-                        <tr><td>C-03</td><td>Toplam Cam Ağırlığı</td><td id="outGlassWeight">-</td><td>kg</td></tr>
-                        <tr><td>C-04</td><td>Düşey Alüminyum Profil (Mullion) Toplam Metrajı</td><td id="outMullionLen">-</td><td>mt</td></tr>
-                        <tr><td>C-05</td><td>Yatay Alüminyum Profil (Transom) Toplam Metrajı</td><td id="outTransomLen">-</td><td>mt</td></tr>
-                        <tr><td>C-06</td><td>Toplam Alüminyum Profil Ağırlığı</td><td id="outAluWeight">-</td><td>kg</td></tr>
-                        <tr><td>C-07</td><td>Taşıyıcı T-Ankraj Ankraj Braketi Adeti</td><td id="outAnchorCount">-</td><td>Adet</td></tr>
-                        <tr><td>C-08</td><td>Yatay Profil T-Bağlantı Aparatları Sayısı</td><td id="outTConnCount">-</td><td>Adet</td></tr>
-                        <tr><td>C-09</td><td>Sızdırmazlık EPDM Cam Fitil Toplam Metrajı</td><td id="outEPDMLen">-</td><td>mt</td></tr>
-                        <tr><td>C-10</td><td>Panel Birleşim Sosis Derz Silikonu Adedi (600ml)</td><td id="outSiliconeCount">-</td><td>Adet</td></tr>
-                    </tbody>
+                    <tbody data-metraj-body></tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">Ara toplam (KDV hariç)</td>
+                            <td data-metraj-sum>—</td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
+            <p class="metraj-note">Birim fiyatlar örnek değerdir; hücreye tıklayıp kendi tedarikçi fiyatınızı girin. Girdiğiniz fiyatlar bu tarayıcıda saklanır ve tüm sekmelerde geçerlidir.</p>
+            <h5 class="metraj-sub-title">Metraj dökümü</h5>
+            <div class="metraj-breakdown" data-metraj-breakdown></div>
         </div>
     </div>
 </div>

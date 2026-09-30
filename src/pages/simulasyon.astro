@@ -9,6 +9,7 @@ import TabCephe from '../components/simulation/TabCephe.astro';
 import TabBeton from '../components/simulation/TabBeton.astro';
 import TabDuvar from '../components/simulation/TabDuvar.astro';
 import TabSap from '../components/simulation/TabSap.astro';
+import TabMaliyet from '../components/simulation/TabMaliyet.astro';
 import EngineeringReportModal from '../components/simulation/EngineeringReportModal.astro';
 import '../styles/simulation.css';
 ---
@@ -16,7 +17,7 @@ import '../styles/simulation.css';
 <Layout 
     title="İnşaat, Cephe & Şantiye Simülasyon Laboratuvarı | Ata Yiğit Telli" 
     activePage="simulasyon" 
-    description="3D FEM Yapısal Cam Sehim Analizörü, Şantiye Hava Radarı & İSG Karar Matrisi, Sistem Karşılaştırıcı ve Hızlı Metraj Motoru."
+    description="Cam sehim analizi, şantiye hava ve İSG radarı, sistem karşılaştırıcı, donatı kesim optimizasyonu ve düzenlenebilir birim fiyatlı metraj-maliyet hesabı."
 >
     <main lang="tr" id="main-content" tabindex="-1">
         <section class="section section-padding sim-lab-section" style="margin-top: 5rem;">
@@ -25,7 +26,7 @@ import '../styles/simulation.css';
                     <span class="section-tag">İnteraktif Mühendislik Araçları</span>
                     <h1 class="section-title">İnşaat, Cephe &amp; Şantiye Simülasyon Laboratuvarı</h1>
                     <p class="section-subtitle" style="max-width: 800px; margin: 0 auto; color: var(--text-secondary); text-align: center; font-size: 0.95rem; margin-top: 0.5rem;">
-                        3D FEM Yapısal Cam Sehim Analizörü, Şantiye Hava &amp; İSG İmalat Radarı, Malzeme Karşılaştırıcı ve Kaba/İnce İnşaat Hızlı Metraj Motoru.
+                        Cam sehim analizi, şantiye hava ve İSG radarı, malzeme karşılaştırıcı, donatı kesim hesabı ve konut projeleri için düzenlenebilir birim fiyatlı metraj ve maliyet hesabı.
                     </p>
                     <div class="section-divider"></div>
                 </div>
@@ -45,17 +46,12 @@ import '../styles/simulation.css';
                 <!-- TAB 4: DONATI, PROFİL & KESİM OPTİMİZASYONU -->
                 <TabDonatiHesap />
 
-                <!-- TAB 5: FACADE QUANTITY ESTIMATOR (10 METRICS) -->
-                <TabCephe />
-
-                <!-- TAB 6: CONCRETE & FORMWORK ESTIMATOR (10 METRICS) -->
+                <!-- METRAJ & MALİYET -->
                 <TabBeton />
-
-                <!-- TAB 7: MASONRY & PLASTER ESTIMATOR (11 METRICS) -->
                 <TabDuvar />
-
-                <!-- TAB 8: SCREED, WATERPROOFING & TILES (19 METRICS) -->
                 <TabSap />
+                <TabCephe />
+                <TabMaliyet />
             </div>
         </section>
 
@@ -65,3 +61,4 @@ import '../styles/simulation.css';
 </Layout>
 
 <script src="../scripts/simulation.js"></script>
+<script src="../scripts/metraj.js"></script>

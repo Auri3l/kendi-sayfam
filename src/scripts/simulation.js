@@ -31,10 +31,6 @@
         else if (targetTab === 'radar') updateRadarDecisions();
         else if (targetTab === 'karsilastirma') renderComparison(currentCompareCat);
         else if (targetTab === 'donati-hesap') { updateRebarCalculator(); updateProfileCalculator(); runRebarOptimizer(); }
-        else if (targetTab === 'cephe') updateFacadeCalculations();
-        else if (targetTab === 'beton') updateConcreteCalculations();
-        else if (targetTab === 'duvar') updateMasonryCalculations();
-        else if (targetTab === 'sap') updateScreedWetCalculations();
     }
 
     catBtns.forEach(btn => {
@@ -51,7 +47,7 @@
             } else if (cat === 'metraj') {
                 if (groupTools) groupTools.style.display = 'none';
                 if (groupMetraj) groupMetraj.style.display = 'flex';
-                switchTab('cephe');
+                switchTab('beton');
             }
         });
     });
@@ -603,341 +599,6 @@
         el.addEventListener('change', updateFEMCalculations);
     });
 
-    // --- TAB 2: FACADE QUANTITY CALCULATIONS (10 METRICS) ---
-    const inpFacWidth = document.getElementById('inpFacWidth');
-    const inpFacHeight = document.getElementById('inpFacHeight');
-    const inpPanWidth = document.getElementById('inpPanWidth');
-    const inpPanHeight = document.getElementById('inpPanHeight');
-    const inpFloorCount = document.getElementById('inpFloorCount');
-    const inpMullionWeight = document.getElementById('inpMullionWeight');
-    const inpTransomWeight = document.getElementById('inpTransomWeight');
-    const inpGlassThk = document.getElementById('inpGlassThk');
-
-    function updateFacadeCalculations() {
-        if (!inpFacWidth || !inpFacHeight || !inpPanWidth || !inpPanHeight) return;
-
-        const fw = parseFloat(inpFacWidth.value) || 30;
-        const fh = parseFloat(inpFacHeight.value) || 45;
-        const pw = parseFloat(inpPanWidth.value) || 1.5;
-        const ph = parseFloat(inpPanHeight.value) || 3.5;
-        const floors = parseFloat(inpFloorCount ? inpFloorCount.value : '12') || 1;
-        const mw = parseFloat(inpMullionWeight ? inpMullionWeight.value : '4.2') || 1;
-        const tw = parseFloat(inpTransomWeight ? inpTransomWeight.value : '3.1') || 1;
-        const glassThkVal = parseFloat(inpGlassThk ? inpGlassThk.value : '8') || 8;
-
-        const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
-
-        setEl('inpFacWidthVal', `${fw} m`);
-        setEl('inpFacHeightVal', `${fh} m`);
-        setEl('inpPanWidthVal', `${pw.toFixed(2)} m`);
-        setEl('inpPanHeightVal', `${ph.toFixed(2)} m`);
-
-        // 1. Total Panels
-        const cols = Math.ceil(fw / pw);
-        const rows = Math.ceil(fh / ph);
-        const panCount = cols * rows;
-        setEl('outPanCount', panCount.toLocaleString('tr-TR'));
-
-        // 2. Net Glass Area
-        const netGlassArea = panCount * Math.max(0.1, (pw - 0.06)) * Math.max(0.1, (ph - 0.06));
-        setEl('outGlassArea', netGlassArea.toFixed(1).toLocaleString('tr-TR'));
-
-        // 3. Glass Weight
-        const glassWeight = netGlassArea * glassThkVal * 2.5;
-        setEl('outGlassWeight', Math.round(glassWeight).toLocaleString('tr-TR'));
-
-        // 4. Mullion length
-        const mullionCount = cols + 1;
-        const mullionLen = mullionCount * fh;
-        setEl('outMullionLen', Math.round(mullionLen).toLocaleString('tr-TR'));
-
-        // 5. Transom length
-        const transomLen = panCount * pw;
-        setEl('outTransomLen', Math.round(transomLen).toLocaleString('tr-TR'));
-
-        // 6. Aluminum weight
-        const aluWeight = (mullionLen * mw) + (transomLen * tw);
-        setEl('outAluWeight', Math.round(aluWeight).toLocaleString('tr-TR'));
-
-        // 7. Anchors
-        const anchorCount = mullionCount * (floors + 1) * 2;
-        setEl('outAnchorCount', anchorCount.toLocaleString('tr-TR'));
-
-        // 8. T-Connectors
-        const tConnCount = panCount * 2;
-        setEl('outTConnCount', tConnCount.toLocaleString('tr-TR'));
-
-        // 9. EPDM Fitil
-        const epdmLen = panCount * (2 * pw + 2 * ph) * 2;
-        setEl('outEPDMLen', Math.round(epdmLen).toLocaleString('tr-TR'));
-
-        // 10. Silicone sausage
-        const silVolLtr = panCount * (2 * pw + 2 * ph) * 0.02;
-        const silCount = Math.ceil(silVolLtr / 0.60);
-        setEl('outSiliconeCount', silCount.toLocaleString('tr-TR'));
-    }
-
-    [inpFacWidth, inpFacHeight, inpPanWidth, inpPanHeight, inpFloorCount, inpMullionWeight, inpTransomWeight, inpGlassThk].filter(Boolean).forEach(el => {
-        el.addEventListener('input', updateFacadeCalculations);
-        el.addEventListener('change', updateFacadeCalculations);
-    });
-
-    // --- TAB 3: CONCRETE & FORMWORK CALCULATIONS (10 METRICS) ---
-    const inpSlabLen = document.getElementById('inpSlabLen');
-    const inpSlabWidth = document.getElementById('inpSlabWidth');
-    const inpSlabThk = document.getElementById('inpSlabThk');
-    const inpColCount = document.getElementById('inpColCount');
-    const inpColDim = document.getElementById('inpColDim');
-    const inpColHeight = document.getElementById('inpColHeight');
-    const inpShearWallCount = document.getElementById('inpShearWallCount');
-    const inpShearWallLen = document.getElementById('inpShearWallLen');
-    const inpShearWallThk = document.getElementById('inpShearWallThk');
-    const inpRebarRatio = document.getElementById('inpRebarRatio');
-
-    function updateConcreteCalculations() {
-        if (!inpSlabLen || !inpSlabWidth || !inpSlabThk) return;
-
-        const sl = parseFloat(inpSlabLen.value) || 25;
-        const sw = parseFloat(inpSlabWidth.value) || 15;
-        const st = parseFloat(inpSlabThk.value) || 0.25;
-        const colCount = parseFloat(inpColCount ? inpColCount.value : '16') || 0;
-        const colDim = parseFloat(inpColDim ? inpColDim.value : '0.60') || 0.6;
-        const colH = parseFloat(inpColHeight ? inpColHeight.value : '3.20') || 0;
-        const wallCount = parseFloat(inpShearWallCount ? inpShearWallCount.value : '4') || 0;
-        const wallLen = parseFloat(inpShearWallLen ? inpShearWallLen.value : '4.5') || 0;
-        const wallThk = parseFloat(inpShearWallThk ? inpShearWallThk.value : '0.30') || 0;
-        const rebRatio = parseFloat(inpRebarRatio ? inpRebarRatio.value : '110') || 0;
-
-        const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
-
-        setEl('inpSlabLenVal', `${sl} m`);
-        setEl('inpSlabWidthVal', `${sw} m`);
-        setEl('inpSlabThkVal', `${st.toFixed(2)} m`);
-        setEl('inpColDimVal', `${colDim.toFixed(2)} m`);
-
-        // 1. Slab concrete volume
-        const slabConc = sl * sw * st;
-        setEl('outSlabConcrete', slabConc.toFixed(1).toLocaleString('tr-TR'));
-
-        // 2. Slab formwork
-        const slabForm = sl * sw;
-        setEl('outSlabForm', slabForm.toFixed(1).toLocaleString('tr-TR'));
-
-        // 3. Column concrete
-        const colConc = colCount * colDim * colDim * colH;
-        setEl('outColConcrete', colConc.toFixed(1).toLocaleString('tr-TR'));
-
-        // 4. Column formwork
-        const colForm = colCount * 4 * colDim * colH;
-        setEl('outColForm', colForm.toFixed(1).toLocaleString('tr-TR'));
-
-        // 5. Shear wall concrete
-        const wallConc = wallCount * wallLen * wallThk * colH;
-        setEl('outWallConcrete', wallConc.toFixed(1).toLocaleString('tr-TR'));
-
-        // 6. Shear wall formwork
-        const wallForm = wallCount * 2 * wallLen * colH;
-        setEl('outWallForm', wallForm.toFixed(1).toLocaleString('tr-TR'));
-
-        // 7. Total Concrete Volume
-        const totalConc = slabConc + colConc + wallConc;
-        setEl('outTotalConcrete', totalConc.toFixed(1).toLocaleString('tr-TR'));
-
-        // 8. Total Concrete Weight
-        const totalConcWeight = totalConc * 2.5;
-        setEl('outTotalConcreteWeight', totalConcWeight.toFixed(1).toLocaleString('tr-TR'));
-
-        // 9. Rebar weight
-        const rebarWeight = (totalConc * rebRatio) / 1000;
-        setEl('outTotalRebarWeight', rebarWeight.toFixed(2).toLocaleString('tr-TR'));
-
-        // 10. Tie wire
-        const tieWire = rebarWeight * 1.5;
-        setEl('outTieWire', tieWire.toFixed(1).toLocaleString('tr-TR'));
-    }
-
-    [inpSlabLen, inpSlabWidth, inpSlabThk, inpColCount, inpColDim, inpColHeight, inpShearWallCount, inpShearWallLen, inpShearWallThk, inpRebarRatio].filter(Boolean).forEach(el => {
-        el.addEventListener('input', updateConcreteCalculations);
-        el.addEventListener('change', updateConcreteCalculations);
-    });
-
-    // --- TAB 4: MASONRY & PLASTER CALCULATIONS (11 METRICS) ---
-    const inpWallLen = document.getElementById('inpWallLen');
-    const inpWallHeight = document.getElementById('inpWallHeight');
-    const inpWallType = document.getElementById('inpWallType');
-    const inpOpeningsCount = document.getElementById('inpOpeningsCount');
-    const inpPlasterThk = document.getElementById('inpPlasterThk');
-
-    function updateMasonryCalculations() {
-        if (!inpWallLen || !inpWallHeight || !inpWallType) return;
-
-        const wl = parseFloat(inpWallLen.value) || 20;
-        const wh = parseFloat(inpWallHeight.value) || 3.0;
-        const wt = inpWallType.value || 'brick';
-        const openings = parseFloat(inpOpeningsCount ? inpOpeningsCount.value : '2') || 0;
-        const plasT = (parseFloat(inpPlasterThk ? inpPlasterThk.value : '2.0') || 2) / 100;
-
-        const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
-
-        setEl('inpWallLenVal', `${wl} m`);
-        setEl('inpWallHeightVal', `${wh.toFixed(1)} m`);
-        setEl('inpPlasterThkVal', `${(plasT * 100).toFixed(1)} cm`);
-
-        const openingsArea = openings * 2.0;
-        const rawArea = wl * wh;
-        const wallArea = Math.max(2, rawArea - openingsArea);
-        setEl('outWallArea', wallArea.toFixed(1).toLocaleString('tr-TR'));
-
-        let blockArea = 0.0256;
-        let wThickness = 0.19;
-        let mortarFactor = 0.035;
-        if (wt === 'brick') {
-            blockArea = 0.19 * 0.135;
-            wThickness = 0.19;
-            mortarFactor = 0.035;
-        } else if (wt === 'ytong') {
-            blockArea = 0.60 * 0.25;
-            wThickness = 0.15;
-            mortarFactor = 0.012;
-        } else if (wt === 'bims') {
-            blockArea = 0.39 * 0.19;
-            wThickness = 0.19;
-            mortarFactor = 0.028;
-        }
-
-        const wallVol = wallArea * wThickness;
-        setEl('outWallVolume', wallVol.toFixed(2).toLocaleString('tr-TR'));
-
-        const blocks = Math.ceil((wallArea / blockArea) * 1.05);
-        setEl('outBlockCount', blocks.toLocaleString('tr-TR'));
-
-        const mortarVol = wallArea * mortarFactor;
-        setEl('outMortarVol', mortarVol.toFixed(2).toLocaleString('tr-TR'));
-
-        const mortarCement = (mortarVol * 250) / 25;
-        setEl('outMortarCement', Math.ceil(mortarCement).toLocaleString('tr-TR'));
-
-        const mortarSand = mortarVol * 1.1;
-        setEl('outMortarSand', mortarSand.toFixed(2).toLocaleString('tr-TR'));
-
-        const lintelConc = openings * 0.05;
-        setEl('outLintelConcrete', lintelConc.toFixed(2).toLocaleString('tr-TR'));
-
-        const plasterVol = wallArea * 2 * plasT;
-        setEl('outPlasterVol', plasterVol.toFixed(2).toLocaleString('tr-TR'));
-
-        const plasterCement = (plasterVol * 300) / 25;
-        setEl('outPlasterCement', Math.ceil(plasterCement).toLocaleString('tr-TR'));
-
-        const plasterSand = plasterVol * 1.15;
-        setEl('outPlasterSand', plasterSand.toFixed(2).toLocaleString('tr-TR'));
-
-        const plasterBead = (openings * 5.0) + (wl * 0.25 * wh);
-        setEl('outPlasterBead', Math.round(plasterBead).toLocaleString('tr-TR'));
-    }
-
-    [inpWallLen, inpWallHeight, inpWallType, inpOpeningsCount, inpPlasterThk].filter(Boolean).forEach(el => {
-        el.addEventListener('input', updateMasonryCalculations);
-        el.addEventListener('change', updateMasonryCalculations);
-    });
-
-    // --- TAB 5: SCREED, WATERPROOFING & TILES (19 METRICS) ---
-    const inpWetArea = document.getElementById('inpWetArea');
-    const inpWetPerimeter = document.getElementById('inpWetPerimeter');
-    const inpScreedThk = document.getElementById('inpScreedThk');
-    const inpScreedGrade = document.getElementById('inpScreedGrade');
-    const inpIsoHeight = document.getElementById('inpIsoHeight');
-    const inpTileSize = document.getElementById('inpTileSize');
-    const inpIsoCoats = document.getElementById('inpIsoCoats');
-    const inpTileWaste = document.getElementById('inpTileWaste');
-
-    function updateScreedWetCalculations() {
-        if (!inpWetArea || !inpWetPerimeter || !inpScreedThk) return;
-
-        const wa = parseFloat(inpWetArea.value) || 40;
-        const wp = parseFloat(inpWetPerimeter.value) || 28;
-        const stVal = (parseFloat(inpScreedThk.value) || 5) / 100;
-        const scGrade = parseFloat(inpScreedGrade ? inpScreedGrade.value : '350') || 350;
-        const isoH = parseFloat(inpIsoHeight ? inpIsoHeight.value : '1.80') || 1.8;
-        const tileSize = inpTileSize ? inpTileSize.value : '6060';
-        const coats = parseFloat(inpIsoCoats ? inpIsoCoats.value : '2') || 2;
-        const waste = parseFloat(inpTileWaste ? inpTileWaste.value : '8') || 8;
-
-        const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
-
-        setEl('inpWetAreaVal', `${wa} m²`);
-        setEl('inpWetPerimeterVal', `${wp} m`);
-        setEl('inpScreedThkVal', `${(stVal * 100).toFixed(1)} cm`);
-        setEl('inpIsoHeightVal', `${isoH.toFixed(2)} m`);
-
-        const screedVol = wa * stVal;
-        setEl('outScreedVol', screedVol.toFixed(2).toLocaleString('tr-TR'));
-
-        const screedCement = (screedVol * scGrade) / 25;
-        setEl('outScreedCement', Math.ceil(screedCement).toLocaleString('tr-TR'));
-
-        const screedSand = screedVol * 1.5;
-        setEl('outScreedSand', screedSand.toFixed(1).toLocaleString('tr-TR'));
-
-        const screedWater = (screedVol * scGrade) * 0.45;
-        setEl('outScreedWater', Math.round(screedWater).toLocaleString('tr-TR'));
-
-        const screedFiber = screedVol * 0.90;
-        setEl('outScreedFiber', screedFiber.toFixed(2).toLocaleString('tr-TR'));
-
-        const screedAdditive = (screedVol * scGrade) * 0.010;
-        setEl('outScreedAdditive', screedAdditive.toFixed(1).toLocaleString('tr-TR'));
-
-        const screedMesh = wa * 1.10;
-        setEl('outScreedMesh', screedMesh.toFixed(1).toLocaleString('tr-TR'));
-
-        const screedJointTape = wp * 1.05;
-        setEl('outScreedJointTape', screedJointTape.toFixed(1).toLocaleString('tr-TR'));
-
-        const waterproofArea = wa + (wp * isoH);
-        setEl('outWaterproofArea', waterproofArea.toFixed(1).toLocaleString('tr-TR'));
-
-        const totalWaterproofWeight = waterproofArea * 1.2 * coats;
-        const waterproofLiquid = totalWaterproofWeight * 0.30;
-        setEl('outWaterproofLiquid', waterproofLiquid.toFixed(1).toLocaleString('tr-TR'));
-
-        const waterproofPowder = totalWaterproofWeight * 0.70;
-        setEl('outWaterproofPowder', waterproofPowder.toFixed(1).toLocaleString('tr-TR'));
-
-        const waterproofMesh = wp * 0.2;
-        setEl('outWaterproofMesh', waterproofMesh.toFixed(1).toLocaleString('tr-TR'));
-
-        const waterproofBand = wp * 1.05;
-        setEl('outWaterproofBand', waterproofBand.toFixed(1).toLocaleString('tr-TR'));
-
-        const primerW = (wa + wp * isoH) * 0.20;
-        setEl('outPrimerWeight', primerW.toFixed(1).toLocaleString('tr-TR'));
-
-        const tilesArea = (wa + wp * isoH) * (1 + waste / 100);
-        setEl('outTileArea', tilesArea.toFixed(1).toLocaleString('tr-TR'));
-
-        const tileBoxes = Math.ceil(tilesArea / 1.44);
-        setEl('outTileBoxes', tileBoxes.toLocaleString('tr-TR'));
-
-        const tileAdhesive = (tilesArea * 4.5) / 25;
-        setEl('outTileAdhesive', Math.ceil(tileAdhesive).toLocaleString('tr-TR'));
-
-        const tileGrout = (tilesArea * 0.4) / 5;
-        setEl('outTileGrout', Math.ceil(tileGrout).toLocaleString('tr-TR'));
-
-        let tSizeM2 = 0.36;
-        if (tileSize === '3060') tSizeM2 = 0.3 * 0.6;
-        else if (tileSize === '6012') tSizeM2 = 0.6 * 1.2;
-        const tileCount = tilesArea / tSizeM2;
-        const tileSpacers = Math.ceil(tileCount * 4);
-        setEl('outTileSpacers', tileSpacers.toLocaleString('tr-TR'));
-    }
-
-    [inpWetArea, inpWetPerimeter, inpScreedThk, inpScreedGrade, inpIsoHeight, inpTileSize, inpIsoCoats, inpTileWaste].filter(Boolean).forEach(el => {
-        el.addEventListener('input', updateScreedWetCalculations);
-        el.addEventListener('change', updateScreedWetCalculations);
-    });
-
     // Button Click Listeners with visual table feedback
     function flashTableUpdate(panelId) {
         const panel = document.getElementById(panelId);
@@ -954,26 +615,6 @@
     document.getElementById('btnCalcFEM')?.addEventListener('click', () => {
         updateFEMCalculations();
         flashTableUpdate('tab-fem', 'FEM Analizi Güncellendi', '3D Sehim ve rüzgar gerilmeleri yeniden hesaplandı.');
-    });
-
-    document.getElementById('btnCalcCephe')?.addEventListener('click', () => {
-        updateFacadeCalculations();
-        flashTableUpdate('tab-cephe', 'Cephe Metrajı Hesaplandı', '10 farklı profil, cam ve fitil kalemi güncellendi.');
-    });
-
-    document.getElementById('btnCalcBeton')?.addEventListener('click', () => {
-        updateConcreteCalculations();
-        flashTableUpdate('tab-beton', 'Beton & Kalıp Metrajı Hesaplandı', 'Beton hacimleri, kalıp alanları ve donatı tonajı güncellendi.');
-    });
-
-    document.getElementById('btnCalcDuvar')?.addEventListener('click', () => {
-        updateMasonryCalculations();
-        flashTableUpdate('tab-duvar', 'Duvar & Sıva Metrajı Hesaplandı', 'Blok adedi, örgü ve sıva harç metrajları hesaplandı.');
-    });
-
-    document.getElementById('btnCalcSap')?.addEventListener('click', () => {
-        updateScreedWetCalculations();
-        flashTableUpdate('tab-sap', 'Şap & Seramik Metrajı Hesaplandı', '19 adet şap, izolasyon ve seramik malzemesi hesaplandı.');
     });
 
     // =========================================================================
@@ -1450,7 +1091,8 @@
             const cols = row.querySelectorAll("th, td");
             const rowData = [];
             cols.forEach((col) => {
-                let text = col.innerText.replace(/"/g, '""').trim();
+                const field = col.querySelector('input, select');
+                let text = (field ? field.value : col.innerText).replace(/"/g, '""').trim();
                 rowData.push(`"${text}"`);
             });
             csvContent += rowData.join(";") + "\n";
@@ -1501,28 +1143,34 @@
 
         const MODULE_CONFIG = {
             cephe: {
-                title: 'GİYDİRME CEPHE MALZEME METRAJ CETVELİ VE POZ LİSTESİ',
-                name: 'Modüler Giydirme Cephe Metrajı',
-                standards: 'TS EN 13830 / DIN 18008',
+                title: 'CEPHE METRAJ VE MALİYET CETVELİ',
+                name: 'Mantolama / Giydirme Cephe',
+                standards: 'TS EN 13499 / TS EN 13830',
                 tableId: 'table-cephe'
             },
             beton: {
-                title: 'BETONARME TAŞIYICI SİSTEM METRAJ VE TONAJ CETVELİ',
+                title: 'BETONARME METRAJ VE MALİYET CETVELİ',
                 name: 'Kalıp, Hazır Beton & Donatı',
                 standards: 'TS 500 / TBDY 2018 / TS EN 206',
                 tableId: 'table-beton'
             },
             duvar: {
-                title: 'DUVAR ÖRGÜ VE SIVA İMALATLARI METRAJ CETVELİ',
+                title: 'DUVAR VE SIVA METRAJ VE MALİYET CETVELİ',
                 name: 'Duvar, Blok & Sıva Sarfiyatı',
                 standards: 'TS EN 771 / TS EN 998-1',
                 tableId: 'table-duvar'
             },
             sap: {
-                title: 'ŞAP, ISLAK HACİM SU YALITIMI VE SERAMİK METRAJI',
+                title: 'ŞAP, SU YALITIMI VE SERAMİK METRAJ VE MALİYET CETVELİ',
                 name: 'Şap, İzolasyon & Zemin Kaplama',
                 standards: 'TS EN 13813 / TS EN 14411',
                 tableId: 'table-sap'
+            },
+            maliyet: {
+                title: 'YAKLAŞIK MALİYET ÖZETİ',
+                name: 'Metraj & Maliyet Özeti',
+                standards: 'Örnek birim fiyatlarla ön maliyet',
+                tableId: 'table-maliyet'
             },
             donati: {
                 title: 'İNŞAAT DEMİRİ, PROFİL & KESİM FİRE ANALİZ RAPORU',
@@ -1630,6 +1278,10 @@
                     if (sourceTable) {
                         const clone = sourceTable.cloneNode(true);
                         clone.removeAttribute('id');
+                        clone.querySelectorAll('input, select').forEach(field => {
+                            const value = Number(field.value);
+                            field.replaceWith(document.createTextNode(Number.isFinite(value) && field.tagName === 'INPUT' ? value.toLocaleString('tr-TR') : field.value));
+                        });
                         container.innerHTML = '';
                         container.appendChild(clone);
                     }
@@ -1651,10 +1303,6 @@
         updateRebarCalculator();
         updateProfileCalculator();
         runRebarOptimizer();
-        updateFacadeCalculations();
-        updateConcreteCalculations();
-        updateMasonryCalculations();
-        updateScreedWetCalculations();
         initEngineeringReportModal();
     }
 
